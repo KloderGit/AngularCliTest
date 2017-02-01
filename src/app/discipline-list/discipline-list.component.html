@@ -1,0 +1,40 @@
+<div class="col-xs-12">
+  <div class="col-sm-6">
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" checked = "isACtive" (change) = "filterActiveChange($event.target.checked)">
+      Только активные
+    </label>
+  </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="form-group">
+      <label for="sel1">По преподавателю:</label>
+      <select class="form-control" id="sel1" (change) = "filterTeacherChange($event.target.value)">
+        <option value = "all">Все преподаватели</option>
+        <!--<option *ngFor = "let teacher of getCurrentTeachers()" value = "{{teacher.id}}">{{teacher.name}}</option>-->
+      </select>
+    </div>
+  </div>
+</div>
+<br/>
+<div class="card" style="width: 24rem; float: left; margin-right: 20px" 
+      *ngFor="let discipine of getDisciplines()">
+  <div class="card-header">
+    {{discipine.format}} <span class="badge badge-primary">{{discipine.active}}</span>
+  </div>
+  <div class="card-block">
+    <h4 class="card-title">{{discipine.title}}</h4>
+    <p class="card-text">Нет описания</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <!--<li class="list-group-item">Преподаватель:<br/>{{getTeacher(discipine.teacherId).name}}</li>-->
+    <li class="list-group-item">Преподаватель:<br/>{{discipine.teacherId}}</li>
+   
+    <li class="list-group-item">Форма обучения: {{discipine.format}}</li>
+    <li class="list-group-item">Активность: {{discipine.active}}</li>
+  </ul>
+  <div class="card-block">1
+    <!--<a routerLink="/discipline/{{discipine.id}}" class="card-link">Планирование</a>-->
+  </div>
+</div>
