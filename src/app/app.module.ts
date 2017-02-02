@@ -5,27 +5,21 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
-
 import { AppComponent } from './app.component';
 import { DisciplineListComponent } from './Components/discipline-list/discipline-list.component';
 
 
-// var routerMaps = RouterModule.forRoot([
-//     { path: 'discipline/:id', loadChildren: 'src/app/discipline.module' },
-//     { path: '', component: AppComponent },
-//     { path: '**', component: AppComponent }
-// ]);
+var routerMaps = RouterModule.forRoot([
+    { path: 'disciplines', component: DisciplineListComponent },
+    { path: 'discipline/:id', loadChildren: './Modules/discipline/discipline.module' },
+    { path: '', component: DisciplineListComponent },
+    { path: '**', component: DisciplineListComponent }
+]);
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    DisciplineListComponent
-  ],
-  imports: [
-    BrowserModule,
-    HttpModule
-  ],
+  imports: [ BrowserModule, HttpModule, routerMaps ],
+  declarations: [ AppComponent, DisciplineListComponent ],
   providers: [ServiceJsonService, DataManagerService],
   bootstrap: [AppComponent]
 })
