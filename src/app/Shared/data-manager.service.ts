@@ -101,6 +101,22 @@ export class DataManagerService {
 
     getExamensByDiscipline(disciplineId: string) {
         return this.examens.filter(item => item.disciplineId == disciplineId);
-    }    
+    }   
+
+    addExamen(inObject: any) {
+        for (let i = 0; i < inObject.length; i++) {
+            
+            let ex = new ExamenModel();
+            ex.id = "new";
+            ex.disciplineId = inObject[i].disciplineId;
+            ex.startTime = inObject[i].startTime;
+            ex.endTime = inObject[i].endTime;
+            ex.isShared = inObject[i].countPlace != 1 ? true : false;
+            ex.limit = inObject[i].countPlace != 1 ? inObject[i].countPlace : null;
+            ex.students = [];
+
+            this.examens.push(ex);
+        }
+    }     
 
 }

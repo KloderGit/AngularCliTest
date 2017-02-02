@@ -1,0 +1,33 @@
+<div class="wizard-select-time row" style="font-size: small">
+
+    <div class="col-xs-12">
+        <p class="time-text">{{ value.hours }} : {{ formatTimeDigit( value.minutes) }}</p>
+    </div>
+
+    <div class="col-xs-12">
+        <div class="col-md-3 col-sm-12">
+            Часы:
+        </div>
+        <div class="col-md-9 col-sm-12">
+            <slider [min]="minSliderHours" 
+                    [max]="maxSliderHours" 
+                    [value] = "defaultHour" 
+                    [minLimit] = "hourMinLimit" 
+                    [maxLimit] = "hourMaxLimit"
+                    (onChangeSlider) = "changeHours($event)"></slider>
+        </div>
+    </div>
+    <div class="col-xs-12" *ngIf = "!onlyHours">
+        <div class="col-md-3 col-sm-12">
+            Минуты:
+        </div>
+        <div class="col-md-9 col-sm-12">
+            <slider [min]="minSliderMinutes" 
+                    [max]="maxSliderMinutes" 
+                    [value] = "defaultMinute" 
+                    [minLimit] = "minutesMinLimit" 
+                    [maxLimit] = "minutesMaxLimit"
+                    (onChangeSlider) = "changeMinutes($event)"></slider>
+        </div>
+    </div>
+</div>

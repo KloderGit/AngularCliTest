@@ -30,7 +30,7 @@ export class CalendarComponent implements OnInit {
     } 
 
 	editDay( date: Date ){
-		// this.router.navigate(['/addexamens', +date,  this.disciplineID ]);
+		this.router.navigate(['/addexamens', +date,  this.disciplineID ]);
 	}
 
 }

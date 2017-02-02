@@ -12,7 +12,7 @@ import { DisciplineListComponent } from './Components/discipline-list/discipline
 var routerMaps = RouterModule.forRoot([
     { path: 'disciplines', component: DisciplineListComponent },
     { path: 'discipline/:id', loadChildren: './discipline.module' },
-    // { path: 'addexamens/:date/:discipline', loadChildren: 'Application/Modules/examensPlanning.module' },    
+    { path: 'addexamens/:date/:discipline', loadChildren: './examensAdd.module' },    
     { path: '', component: DisciplineListComponent },
     { path: '**', component: DisciplineListComponent }
 ]);
