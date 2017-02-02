@@ -1,0 +1,45 @@
+<div class="panel panel-default" id="{{timestamp}}">
+  <div class="panel-heading">
+    <h4>{{getMonthName()}}</h4>
+  </div>
+  <div class="panel-body">
+    <table class="table table-bordered month">
+    <!--<caption><h4 class="monthName">{{getMonthName()}}</h4></caption>-->
+    <tr>
+        <th>Пн.</th>
+        <th>Вт</th>
+        <th>Ср.</th>
+        <th>Чт.</th>
+        <th>Пт.</th>
+        <th>Сб.</th>
+        <th>Вс.</th>
+    </tr>
+    <tr *ngFor = "let week of grid.weeks" class="monthRow">
+        <td *ngFor = "let day of week.days" class="monthCell"  [class.inMonth] = "day.inmonth" [class.outOfMonth] = "!day.inmonth">
+            <div class="monthCellWrapper">
+                <div class="monthCellContent" *ngIf="(examens | examensForDay:day.date).length > 0">
+                        <dayOfCalendar [examens]="examens | examensForDay:day.date"></dayOfCalendar>
+                </div>
+                <div class="monthCellAdd" *ngIf="((examens | examensForDay:day.date).length == 0) && day.inmonth">
+                        <div class="addForDate" (click) = "editDay(day.date)">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </div>
+                </div>                
+                <div class="monthCellDate" >
+                    {{day.date.getDate()}}
+                    <!--<p *ngIf = "day.inmonth"><a (click) = "editDay(day.date)">edit</a></p>-->
+                </div>
+            </div>
+        </td>
+    </tr>
+        <tfoot>
+            <tr>
+                <td colspan="7">Всего запланированных дней: {{examens.length}}</td>
+            </tr>
+        </tfoot>
+    </table>
+  </div>
+</div>
+
+
+

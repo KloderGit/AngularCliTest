@@ -28,4 +28,16 @@ export class ServiceJsonService {
         );
     }     
 
+    getExamensForDiscipline( disciplineId: string, year: number, month: number ){
+        return this.http.get('../assets/examens.mock.json')
+        .toPromise()
+        .then( ( res ) => {
+               let array = res.json();
+               console.log('Service: Сервис получил экзамены'); 
+               return array.filter( item => item.disciplineId == disciplineId )
+                          .filter( item => new Date(item.startTime).getFullYear() == year )
+                          .filter( item => new Date(item.startTime).getMonth() == month );
+            }
+        );        
+    }
 }

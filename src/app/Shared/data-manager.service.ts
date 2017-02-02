@@ -1,3 +1,4 @@
+import { ExamenModel } from './../Models/examen-model';
 import { TeacherModel } from './../Models/teacher-model';
 import { ServiceJsonService } from './../Services/service-json.service';
 import { DisciplineModel } from './../Models/discipline-model';
@@ -9,7 +10,9 @@ export class DataManagerService {
 
   disciplines: DisciplineModel[] = new Array();
   teachers: TeacherModel[] = new Array();
+  examens: ExamenModel[] = new Array();
 
+  monthLoadedTabel: { disciplineID: string, year: number, month: number }[] = [];
 
   constructor( private service: ServiceJsonService ) {
         console.log('Создание DataManager');
@@ -55,7 +58,7 @@ export class DataManagerService {
                    thr.name = data[i].name;
                    this.teachers.push( thr );
                }
-                console.log('DataManager: Получены преподаатели из сервиса', this.teachers)
+                console.log('DataManager: Получены преподаатели из сервиса')
             });
     }
 
@@ -65,5 +68,39 @@ export class DataManagerService {
 
     getTeacherById( id: string ) {
         return this.teachers[ this.teachers.map( item => item.id ).indexOf(id) ];
-    }        
+    }
+
+
+    //  Реестр загруженных месяцев
+
+    getLoadedMonth( disciplineID: string ){
+        return this.monthLoadedTabel.filter( obj => obj.disciplineID == disciplineID );
+    }
+
+    addLoadedMonth( obj: { disciplineID: string, year: number, month: number } ){
+        this.monthLoadedTabel.push( obj );
+    }
+
+    loadExamensFromService(disciplineId: string, year: number, month: number) {
+        this.service.getExamensForDiscipline(disciplineId, year, month)
+            .then(data => {
+               for (var i = 0; i < data.length; i++) {
+                   let ex = new ExamenModel();
+                   ex.id = data[i].id;
+                   ex.disciplineId = data[i].disciplineId;
+                   ex.startTime = data[i].startTime;
+                   ex.endTime = data[i].endTime;
+                   ex.isShared = data[i].isShared;
+                   ex.limit = data[i].limit;
+                   ex.students = data[i].students;
+                   this.examens.push( ex  );
+               }
+                this.addLoadedMonth( { disciplineID: disciplineId, year: year, month: month } );
+            });
+    }
+
+    getExamensByDiscipline(disciplineId: string) {
+        return this.examens.filter(item => item.disciplineId == disciplineId);
+    }    
+
 }

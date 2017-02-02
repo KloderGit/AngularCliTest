@@ -11,11 +11,11 @@ import { DisciplineListComponent } from './Components/discipline-list/discipline
 
 var routerMaps = RouterModule.forRoot([
     { path: 'disciplines', component: DisciplineListComponent },
-    { path: 'discipline/:id', loadChildren: './Modules/discipline/discipline.module' },
+    { path: 'discipline/:id', loadChildren: './discipline.module' },
+    // { path: 'addexamens/:date/:discipline', loadChildren: 'Application/Modules/examensPlanning.module' },    
     { path: '', component: DisciplineListComponent },
     { path: '**', component: DisciplineListComponent }
 ]);
-
 
 @NgModule({
   imports: [ BrowserModule, HttpModule, routerMaps ],

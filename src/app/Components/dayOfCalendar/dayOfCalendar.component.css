@@ -1,0 +1,16 @@
+.dayOfCalendar {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+    line-height: 60px;
+    font-size: small;
+}
+
+.dayOfCalendar > .day-popover{
+    display: block;
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+}

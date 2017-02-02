@@ -1,0 +1,15 @@
+<div *ngIf="examens.length" class="dayOfCalendar" >
+    <!--Сколько экзменов занято-->
+    <span>{{ percentageOneInTwo( currentStudentsInvited().length, countExamensOfDay() ) }}%</span>
+
+    <a  #popoverTag 
+        class="day-popover" 
+        data-container="body" 
+        data-toggle="popover" 
+        data-placement="left">
+            <!--Данные в span должны быть без пробелов и переносов (четко между тэгом span)-->
+            <span   #pieChart
+                    class="pie-chart"
+                    data-peity='{ "innerRadius": 22, "radius": 28 }'>{{ currentStudentsInvited().length }},{{ countExamensOfDay() }}</span>
+    </a>
+</div>
