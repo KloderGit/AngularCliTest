@@ -1,16 +1,20 @@
-import { ServiceJsonService } from './../service-json.service';
-import { DisciplineModel } from './../discipline-model';
+import { TeacherModel } from './../Models/teacher-model';
+import { ServiceJsonService } from './../Services/service-json.service';
+import { DisciplineModel } from './../Models/discipline-model';
+
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class DataManagerService {
 
   disciplines: DisciplineModel[] = new Array();
+  teachers: TeacherModel[] = new Array();
 
 
   constructor( private service: ServiceJsonService ) {
         console.log('Создание DataManager');
         this.loadDisciplines();
+        this.loadTeachers();
   }
 
 
@@ -40,4 +44,26 @@ export class DataManagerService {
         let index = this.disciplines.map(x => x.id).indexOf(id);
         return this.disciplines[index];
     }
+
+
+    private loadTeachers() {
+        this.service.getTeachersAll()
+            .then(data => {
+               for (var i = 0; i < data.length; i++) {
+                   let thr = new TeacherModel();
+                   thr.id = data[i].id;
+                   thr.name = data[i].name;
+                   this.teachers.push( thr );
+               }
+                console.log('DataManager: Получены преподаатели из сервиса', this.teachers)
+            });
+    }
+
+    getTeachersAll() {
+        return this.teachers;
+    }
+
+    getTeacherById( id: string ) {
+        return this.teachers[ this.teachers.map( item => item.id ).indexOf(id) ];
+    }        
 }

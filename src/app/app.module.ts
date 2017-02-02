@@ -1,5 +1,5 @@
 import { DataManagerService } from './Shared/data-manager.service';
-import { ServiceJsonService } from './service-json.service';
+import { ServiceJsonService } from './Services/service-json.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 
 
 import { AppComponent } from './app.component';
-import { DisciplineListComponent } from './discipline-list/discipline-list.component';
+import { DisciplineListComponent } from './Components/discipline-list/discipline-list.component';
 
 
 // var routerMaps = RouterModule.forRoot([

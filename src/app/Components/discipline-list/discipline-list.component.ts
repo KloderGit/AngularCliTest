@@ -1,5 +1,5 @@
-import { DataManagerService } from './../Shared/data-manager.service';
-import { DisciplineModel } from './../discipline-model';
+import { DisciplineModel } from './../../Models/discipline-model';
+import { DataManagerService } from './../../Shared/data-manager.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({  
@@ -14,14 +14,14 @@ export class DisciplineListComponent implements OnInit {
   isActive: boolean = true;
 	forTeacher: string = 'all';
 
-  str: string = 'ahdflaksdhdfalkshlakshflakjhfa';
-
   constructor(private dataManager: DataManagerService) {}
 
-  ngOnInit() {  }
+  ngOnInit() {
+		this.disciplines = this.dataManager.getDisciplinesAll();
+	}
 
 	getDisciplines(){
-		let array = this.dataManager.getDisciplinesAll();
+		let array = this.disciplines;
 
 		if ( this.isActive ){
 			array = array.filter( item => item.active );
@@ -42,4 +42,16 @@ export class DisciplineListComponent implements OnInit {
 		this.forTeacher = teacherId;
 	}
 
+	getTeachers(){
+		return this.dataManager.getTeachersAll();
+	}
+
+	getTeacher( id: string ){
+		return this.dataManager.getTeacherById(id);
+	}
+
+	getCurrentTeachers(){
+		return	this.disciplines.map( item => this.getTeacher(item.teacherId) )
+					.filter( (value, index, self) => self.indexOf(value) === index );
+	}	
 }
