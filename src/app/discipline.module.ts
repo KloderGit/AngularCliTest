@@ -1,3 +1,4 @@
+import { AirDataPickerDirective } from './Directives/air-datapicker.directive';
 import { ExamensForDayPipe } from './Pipes/examens-for-day';
 import { DayOfCalendarComponent } from './Components/dayOfCalendar/dayOfCalendar.component';
 import { ExamensForMonthPipe } from './Pipes/examens-month.pipe';
@@ -15,7 +16,7 @@ export const routerConfig = [
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(routerConfig)],
-  declarations: [ DisciplineComponent, CalendarComponent, ObjectToTimestampPipe, ExamensForMonthPipe, DayOfCalendarComponent, ExamensForDayPipe ]
+  declarations: [ DisciplineComponent, CalendarComponent, ObjectToTimestampPipe, ExamensForMonthPipe, DayOfCalendarComponent, ExamensForDayPipe, AirDataPickerDirective ]
 })
 
 export default class DisciplineModule { }
