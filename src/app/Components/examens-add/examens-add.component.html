@@ -81,11 +81,11 @@
                                     <div class="thumbnail">
                                         <div class="caption">
                                             <p>Начало экзаменов:</p>
-                                            <!--<timepicker [defaultHour]='17' 
+                                            <timepicker [defaultHour]='17' 
                                                         [defaultMinute]='0' 
                                                         [onlyHours]="true" 
                                                         (onChangeTimePicker)="startTimeChange($event)">
-                                            </timepicker>-->
+                                            </timepicker>
                                         </div>
                                     </div>
                                 </div>
@@ -93,13 +93,13 @@
                                     <div class="thumbnail">
                                         <div class="caption">
                                             <p>Окончание экзаменов</p>
-                                            <!--<timepicker #endTimePicker
+                                            <timepicker #endTimePicker
                                                         [defaultHour]='22' 
                                                         [defaultMinute]='0' 
                                                         [onlyHours]="true" 
                                                         [hourMinLimit] = 'formState.startTime.getHours()'
                                                         (onChangeTimePicker)="endTimeChange($event)">
-                                            </timepicker>-->
+                                            </timepicker>
                                         </div>
                                     </div>
                                 </div>
@@ -121,7 +121,7 @@
                                     <div class="thumbnail">
                                         <div class="caption">
                                             <p>Начало экзамена:</p>
-                                            <!--<timepicker [defaultHour]='17' [defaultMinute]='0' [onlyHours]="false" (onChangeTimePicker)="startTimeChange($event)"></timepicker>-->
+                                            <timepicker [defaultHour]='17' [defaultMinute]='0' [onlyHours]="false" (onChangeTimePicker)="startTimeChange($event)"></timepicker>
                                         </div>
                                     </div>
                                 </div>
@@ -129,7 +129,7 @@
                                     <div class="thumbnail">
                                         <div class="caption">
                                             <p>Окончание экзамена</p>
-                                            <!--<timepicker [defaultHour]='19' [defaultMinute]='0' [onlyHours]="false" (onChangeTimePicker)="endTimeChange($event)"></timepicker>-->
+                                            <timepicker [defaultHour]='19' [defaultMinute]='0' [onlyHours]="false" (onChangeTimePicker)="endTimeChange($event)"></timepicker>
                                         </div>
                                     </div>
                                 </div>
@@ -159,7 +159,7 @@
                             <h3>Шаг третий. Укажите количество студентов в аудитории.</h3>
                         </div>
 
-                        <!--<div *ngIf = "formState.type.value == 'personal'">
+                        <div *ngIf = "formState.type.value == 'personal'">
                             <div class="col-xs-12 well well-lg" style="text-align: center">
                                 <h4>Определен промежуток в {{ diffTime() / 1000 / 60 / 60 }} ч. Разбить на: </h4><br/>
                                 <div class="col-md-6 col-md-offset-3 col-xs-12">
@@ -211,7 +211,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>-->
+                        </div>
 
                         <ul class="list-inline pull-right">
                             <li><button type="button" class="btn btn-default prev-step">Назад</button></li>
@@ -224,7 +224,7 @@
                         </div>
                         <div class="col-xs-12 well well-lg" style="text-align: center">
 
-                            <!--<div class="col-md-8 col-xs-12"  *ngIf = "formState.type.value == 'collective'" >
+                            <div class="col-md-8 col-xs-12"  *ngIf = "formState.type.value == 'collective'" >
                                 <div class="thumbnail">
                                     <div class="caption">
                                         <p>Будет создан экзамен:</p>
@@ -246,7 +246,7 @@
                                         <p>Студентов: {{resultPersonalCount().length}}</p>
                                     </div>
                                 </div>
-                            </div>-->
+                            </div>
 
                             <div class="col-md-4 col-xs-12">
                                 <div class="thumbnail">
