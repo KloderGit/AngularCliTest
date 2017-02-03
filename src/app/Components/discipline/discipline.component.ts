@@ -35,17 +35,7 @@ export class DisciplineComponent implements OnInit {
 				this.loadMonth( currentDate.getFullYear(), currentDate.getMonth() )
 			}			
 		}
-
-		this.dataPickerInit();
 	}
-
-	dataPickerInit(){
-		$('.datepicker-here').datepicker({
-			autoClose: true,
-			altField: "#dataPickerAlternate",
-			altFieldDateFormat: "yyyy:m"
-		});
-	}	
 
 	getMonthLoaded(){
 		return this.dataManager.getLoadedMonth( this.discipline.id );
@@ -55,7 +45,9 @@ export class DisciplineComponent implements OnInit {
 		this.dataManager.loadExamensFromService( this.discipline.id, year, month );
 	}
 
-	selectAnyMonth( anyMonth: string ){
+	loadAnyMonth( inputElement ){
+		let anyMonth = this.alternateFieldForDatePicker(inputElement);
+
 		if ( anyMonth =="" || anyMonth == undefined){	
 			return;
 		}
@@ -73,4 +65,9 @@ export class DisciplineComponent implements OnInit {
 	getExamens(){
 		return this.dataManager.getExamensByDiscipline( this.discipline.id );
 	}	
+
+	alternateFieldForDatePicker( inputElement ): string{
+		let altElementID = inputElement.id + '-alternate'
+		return $('#' + altElementID ).val();
+	}
 }

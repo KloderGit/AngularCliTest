@@ -1,42 +1,31 @@
 <div class="jumbotron text-center">
-    <div class="row">
-        <div class="col-sm-8">
-            <h2>{{discipline?.title}}</h2>
-            <p>Планирование экзаменов</p>
-        </div>
-        <div class="col-sm-4">
-            <div class="btn-group-vertical" role="group">
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1">
-                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                    </span>
-                    <input  type="text" 
-                            id="selectMonts"
-                            class="datepicker-here form-control"
-                            data-min-view="months"
-                            data-view="months"
-                            data-date-format="MM yyyy"
-                            placeholder="Загрузить на выбор..." />
-
-                    <input  style="display: none"
-                            type="text"
-                            id="dataPickerAlternate"
-                            #inputMonth/>
-
-                    <span   class="input-group-btn">
-                        <button class="btn btn-default"
-                                type="button"
-                                (click) = "selectAnyMonth(inputMonth.value)">Загрузить</button>
-                    </span>
-                </div>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <h2>{{discipline?.title}}</h2>
+      <p>Планирование экзаменов</p>
     </div>
+    <div class="col-sm-4">
+      <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+            </span>
+            <input  #selectAnyMonth
+                    air-datapicker 
+                    [view]="{ view: 'months', minView: 'months'}" 
+                    [inline]="false" 
+                    [dateFormat]="'MM yyyy'"
+                    [altFieldDateFormat]="'yyyy:m'" 
+                    type="text" 
+                    id="selectMonts" 
+                    class="form-control" 
+                    placeholder="Выбор месяца" />
+      </div>
+      <button class="btn btn-primary btn-block" type="button" (click)="loadAnyMonth( selectAnyMonth )">Загрузить</button>
+    </div>
+  </div>
 </div>
 <div *ngIf="discipline != undefined">
-    <calendar  *ngFor="let monthTimestamp of getMonthLoaded() | ObjToTimestampPipe" 
-            [examens]="getExamens() | examensForMonth : monthTimestamp"
-            [timestamp] = "monthTimestamp"
-            [disciplineID] = "discipline.id">
+  <calendar *ngFor="let monthTimestamp of getMonthLoaded() | ObjToTimestampPipe" [examens]="getExamens() | examensForMonth : monthTimestamp"
+    [timestamp]="monthTimestamp" [disciplineID]="discipline.id">
     </calendar>
 </div>
