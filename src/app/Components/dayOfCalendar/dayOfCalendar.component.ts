@@ -1,5 +1,5 @@
 import { ExamenModel } from './../../Models/examen-model';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 declare var $:any;
 
@@ -10,10 +10,8 @@ declare var $:any;
 	styleUrls: ['dayOfCalendar.component.css']
 })
 
-export class DayOfCalendarComponent implements OnInit {
+export class DayOfCalendarComponent{
 	@Input() examens: ExamenModel[];
-
-	ngOnInit() {}
 
 	currentStudentsInvited(){
 		return	this.examens.map( item => item.students )

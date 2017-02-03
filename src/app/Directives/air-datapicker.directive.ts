@@ -32,6 +32,7 @@ export class AirDataPickerDirective implements OnInit, OnDestroy{
             minView: this.view.minView,
             inline: this.inline,
             dateFormat: this.dateFormat,
+            autoClose: true,
 			altField: "#" + this.element.nativeElement.id  + "-alternate",
 			altFieldDateFormat: this.altFieldDateFormat,
             showOtherMonths: true,
