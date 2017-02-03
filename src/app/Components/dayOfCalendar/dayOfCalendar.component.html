@@ -7,9 +7,12 @@
         data-container="body" 
         data-toggle="popover" 
         data-placement="left">
-            <!--Данные в span должны быть без пробелов и переносов (четко между тэгом span)-->
-            <span   #pieChart
+
+            <span   pie-chart
                     class="pie-chart"
-                    data-peity='{ "innerRadius": 22, "radius": 28 }'>{{ currentStudentsInvited().length }},{{ countExamensOfDay() }}</span>
+                    [innerRadius] = "25"
+                    [radius] = "28"
+                    [percent] = "{ dig: currentStudentsInvited().length, in: countExamensOfDay() }">
+            </span>                    
     </a>
 </div>

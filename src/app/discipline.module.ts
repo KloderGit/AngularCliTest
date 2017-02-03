@@ -1,3 +1,4 @@
+import { PieChartDirective } from './Directives/pie-chart.directive';
 import { AirDataPickerDirective } from './Directives/air-datapicker.directive';
 import { ExamensForDayPipe } from './Pipes/examens-for-day';
 import { DayOfCalendarComponent } from './Components/dayOfCalendar/dayOfCalendar.component';
@@ -16,7 +17,8 @@ export const routerConfig = [
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(routerConfig)],
-  declarations: [ DisciplineComponent, CalendarComponent, ObjectToTimestampPipe, ExamensForMonthPipe, DayOfCalendarComponent, ExamensForDayPipe, AirDataPickerDirective ]
+  declarations: [ DisciplineComponent, CalendarComponent, ObjectToTimestampPipe, ExamensForMonthPipe, 
+  DayOfCalendarComponent, ExamensForDayPipe, AirDataPickerDirective, PieChartDirective ]
 })
 
 export default class DisciplineModule { }

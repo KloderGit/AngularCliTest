@@ -19,13 +19,6 @@ export class DayOfCalendarComponent implements OnInit, AfterViewInit, OnDestroy 
 
 	ngAfterViewInit(){
 
-		if ( this.pieChart != undefined){
-			$(this.pieChart.nativeElement).peity("pie", {
-				radius: 30,
-				fill: ["rgb(255, 173, 92)",  "#cccccc" ]
-			});
-		}
-
 		let popupString: string = `
 			<div class = "content-of-popover">
 				<p><strong>Всего эзаменов: ` + this.countExamensOfDay() +`</strong></p>
