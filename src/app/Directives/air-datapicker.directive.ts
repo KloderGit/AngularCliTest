@@ -1,10 +1,10 @@
-import { Directive, ElementRef, OnInit, Input, HostBinding } from '@angular/core';
+import { Directive, ElementRef, OnInit, Input, OnDestroy } from '@angular/core';
 declare var $:any;
 
 @Directive({
     selector: '[air-datapicker]'
 })
-export class AirDataPickerDirective implements OnInit{
+export class AirDataPickerDirective implements OnInit, OnDestroy{
 
     @Input() view: { view: string, minView: string } = { view: 'days', minView: 'days' };
     @Input() inline: boolean = false;
@@ -37,5 +37,10 @@ export class AirDataPickerDirective implements OnInit{
             showOtherMonths: true,
             timepicker: this.timepicker
 		});
+    }
+
+    ngOnDestroy(){
+        let myDatepicker = $(this.element.nativeElement).datepicker().data('datepicker');
+        myDatepicker.destroy();       
     }
 }

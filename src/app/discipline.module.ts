@@ -1,3 +1,4 @@
+import { PopupInvitedDirective } from './Directives/popup-invited.directive';
 import { PieChartDirective } from './Directives/pie-chart.directive';
 import { AirDataPickerDirective } from './Directives/air-datapicker.directive';
 import { ExamensForDayPipe } from './Pipes/examens-for-day';
@@ -18,7 +19,7 @@ export const routerConfig = [
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(routerConfig)],
   declarations: [ DisciplineComponent, CalendarComponent, ObjectToTimestampPipe, ExamensForMonthPipe, 
-  DayOfCalendarComponent, ExamensForDayPipe, AirDataPickerDirective, PieChartDirective ]
+  DayOfCalendarComponent, ExamensForDayPipe, AirDataPickerDirective, PieChartDirective, PopupInvitedDirective ]
 })
 
 export default class DisciplineModule { }

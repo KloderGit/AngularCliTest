@@ -2,7 +2,10 @@
     <!--Сколько экзменов занято-->
     <span>{{ percentageOneInTwo( currentStudentsInvited().length, countExamensOfDay() ) }}%</span>
 
-    <a  #popoverTag 
+    <a  popup-invited 
+        [countExamens] = "countExamensOfDay()"
+        [currentStudentsInvited] = "currentStudentsInvited().length"
+        [percentage] = "percentageOneInTwo( currentStudentsInvited().length, countExamensOfDay() )"
         class="day-popover" 
         data-container="body" 
         data-toggle="popover" 
