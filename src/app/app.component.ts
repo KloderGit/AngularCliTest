@@ -1,3 +1,4 @@
+import { MessagesService } from './Services/messages.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +7,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'aeeeee#33 works!';
+  
+    constructor( private messages: MessagesService ){}
+
+    showLoggerMessage(){
+        return this.messages.messages.filter( mes => mes.isShow );
+    }
+
+    styleVisible(message){
+        return message.fadeOut ? 'hidden': 'visible';
+    }
+
+    styleOpacity(message){
+        return message.fadeOut ? 0 : 1;
+    }
+
 }

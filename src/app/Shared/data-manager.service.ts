@@ -1,3 +1,4 @@
+import { MessagesService } from './../Services/messages.service';
 import { ExamenModel } from './../Models/examen-model';
 import { TeacherModel } from './../Models/teacher-model';
 import { ServiceJsonService } from './../Services/service-json.service';
@@ -14,7 +15,8 @@ export class DataManagerService {
 
   monthLoadedTabel: { disciplineID: string, year: number, month: number }[] = [];
 
-  constructor( private service: ServiceJsonService ) {
+  constructor( private service: ServiceJsonService,
+                private messages: MessagesService ) {
         console.log('Создание DataManager');
         this.loadDisciplines();
         this.loadTeachers();
@@ -95,6 +97,7 @@ export class DataManagerService {
                    ex.students = data[i].students;
                    this.examens.push( ex  );
                }
+                this.messages.addMessage( { title: 'DataManager', message: 'Загружены данные: год - ' + year + ', месяц - ' + (month +1), type: 'success' } );		               
                 this.addLoadedMonth( { disciplineID: disciplineId, year: year, month: month } );
             });
     }
