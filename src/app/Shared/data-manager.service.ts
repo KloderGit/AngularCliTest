@@ -90,8 +90,8 @@ export class DataManagerService {
                    let ex = new ExamenModel();
                    ex.id = data[i].id;
                    ex.disciplineId = data[i].disciplineId;
-                   ex.startTime = data[i].startTime;
-                   ex.endTime = data[i].endTime;
+                   ex.setStartTime = data[i].startTime;
+                   ex.setEndTime = data[i].endTime;
                    ex.isShared = data[i].isShared;
                    ex.limit = data[i].limit;
                    ex.students = data[i].students;

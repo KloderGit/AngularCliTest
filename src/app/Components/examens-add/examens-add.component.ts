@@ -1,7 +1,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataManagerService } from './../../Shared/data-manager.service';
 import { Component, OnInit } from '@angular/core';
-import { addFirstZero } from './../../Shared/function';
+import { addFirstZero, getMonthName } from './../../Shared/function';
 declare var $:any;
 
 @Component({
@@ -14,6 +14,7 @@ export class ExamensAddComponent implements OnInit {
 
 	date: Date = new Date();
 	disciplineId: string;
+	monthName = getMonthName;
 
 	divided: { startTime: Date, endTime: Date, isSelected: boolean, disciplineId: string, countPlace: number }[] = [];
 
@@ -27,8 +28,7 @@ export class ExamensAddComponent implements OnInit {
 		},
 		startTime?: Date,
 		endTime?: Date,
-		studentCount?: number,
-		stydentArray: { startTime: Date, endTime: Date }[]
+		studentCount?: number
  	};
 
 	constructor( private route: ActivatedRoute,
@@ -48,8 +48,7 @@ export class ExamensAddComponent implements OnInit {
 		{
 			type: { isSet: false, value: ''},
 			startTime: new Date( this.date ),
-			endTime: new Date( this.date ),
-			stydentArray: new Array()
+			endTime: new Date( this.date )
 		}
 
 		this.init_jquery();
@@ -170,9 +169,4 @@ export class ExamensAddComponent implements OnInit {
 	getDiscipline(){
 		return this.dataManager.getDisciplineByID( this.disciplineId );
 	}
-
-	getMonthName(){
-		let str = this.formState.startTime.toLocaleString("ru-ru", { month: "long" }) + " " + this.formState.startTime.getFullYear();
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    } 	
 }

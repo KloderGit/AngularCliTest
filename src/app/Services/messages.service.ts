@@ -14,8 +14,6 @@ export class MessagesService{
         this.messages.push( mes );
         setTimeout(function() { conntext.messages.forEach( item => item.isShow = false); }, 3000);
         setTimeout(function() { conntext.messages.forEach( item => item.fadeOut = true ); }, 2000);
-        let t: Message = new Message( { title: mes.title, content: mes.content, isShow: true, type: mes.type, fadeOut: false} ) ;
-        console.log(t);
     }
 }
 

@@ -1,5 +1,5 @@
 <h3>Предмет: {{getDiscipline().title}}</h3>
-<h4>Добавление экзаменов на {{date.getDate()}} {{ getMonthName() }}</h4>
+<h4>Добавление экзаменов на {{date.getDate()}} {{ monthName(date) }} {{date.getFullYear()}}</h4>
 <div class="add-examens-wizard">
         <section>
             <div class="wizard">
@@ -106,7 +106,7 @@
                                 <div class="col-sm-4">
                                     <div class="thumbnail">
                                         <div class="caption">
-                                            <p>Проверьте</p>
+                                            <p>Выбрано:</p>
                                             <p style="font-size: medium">
                                                 Время: {{ formState.startTime.getHours()}}:{{ formatTimeDigit(formState.startTime.getMinutes())}} — {{formState.endTime.getHours()}}:{{formatTimeDigit(formState.endTime.getMinutes())}}
                                             </p>
@@ -129,14 +129,14 @@
                                     <div class="thumbnail">
                                         <div class="caption">
                                             <p>Окончание экзамена</p>
-                                            <timepicker [defaultHour]='19' [defaultMinute]='0' [onlyHours]="false" (onChangeTimePicker)="endTimeChange($event)"></timepicker>
+                                            <timepicker [defaultHour]='19' [defaultMinute]='0' [onlyHours]="false" [hourMinLimit] = 'formState.startTime.getHours()' (onChangeTimePicker)="endTimeChange($event)"></timepicker>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="thumbnail">
                                         <div class="caption">
-                                            <p>Проверьте</p>
+                                            <p>Выбрано:</p>
                                             <p style="font-size: medium">
                                                 Время: {{ formState.startTime.getHours()}}:{{ formatTimeDigit(formState.startTime.getMinutes())}} — {{formState.endTime.getHours()}}:{{formatTimeDigit(formState.endTime.getMinutes())}}
                                             </p>

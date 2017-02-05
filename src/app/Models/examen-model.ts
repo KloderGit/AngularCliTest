@@ -1,24 +1,25 @@
 export class ExamenModel{    
     id: string;
+    active: boolean;
     disciplineId: string;
-    private _startTime: Date;
-    private _endTime: Date;
+    startTime: Date;
+    endTime: Date;
 
     isShared: boolean;
     limit: number;
 
     students: Array<string>;
 
-    public get startTime() : Date {
-        return this._startTime;
+    public get getStartTime() : Date {
+        return this.startTime;
     }
-    public set startTime(value) {
-        this._startTime = new Date(value);
+    public set setStartTime(value) {
+        this.startTime = new Date(value);
     }
-    public get endTime() {
-        return this._endTime;
+    public get getEndTime() {
+        return this.endTime;
     }
-    public set endTime(value) {
-        this._endTime = new Date(value);
+    public set setEndTime(value) {
+        this.endTime = new Date(value);
     }    
 }
