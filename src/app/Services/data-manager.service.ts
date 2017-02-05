@@ -93,7 +93,7 @@ export class DataManagerService {
                    ex.setStartTime = data[i].startTime;
                    ex.setEndTime = data[i].endTime;
                    ex.isShared = data[i].isShared;
-                   ex.limit = data[i].limit;
+                   ex.limit = data[i].limit || 1;
                    ex.students = data[i].students;
                    this.examens.push( ex  );
                }
@@ -116,7 +116,7 @@ export class DataManagerService {
             ex.startTime = inObject[i].startTime;
             ex.endTime = inObject[i].endTime;
             ex.isShared = inObject[i].countPlace != 1 ? true : false;
-            ex.limit = inObject[i].countPlace != 1 ? inObject[i].countPlace : null;
+            ex.limit = inObject[i].countPlace != 1 ? inObject[i].countPlace : 1;
             ex.students = [];
 
             this.examens.push(ex);
