@@ -1,4 +1,4 @@
-import { DataManagerService } from './../../Shared/data-manager.service';
+import { DataManagerService } from './../../Services/data-manager.service';
 import { DisciplineModel } from './../../Models/discipline-model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';

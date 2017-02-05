@@ -1,5 +1,5 @@
+import { DataManagerService } from './../../Services/data-manager.service';
 import { DisciplineModel } from './../../Models/discipline-model';
-import { DataManagerService } from './../../Shared/data-manager.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({  

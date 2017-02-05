@@ -1,5 +1,5 @@
+import { DataManagerService } from './../../Services/data-manager.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DataManagerService } from './../../Shared/data-manager.service';
 import { Component, OnInit } from '@angular/core';
 import { addFirstZero, getMonthName } from './../../Shared/function';
 declare var $:any;

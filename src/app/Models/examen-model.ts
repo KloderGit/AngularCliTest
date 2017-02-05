@@ -16,10 +16,10 @@ export class ExamenModel{
     public set setStartTime(value) {
         this.startTime = new Date(value);
     }
-    public get getEndTime() {
+    public get getEndTime() : Date {
         return this.endTime;
     }
     public set setEndTime(value) {
         this.endTime = new Date(value);
-    }    
+    }
 }

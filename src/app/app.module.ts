@@ -1,5 +1,5 @@
+import { DataManagerService } from './Services/data-manager.service';
 import { MessagesService } from './Services/messages.service';
-import { DataManagerService } from './Shared/data-manager.service';
 import { ServiceJsonService } from './Services/service-json.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
