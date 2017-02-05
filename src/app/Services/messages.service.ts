@@ -3,16 +3,34 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class MessagesService{
 
-    messages: { title: string, message: string, isShow: boolean, type: string, fadeOut: boolean }[] = [];
+    messages: Message[] = [];
 
     constructor (){
         console.log('Logger: Создан сервис');
     }
 
-    addMessage( mes: { title: string, message: string, type: string } ){
+    addMessage( mes: Message ){
         let conntext = this;
-        this.messages.push( { title: mes.title, message: mes.message, isShow: true, type: mes.type, fadeOut: false});
+        this.messages.push( mes );
         setTimeout(function() { conntext.messages.forEach( item => item.isShow = false); }, 3000);
         setTimeout(function() { conntext.messages.forEach( item => item.fadeOut = true ); }, 2000);
+        let t: Message = new Message( { title: mes.title, content: mes.content, isShow: true, type: mes.type, fadeOut: false} ) ;
+        console.log(t);
+    }
+}
+
+export class Message{
+    title: string;
+    content: string;
+    isShow: boolean;
+    type: string;
+    fadeOut: boolean;
+
+    constructor( value: { title: string, content: string, isShow?: boolean, type: string, fadeOut?: boolean}){
+        this.title = value.title;
+        this.content = value.content;
+        this.isShow = true;
+        this.type = value.type;
+        this.fadeOut = false;
     }
 }

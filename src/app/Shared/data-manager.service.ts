@@ -1,4 +1,4 @@
-import { MessagesService } from './../Services/messages.service';
+import { MessagesService, Message } from './../Services/messages.service';
 import { ExamenModel } from './../Models/examen-model';
 import { TeacherModel } from './../Models/teacher-model';
 import { ServiceJsonService } from './../Services/service-json.service';
@@ -97,7 +97,8 @@ export class DataManagerService {
                    ex.students = data[i].students;
                    this.examens.push( ex  );
                }
-                this.messages.addMessage( { title: 'DataManager', message: 'Загружены данные: год - ' + year + ', месяц - ' + (month +1), type: 'success' } );		               
+              
+                this.messages.addMessage( new Message( { title: 'DataManager', content: 'Загружены данные: год - ' + year + ', месяц - ' + (month +1), type: 'success' } ));
                 this.addLoadedMonth( { disciplineID: disciplineId, year: year, month: month } );
             });
     }
