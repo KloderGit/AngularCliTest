@@ -35,7 +35,8 @@
                             </a>
                         </li>
                     </ul>
-                </div>
+                </div>                
+
                 <div class="tab-content">
                     <div class="tab-pane active" role="tabpanel" id="step1">
                         <div class="jumbotron">
@@ -67,16 +68,19 @@
                             <input style="display: none" id="personalType" type="radio" name="selectType" (change)="changeExamenType('personal')">
                             <input style="display: none" id="collectiveType" type="radio" name="selectType" (change)="changeExamenType('collective')">
                         </div>
-                        <ul class="list-inline pull-right" [hidden]="!formState.type.isSet">
-                            <li><button type="button" class="btn btn-primary next-step">Далее</button></li>
-                        </ul>                        
-                    </div>
+						
+                        <ul class="list-inline pull-right">
+                            <li><button [disabled] = "!formObj" type="button" class="btn btn-primary next-step">Далее</button></li>
+                        </ul>  
+						
+                    </div>			
+					
                     <div class="tab-pane" role="tabpanel" id="step2">
                         <div class="jumbotron">
                             <h3>Шаг второй 2. Укажите время проведения.</h3>
                         </div>
                         <div class="col-xs-12 well well-lg" style="text-align: center">
-                            <div *ngIf = "formState.type.value == 'personal'">
+                            <div *ngIf = "formObj && formObj.type == 'personal'">
                                 <div class="col-sm-4">
                                     <div class="thumbnail">
                                         <div class="caption">
@@ -84,7 +88,7 @@
                                             <timepicker [defaultHour]='17' 
                                                         [defaultMinute]='0' 
                                                         [onlyHours]="true" 
-                                                        (onChangeTimePicker)="startTimeChange($event)">
+                                                        (onChangeTimePicker)="changeTime($event, null)">
                                             </timepicker>
                                         </div>
                                     </div>
@@ -97,8 +101,8 @@
                                                         [defaultHour]='22' 
                                                         [defaultMinute]='0' 
                                                         [onlyHours]="true" 
-                                                        [hourMinLimit] = 'formState.startTime.getHours()'
-                                                        (onChangeTimePicker)="endTimeChange($event)">
+                                                        [hourMinLimit] = 'formObj.startTime.getHours()'
+                                                        (onChangeTimePicker)="changeTime(null, $event)">
                                             </timepicker>
                                         </div>
                                     </div>
@@ -108,20 +112,20 @@
                                         <div class="caption">
                                             <p>Выбрано:</p>
                                             <p style="font-size: medium">
-                                                Время: {{ formState.startTime.getHours()}}:{{ formatTimeDigit(formState.startTime.getMinutes())}} — {{formState.endTime.getHours()}}:{{formatTimeDigit(formState.endTime.getMinutes())}}
+                                                Время: {{ formObj.startTime.getHours()}}:{{ formatTimeDigit(formObj.startTime.getMinutes())}} — {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
                                             </p>
-                                            <p style="font-size: medium">Продолжительность: <strong>{{ diffTime() / 1000 / 60 }} мин.</strong></p>
+                                            <p style="font-size: medium">Продолжительность: <strong>{{ formObj.diffTime() }} мин.</strong></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div *ngIf = "formState.type.value == 'collective'">
+                            <div *ngIf = "formObj && formObj.type == 'collective'">
                                 <div class="col-sm-4">
                                     <div class="thumbnail">
                                         <div class="caption">
                                             <p>Начало экзамена:</p>
-                                            <timepicker [defaultHour]='17' [defaultMinute]='0' [onlyHours]="false" (onChangeTimePicker)="startTimeChange($event)"></timepicker>
+                                            <timepicker [defaultHour]='17' [defaultMinute]='0' [onlyHours]="false" (onChangeTimePicker)="changeTime($event, null)"></timepicker>
                                         </div>
                                     </div>
                                 </div>
@@ -129,7 +133,7 @@
                                     <div class="thumbnail">
                                         <div class="caption">
                                             <p>Окончание экзамена</p>
-                                            <timepicker [defaultHour]='19' [defaultMinute]='0' [onlyHours]="false" [hourMinLimit] = 'formState.startTime.getHours()' (onChangeTimePicker)="endTimeChange($event)"></timepicker>
+                                            <timepicker [defaultHour]='19' [defaultMinute]='0' [onlyHours]="false" [hourMinLimit] = 'formObj.startTime.getHours()' (onChangeTimePicker)="changeTime(null, $event)"></timepicker>
                                         </div>
                                     </div>
                                 </div>
@@ -138,9 +142,9 @@
                                         <div class="caption">
                                             <p>Выбрано:</p>
                                             <p style="font-size: medium">
-                                                Время: {{ formState.startTime.getHours()}}:{{ formatTimeDigit(formState.startTime.getMinutes())}} — {{formState.endTime.getHours()}}:{{formatTimeDigit(formState.endTime.getMinutes())}}
+                                                Время: {{ formObj.startTime.getHours()}}:{{ formatTimeDigit(formObj.startTime.getMinutes())}} — {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
                                             </p>
-                                            <p style="font-size: medium">Продолжительность: <strong>{{ diffTime() / 1000 / 60 }} мин.</strong></p>
+                                            <p style="font-size: medium">Продолжительность: <strong>{{ formObj.diffTime() }} мин.</strong></p>
                                         </div>
                                     </div>
                                 </div>
@@ -148,66 +152,68 @@
                         </div>
                         <ul class="list-inline pull-right">
                             <li><button type="button" class="btn btn-default prev-step">Назад</button></li>
-                            <li><button type="button" class="btn btn-primary next-step">Далее</button></li>
+                            <li><button [disabled] = "!formObj || formObj.diffTime() <=0" type="button" class="btn btn-primary next-step">Далее</button></li>
                         </ul>
                     </div>
+
+
                     <div class="tab-pane" role="tabpanel" id="step3">
-                        <div class="jumbotron" *ngIf = "formState.type.value == 'personal'">
+                        <div class="jumbotron" *ngIf = "formObj && formObj.type == 'personal'">
                             <h3>Шаг третий. Разбить период на экзамены.</h3>
                         </div>
-                        <div class="jumbotron" *ngIf = "formState.type.value == 'collective'">
+                        <div class="jumbotron" *ngIf = "formObj && formObj.type == 'collective'">
                             <h3>Шаг третий. Укажите количество студентов в аудитории.</h3>
                         </div>
 
-                        <div *ngIf = "formState.type.value == 'personal'">
+                        <div *ngIf = "formObj && formObj.type == 'personal'">
                             <div class="col-xs-12 well well-lg" style="text-align: center">
-                                <h4>Определен промежуток в {{ diffTime() / 1000 / 60 / 60 }} ч. Разбить на: </h4><br/>
+                                <h4>Определен промежуток в {{ formObj.diffTime() / 60 }} ч. Разбить на: </h4><br/>
                                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                                     <div class="input-group">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-info" (click) = "changeDivideByButton(10); hours.value=''">10 мин.</button>
-                                            <button type="button" class="btn btn-info" (click) = "changeDivideByButton(15); hours.value=''">15 мин.</button>
-                                            <button type="button" class="btn btn-info" (click) = "changeDivideByButton(20); hours.value=''">20 мин.</button>
-                                            <button type="button" class="btn btn-info" (click) = "changeDivideByButton(30); hours.value=''">30 мин.</button>                                        
+                                            <button type="button" class="btn btn-info" (click) = "formObj.changeParams(10); hours.value=''">10 мин.</button>
+                                            <button type="button" class="btn btn-info" (click) = "formObj.changeParams(15); hours.value=''">15 мин.</button>
+                                            <button type="button" class="btn btn-info" (click) = "formObj.changeParams(20); hours.value=''">20 мин.</button>
+                                            <button type="button" class="btn btn-info" (click) = "formObj.changeParams(30); hours.value=''">30 мин.</button>                                        
                                         </div>
-                                        <input #hours type="text" class="form-control" placeholder="Свой интервал" (input) = "changeDivideByInput($event.target.value)">
+                                        <input #hours type="text" class="form-control" placeholder="Свой интервал" (input) = "formObj.changeParams($event.target.value)">
                                         <span class="input-group-addon">
-                                            <input #hvostik title="Добавлять выходящий за пределы последний экзамен" type="checkbox" (change) = "changeDivideByCheckBox(hvostik.checked)">
+                                            <input #hvostik title="Добавлять выходящий за пределы последний экзамен" type="checkbox" (change) = "formObj.changeParams(hvostik.checked)">
                                         </span>
                                     </div>
                                 </div>
 
-                                <div class="col-xs-12" *ngIf = "divided.length > 0">
+                                <div class="col-xs-12" *ngIf = "formObj.examensObject.length > 0">
                                     <br/>
                                 <h4>Снимите активность с не нужных</h4>
                                 <div class="col-xs-12" style="text-align: left">
                                     <div    class="thumbnail" [class.deactive] ="!item.isSelected" 
-                                            *ngFor = "let item of divided" style="float: left; margin: 4px">
-                                    <div class="caption">
-                                        <ul class="list-group">
-                                            <li class="list-group-item">
-                                                <span class="glyphicon glyphicon glyphicon-time" aria-hidden="true"></span>
-                                                {{item.startTime.getHours()}}:{{formatTimeDigit(item.startTime.getMinutes())}} - 
-                                                {{item.endTime.getHours()}}:{{formatTimeDigit(item.endTime.getMinutes())}}
-                                            </li>
-                                            <li class="list-group-item">
-                                                <input type="checkbox" checked="item.isSelected" (change) = "item.isSelected = !item.isSelected"/> Активность
-                                            </li>
-                                        </ul>
-                                    </div>
+                                            *ngFor = "let item of formObj.examensObject" style="float: left; margin: 4px">
+                                        <div class="caption">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    <span class="glyphicon glyphicon glyphicon-time" aria-hidden="true"></span>
+                                                    {{item.start.getHours()}}:{{formatTimeDigit(item.start.getMinutes())}} - 
+                                                    {{item.end.getHours()}}:{{formatTimeDigit(item.end.getMinutes())}}
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <input type="checkbox" checked="item.isSelected" (change) = "item.isSelected = !item.isSelected"/> Активность
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             </div>
                         </div>
 
-                        <div *ngIf = "formState.type.value == 'collective'">
+                        <div *ngIf = "formObj && formObj.type == 'collective'">
                             <div class="col-xs-12 well well-lg" style="text-align: center">
                                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                                     <div class="thumbnail">
                                         <div class="caption">
-                                            <p>Выбрано мест: {{formState.studentCount}}</p>
-                                            <slider [min]="1" [max]="100" [value]="90" (onChangeSlider)="changeStudentCount($event)"></slider>
+                                            <p>Выбрано мест: {{formObj.getCountPlace()}}</p>
+                                            <slider [min]="1" [max]="100" [value]="90" (onChangeSlider)="formObj.changeParams($event)"></slider>
                                         </div>
                                     </div>
                                 </div>
@@ -216,35 +222,37 @@
 
                         <ul class="list-inline pull-right">
                             <li><button type="button" class="btn btn-default prev-step">Назад</button></li>
-                            <li><button type="button" class="btn btn-primary btn-info-full next-step">Далее</button></li>
+                            <li><button [disabled] = "!formObj || formObj.getCountPlace() <= 0" type="button" class="btn btn-primary btn-info-full next-step">Далее</button></li>
                         </ul>
                     </div>
+
+
                     <div class="tab-pane" role="tabpanel" id="complete">
                         <div class="jumbotron">
                             <h3>Шаг четвертый. Проверьте, все ли правильно, и сохраните результат.</h3>
                         </div>
                         <div class="col-xs-12 well well-lg" style="text-align: center">
 
-                            <div class="col-md-8 col-xs-12"  *ngIf = "formState.type.value == 'collective'" >
+                            <div class="col-md-8 col-xs-12"  *ngIf = "formObj && formObj.type == 'collective'" >
                                 <div class="thumbnail">
                                     <div class="caption">
                                         <p>Будет создан экзамен:</p>
-                                        <p>Начало: {{formState.startTime.getHours()}}:{{formatTimeDigit(formState.startTime.getMinutes())}}</p>
-                                        <p>Окончание: {{formState.endTime.getHours()}}:{{formatTimeDigit(formState.endTime.getMinutes())}}</p>
+                                        <p>Начало: {{formObj.examensObject.start.getHours()}}:{{formatTimeDigit(formObj.examensObject.start.getMinutes())}}</p>
+                                        <p>Окончание: {{formObj.examensObject.end.getHours()}}:{{formatTimeDigit(formObj.examensObject.end.getMinutes())}}</p>
                                         <br/>
-                                        <p>Студентов: {{formState.studentCount}}</p>
+                                        <p>Студентов: {{formObj.getCountPlace()}}</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-8 col-xs-12"  *ngIf = "formState.type.value == 'personal'" >
+                            <div class="col-md-8 col-xs-12"  *ngIf = "formObj && formObj.type == 'personal'" >
                                 <div class="thumbnail">
                                     <div class="caption">
                                         <p>Будут созданы экзамены:</p>
-                                        <p>Начало: {{formState.startTime.getHours()}}:{{formatTimeDigit(formState.startTime.getMinutes())}}</p>
-                                        <p>Окончание: {{formState.endTime.getHours()}}:{{formatTimeDigit(formState.endTime.getMinutes())}}</p>
+                                        <p>Начало: {{formObj.startTime.getHours()}}:{{formatTimeDigit(formObj.startTime.getMinutes())}}</p>
+                                        <p>Окончание: {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}</p>
                                         <br/>
-                                        <p>Студентов: {{resultPersonalCount().length}}</p>
+                                        <p>Студентов: {{formObj.getCountPlace()}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -252,12 +260,13 @@
                             <div class="col-md-4 col-xs-12">
                                 <div class="thumbnail">
                                     <div class="caption">
-                                        <button type="button" class="btn btn-primary btn-large" (click)="addExamen();">Сохранить</button>
+                                        <button type="button" class="btn btn-primary btn-large" (click)="saveExamens();">Сохранить</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="clearfix"></div>
                 </div>
             </div>

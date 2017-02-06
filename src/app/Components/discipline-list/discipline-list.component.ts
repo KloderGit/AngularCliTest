@@ -38,7 +38,6 @@ export class DisciplineListComponent implements OnInit {
 	}
 
 	filterTeacherChange( teacherId: string ){
-		console.log(teacherId);
 		this.forTeacher = teacherId;
 	}
 

@@ -1,7 +1,7 @@
 import { DataManagerService } from './../../Services/data-manager.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { addFirstZero, getMonthName } from './../../Shared/function';
+import { addFirstZero, getMonthName, diffTime } from './../../Shared/function';
 declare var $:any;
 
 @Component({
@@ -16,20 +16,7 @@ export class ExamensAddComponent implements OnInit {
 	disciplineId: string;
 	monthName = getMonthName;
 
-	divided: { startTime: Date, endTime: Date, isSelected: boolean, disciplineId: string, countPlace: number }[] = [];
-
-	divideBy: number = 10;
-	divideByCheck: boolean = false;
-
-	formState: { 
-		type?: { 
-			isSet: boolean,
-			value: string
-		},
-		startTime?: Date,
-		endTime?: Date,
-		studentCount?: number
- 	};
+	formObj: IFormState;
 
 	constructor( private route: ActivatedRoute,
 			 private router: Router,
@@ -43,13 +30,6 @@ export class ExamensAddComponent implements OnInit {
 
 		this.date.setTime(date);
 		this.date.setHours(0,0,0);
-
-		this.formState =
-		{
-			type: { isSet: false, value: ''},
-			startTime: new Date( this.date ),
-			endTime: new Date( this.date )
-		}
 
 		this.init_jquery();
 	}
@@ -76,97 +56,190 @@ export class ExamensAddComponent implements OnInit {
 	};
 
 	changeExamenType( type: string ){
-		this.formState.type = { isSet: true, value: type };
-		this.divided = [];
+		if ( type == 'personal') { this.formObj = new FormPersonal( new Date( this.date ), new Date( this.date ) ); }
+		if ( type == 'collective') { this.formObj = new FormCollective( new Date( this.date ), new Date( this.date ) ); }
+		console.log('Смена типа экзамена');
 	}
 
-	startTimeChange( value: any ){
-		this.formState.startTime.setHours( value.hours, value.minutes );
-		this.divided = [];
-	}
-	
-	endTimeChange( value: any ){
-		this.formState.endTime.setHours( value.hours, value.minutes );
-		this.divided = [];
-	}
-
-	changeStudentCount( value: number ){
-		this.formState.studentCount = value;
-	}
-
-	diffTime(){
-		let diff = ( +this.formState.endTime - +this.formState.startTime );
-		return diff;
+	changeTime( start?, end? ){
+		if (start){
+			let time = new Date( this.formObj.startTime );
+			time.setHours( start.hours, start.minutes );
+			this.formObj.changeTime(time, null);
+		}
+		if (end){
+			let time = new Date( this.formObj.endTime );
+			time.setHours( end.hours, end.minutes );
+			this.formObj.changeTime(null, time);
+		}		
 	}
 
 	formatTimeDigit(n){		
 		return addFirstZero( n );
 	}
 
-	addExamen(){
-
-		if ( this.formState.type.value == 'personal'){
-			this.dataManager.addExamen( this.divided.filter( item => item.isSelected) );
-		} 
-
-		if ( this.formState.type.value == 'collective'){
-			let result = [
-				{ startTime: this.formState.startTime, endTime: this.formState.endTime, disciplineId: this.disciplineId, countPlace: this.formState.studentCount }
-			];
-			this.dataManager.addExamen( result );
-		}
-
-		this.router.navigate(['/discipline', this.disciplineId ]);
-		
-	}
-
-	resultPersonalCount(){
-		return this.divided.filter( item => item.isSelected );
-	}
-
-	changeDivideByButton( value: any ){
-		value = parseInt(value);
-		this.divideBy = value;
-		this.dividePeriod();
-	}
-	changeDivideByInput( value: any ){
-		value = parseInt(value);
-		if( value < 5) { return }
-		this.divideBy = value;
-		this.dividePeriod();		
-	}
-	changeDivideByCheckBox( value: any ){
-		this.divideByCheck = value;
-		this.dividePeriod();		
-	}
-
-	dividePeriod(){
-		let n = this.divideBy;
-		let h = this.divideByCheck;
-		this.divided = [];
-		let count: number;
-		let mod = (this.diffTime() / 1000 / 60) % n;
-
-		if ( mod > 0 && h ){
-			count = Math.floor( (this.diffTime() / 1000 / 60) / n ) + 1;
-		} else {
-			count = Math.floor( (this.diffTime() / 1000 / 60) / n );
-		}
-
-		let index = 0;
-		let stT = this.formState.startTime;
-
-		for(let i=0; i < count; i++){
-			let tm = new Date(stT);			
-			tm.setMinutes(index);
-			let mt = new Date(stT);
-			mt.setMinutes(index+n);
-			this.divided[i] = { startTime: tm, endTime: mt, isSelected: true, disciplineId: this.disciplineId, countPlace: 1 };
-			index +=n;
-		}
-	}
 
 	getDiscipline(){
 		return this.dataManager.getDisciplineByID( this.disciplineId );
+	}
+
+	saveExamens(){
+		console.log( this.formObj.examensObject );
+	}
+
+}
+
+interface IFormState{
+	type: string;
+	startTime: Date;
+	endTime: Date;
+
+	examensObject: FormExamenViewModel | FormExamenViewModel[];
+
+	getCountPlace(): number;
+
+	getFormResult();
+
+	changeTime( start: Date, end: Date);
+
+	changeParams( value: boolean | number);
+
+	diffTime();
+}
+
+class FormCollective implements IFormState{
+
+	type: string = 'collective';
+	startTime: Date;
+	endTime: Date;
+
+	examensObject: FormExamenViewModel;
+
+	constructor( start: Date, end: Date){
+		this.startTime = start;
+		this.endTime = end;
+		this.examensObject = new FormExamenViewModel( this.startTime, this.endTime );
+	}
+
+	getCountPlace(): number{
+		return this.examensObject.count;
+	}
+
+	changeParams( value: number ){
+		this.examensObject.count = value;
+	}
+
+	changeTime( start?: Date, end?: Date){
+		this.startTime = start || this.startTime;
+		this.endTime = end || this.endTime;
+
+		this.examensObject.start = this.startTime;
+		this.examensObject.end = this.endTime;
+	}
+
+	getFormResult(){
+		return new Array().push( this.examensObject );
+	}
+
+	diffTime(){
+		return diffTime( this.startTime, this.endTime, 'minutes');
+	}
+}
+
+class FormPersonal implements IFormState{
+
+	type: string = 'personal';
+	startTime: Date;
+	endTime: Date;
+
+	range: number;
+	surplus: boolean = false;
+
+	examensObject: FormExamenViewModel[];
+
+	constructor( start: Date, end: Date){
+		this.startTime = start;
+		this.endTime = end;
+		this.examensObject = new Array();
+	}
+
+	getCountPlace(): number{
+		return this.getFormResult().length;
+	}
+
+	getFormResult(){
+		return this.examensObject.filter( item => item.isSelected );
+	}
+
+	changeTime( start?: Date, end?: Date){
+		this.startTime = start || this.startTime;
+		this.endTime = end || this.endTime;
+
+		this.range = undefined;
+		this.surplus = false;
+
+		this.examensObject = new Array();
+	}
+
+
+	changeParams( value: number ): void;
+	changeParams( value: boolean ): void;
+	changeParams( value: number | boolean ): void{
+		if ( typeof value == 'string' ){
+			value = parseInt(value);
+		}
+		if ( typeof value == 'number' ){
+			if ( value && value < 5 ) { return; } 
+			this.range = value || this.range;
+		}
+		if ( typeof value == 'boolean' ){
+			this.surplus = value ;
+		}
+		this.divideRange();
+	}
+
+	private divideRange(){
+
+		this.examensObject = new Array();
+
+		let count: number;
+		let mod = diffTime( this.startTime, this.endTime, 'minutes') % this.range;
+
+		if ( mod > 0 && this.surplus ){
+			count = Math.floor( diffTime( this.startTime, this.endTime, 'minutes') / this.range ) + 1;
+		} else {
+			count = Math.floor( diffTime( this.startTime, this.endTime, 'minutes') / this.range );
+		}
+
+		let index = 0;
+
+		for(let i=0; i < count; i++){
+			let tm = new Date( this.startTime );			
+			tm.setMinutes(index);
+			let mt = new Date( this.startTime );
+			mt.setMinutes(index+this.range);
+
+			this.examensObject.push( new FormExamenViewModel(tm, mt, 1) );
+
+			index += this.range;
+		}
+	}
+
+	diffTime(){
+		return diffTime( this.startTime, this.endTime, 'minutes');
+	}
+}
+
+class FormExamenViewModel{
+	start: Date;
+	end: Date;
+	isSelected: boolean;
+	count: number;
+
+	constructor( start: Date, end: Date, count?: number ){
+		this.start = start;
+		this.end = end;
+		this.isSelected = true;
+		this.count = count;
 	}
 }
