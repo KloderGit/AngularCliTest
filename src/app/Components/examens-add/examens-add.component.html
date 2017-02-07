@@ -27,13 +27,6 @@
                             </span>
                             </a>
                         </li>
-                        <li role="presentation" class="disabled">
-                            <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
-                                <span class="round-tab">
-                                <i class="glyphicon glyphicon-ok"></i>
-                            </span>
-                            </a>
-                        </li>
                     </ul>
                 </div>                
 
@@ -78,7 +71,11 @@
                                                 {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
                                             </p>
                                             <p *ngIf = "formObj.range"><strong>Продолжительность: </strong>{{formObj.range}} мин.</p>
-                                            <p *ngIf = "formObj.getFormResult().length > 0"><strong>Будет принято: </strong>{{formObj.getFormResult().length}} студент/ов</p>
+                                            <p *ngIf = "formObj.getFormResult().length > 0">
+                                                <strong>Будет принято: </strong>
+                                                {{ formObj.type == 'personal'? formObj.getFormResult().length : formObj.examensObject.count}}
+                                                     студент/ов
+                                            </p>
                                         </blockquote>
                                     </div>
                                 </div>
@@ -138,11 +135,14 @@
                                                 {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
                                             </p>
                                             <p *ngIf = "formObj.range"><strong>Продолжительность: </strong>{{formObj.range}} мин.</p>
-                                            <p *ngIf = "formObj.getFormResult().length > 0"><strong>Будет принято: </strong>{{formObj.getFormResult().length}} студент/ов</p>
+                                            <p *ngIf = "formObj.getFormResult().length > 0">
+                                                <strong>Будет принято: </strong>
+                                                    {{formObj.getFormResult().length}} студент/ов
+                                            </p>
                                         </blockquote>
                                     </div>
                                 </div>
-                            </div>  
+                            </div>    
                             </div>
 
                             <div *ngIf = "formObj && formObj.type == 'collective'">
@@ -174,12 +174,15 @@
                                                 - 
                                                 {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
                                             </p>
-                                            <p *ngIf = "formObj.range"><strong>Продолжительность: </strong>{{formObj.range}} мин.</p>
-                                            <p *ngIf = "formObj.getFormResult().length > 0"><strong>Будет принято: </strong>{{formObj.getFormResult().length}} студент/ов</p>
+                                            <p *ngIf = "formObj.range"><strong>Продолжительность: </strong>{{formObj.diffTime()}} мин.</p>
+                                            <p *ngIf = "formObj.getFormResult().length > 0">
+                                                <strong>Будет принято: </strong>
+                                                    {{formObj.examensObject.count}} студент/ов
+                                            </p>
                                         </blockquote>
                                     </div>
                                 </div>
-                            </div>  
+                            </div>     
                             </div>
                         </div>
                         <ul class="list-inline pull-right">
@@ -231,7 +234,11 @@
                                                 {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
                                             </p>
                                             <p *ngIf = "formObj.range"><strong>Продолжительность: </strong>{{formObj.range}} мин.</p>
-                                            <p *ngIf = "formObj.getFormResult().length > 0"><strong>Будет принято: </strong>{{formObj.getFormResult().length}} студент/ов</p>
+                                            <p *ngIf = "formObj.getFormResult().length > 0">
+                                                <strong>Будет принято: </strong>
+                                                    {{formObj.getFormResult().length}} студент/ов
+                                            </p>
+                                            <button [disabled] = "formObj.getFormResult().length <= 0" type="button" class="btn btn-primary btn-large" (click)="saveExamens();">Сохранить</button>
                                         </blockquote>
                                     </div>
                                 </div>
@@ -288,59 +295,22 @@
                                                 {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
                                             </p>
                                             <p *ngIf = "formObj.range"><strong>Продолжительность: </strong>{{formObj.range}} мин.</p>
-                                            <p *ngIf = "formObj.getFormResult().length > 0"><strong>Будет принято: </strong>{{formObj.getFormResult().length}} студент/ов</p>
+                                            <p *ngIf = "formObj.getFormResult().length > 0">
+                                                <strong>Будет принято: </strong>
+                                                {{ formObj.type == 'personal'? formObj.getFormResult().length : formObj.examensObject.count}}
+                                                     студент/ов
+                                            </p>
+                                            <button [disabled] = "formObj.getFormResult().length <= 0" type="button" class="btn btn-primary btn-large" (click)="saveExamens();">Сохранить</button>
                                         </blockquote>
                                     </div>
                                 </div>
-                            </div>   
+                            </div>    
                             </div>
                         </div>
 
                         <ul class="list-inline pull-right">
                             <li><button type="button" class="btn btn-default prev-step">Назад</button></li>
-                            <li><button [disabled] = "!formObj || formObj.getCountPlace() <= 0" type="button" class="btn btn-primary btn-info-full next-step">Далее</button></li>
                         </ul>
-                    </div>
-
-
-                    <div class="tab-pane" role="tabpanel" id="complete">
-                        <div class="jumbotron">
-                            <h3>Шаг четвертый. Проверьте, все ли правильно, и сохраните результат.</h3>
-                        </div>
-                        <div class="col-xs-12 well well-lg" style="text-align: center">
-
-                            <div class="col-md-8 col-xs-12"  *ngIf = "formObj && formObj.type == 'collective'" >
-                                <div class="thumbnail">
-                                    <div class="caption">
-                                        <p>Будет создан экзамен:</p>
-                                        <p>Начало: {{formObj.examensObject.start.getHours()}}:{{formatTimeDigit(formObj.examensObject.start.getMinutes())}}</p>
-                                        <p>Окончание: {{formObj.examensObject.end.getHours()}}:{{formatTimeDigit(formObj.examensObject.end.getMinutes())}}</p>
-                                        <br/>
-                                        <p>Студентов: {{formObj.getCountPlace()}}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-8 col-xs-12"  *ngIf = "formObj && formObj.type == 'personal'" >
-                                <div class="thumbnail">
-                                    <div class="caption">
-                                        <p>Будут созданы экзамены:</p>
-                                        <p>Начало: {{formObj.startTime.getHours()}}:{{formatTimeDigit(formObj.startTime.getMinutes())}}</p>
-                                        <p>Окончание: {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}</p>
-                                        <br/>
-                                        <p>Студентов: {{formObj.getCountPlace()}}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 col-xs-12">
-                                <div class="thumbnail">
-                                    <div class="caption">
-                                        <button type="button" class="btn btn-primary btn-large" (click)="saveExamens();">Сохранить</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="clearfix"></div>
