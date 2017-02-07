@@ -1,4 +1,5 @@
 import { Directive, ElementRef, OnInit, Input, OnDestroy } from '@angular/core';
+import "../../../node_modules/air-datepicker/dist/js/datepicker.min"
 declare var $:any;
 
 @Directive({

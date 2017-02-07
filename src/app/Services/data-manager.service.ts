@@ -1,3 +1,4 @@
+import { FormExamenViewModel } from './../Models/form-objects.model';
 import { MessagesService, Message } from './../Services/messages.service';
 import { ExamenModel } from './../Models/examen-model';
 import { TeacherModel } from './../Models/teacher-model';
@@ -83,6 +84,9 @@ export class DataManagerService {
         this.monthLoadedTabel.push( obj );
     }
 
+
+//  Экзамены 
+
     loadExamensFromService(disciplineId: string, year: number, month: number) {
         this.service.getExamensForDiscipline(disciplineId, year, month)
             .then(data => {
@@ -121,6 +125,23 @@ export class DataManagerService {
 
             this.examens.push(ex);
         }
-    }     
+    }
 
+    addExamens( objects: FormExamenViewModel[], type: string, discplineID: string ){
+
+        for ( let i=0; i < objects.length; i++){
+            let ex = new ExamenModel();
+            ex.id = "new";
+            ex.disciplineId = discplineID;
+            ex.startTime = objects[i].start;
+            ex.endTime = objects[i].end;
+            ex.isShared = type == 'collective' ? true : false;
+            ex.limit = objects[i].count;
+            ex.students = [];
+
+            this.examens.push(ex);
+        }
+        
+        this.messages.addMessage( new Message( { title: 'DataManager', content: 'Созданы экзамены для ' + (type == 'collective'? objects[0].count : objects.length) + ' студентов.', type: 'success' } ));
+    }
 }

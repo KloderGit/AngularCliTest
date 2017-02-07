@@ -43,28 +43,46 @@
                             <h3>Шаг первый. Выберете тип экзамена.</h3>
                         </div>
                         <div class="col-xs-12 well well-lg" style="text-align: center">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
+                                <p><strong>Персональный</strong></p> 
                                 <label for="personalType" style="display: inherit; cursor: pointer">
                                     <div class="thumbnail">
-                                        <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRg0MZWDI33eZMjtkz58wPA-6EhBtfzIsTAchiWVjgQwKKbyObA" width="150">
+                                        <img src="http://s1.iconbird.com/ico/2013/9/450/w256h2561380453931User256x25632.png" style="height: 80px">
                                         <div class="caption">
-                                            <p>Персональный</p>
-                                            <p style="font-size: small">Каждый студент сдает экзамен отдельно, в назначенное ему время.</p>
+                                            <p style="font-size: small; font-weight: 400;">Каждый студент сдает экзамен отдельно, в назначенное ему время.</p>
                                         </div>
                                     </div>
                                 </label>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
+                                <p><strong>Коллективный</strong></p>                                
                                 <label for="collectiveType" style="display: inherit; cursor: pointer">
                                     <div class="thumbnail">
-                                        <img src="https://cdn2.iconfinder.com/data/icons/users-2/512/User_6-512.png" width="150">
+                                        <img src="http://s1.iconbird.com/ico/2013/9/450/w256h2561380453931UserAccounts256x25632.png" style="height: 90px">
                                         <div class="caption">
-                                            <p>Коллективный</p>
-                                            <p style="font-size: small">Общий экзамен для группы студентов в аудитории. Одно время для всех.</p>
+                                            <p style="font-size: small; font-weight: 400;">Общий экзамен для группы студентов в аудитории. Одно время для всех.</p>
                                         </div>
                                     </div>
                                 </label>
                             </div>
+                            <div class="col-sm-4 ">                                
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">Планирование</div>
+                                    <div style="font-size: small"
+                                         class="panel-body text-left" *ngIf = "formObj">
+                                        <blockquote>
+                                            <p><strong>Тип экзамена/ов: </strong>{{formObj.type}}</p>
+                                            <p><strong>Время: </strong>
+                                                {{formObj.startTime.getHours()}}:{{formatTimeDigit(formObj.startTime.getMinutes())}} 
+                                                - 
+                                                {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
+                                            </p>
+                                            <p *ngIf = "formObj.range"><strong>Продолжительность: </strong>{{formObj.range}} мин.</p>
+                                            <p *ngIf = "formObj.getFormResult().length > 0"><strong>Будет принято: </strong>{{formObj.getFormResult().length}} студент/ов</p>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>                            
                             <input style="display: none" id="personalType" type="radio" name="selectType" (change)="changeExamenType('personal')">
                             <input style="display: none" id="collectiveType" type="radio" name="selectType" (change)="changeExamenType('collective')">
                         </div>
@@ -82,9 +100,9 @@
                         <div class="col-xs-12 well well-lg" style="text-align: center">
                             <div *ngIf = "formObj && formObj.type == 'personal'">
                                 <div class="col-sm-4">
+                                    <p><strong>Начало экзаменов:</strong></p>                                    
                                     <div class="thumbnail">
                                         <div class="caption">
-                                            <p>Начало экзаменов:</p>
                                             <timepicker [defaultHour]='17' 
                                                         [defaultMinute]='0' 
                                                         [onlyHours]="true" 
@@ -94,9 +112,9 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
+                                    <p><strong>Окончание экзаменов</strong></p>                                    
                                     <div class="thumbnail">
                                         <div class="caption">
-                                            <p>Окончание экзаменов</p>
                                             <timepicker #endTimePicker
                                                         [defaultHour]='22' 
                                                         [defaultMinute]='0' 
@@ -107,47 +125,61 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
-                                    <div class="thumbnail">
-                                        <div class="caption">
-                                            <p>Выбрано:</p>
-                                            <p style="font-size: medium">
-                                                Время: {{ formObj.startTime.getHours()}}:{{ formatTimeDigit(formObj.startTime.getMinutes())}} — {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
+                            <div class="col-sm-4 ">                                
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">Планирование</div>
+                                    <div style="font-size: small"
+                                         class="panel-body text-left" *ngIf = "formObj">
+                                        <blockquote>
+                                            <p><strong>Тип экзамена/ов: </strong>{{formObj.type}}</p>
+                                            <p><strong>Время: </strong>
+                                                {{formObj.startTime.getHours()}}:{{formatTimeDigit(formObj.startTime.getMinutes())}} 
+                                                - 
+                                                {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
                                             </p>
-                                            <p style="font-size: medium">Продолжительность: <strong>{{ formObj.diffTime() }} мин.</strong></p>
-                                        </div>
+                                            <p *ngIf = "formObj.range"><strong>Продолжительность: </strong>{{formObj.range}} мин.</p>
+                                            <p *ngIf = "formObj.getFormResult().length > 0"><strong>Будет принято: </strong>{{formObj.getFormResult().length}} студент/ов</p>
+                                        </blockquote>
                                     </div>
                                 </div>
+                            </div>  
                             </div>
 
                             <div *ngIf = "formObj && formObj.type == 'collective'">
                                 <div class="col-sm-4">
+                                    <p>Начало экзамена:</p>                                    
                                     <div class="thumbnail">
                                         <div class="caption">
-                                            <p>Начало экзамена:</p>
                                             <timepicker [defaultHour]='17' [defaultMinute]='0' [onlyHours]="false" (onChangeTimePicker)="changeTime($event, null)"></timepicker>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
+                                    <p>Окончание экзамена</p>                                    
                                     <div class="thumbnail">
                                         <div class="caption">
-                                            <p>Окончание экзамена</p>
                                             <timepicker [defaultHour]='19' [defaultMinute]='0' [onlyHours]="false" [hourMinLimit] = 'formObj.startTime.getHours()' (onChangeTimePicker)="changeTime(null, $event)"></timepicker>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
-                                    <div class="thumbnail">
-                                        <div class="caption">
-                                            <p>Выбрано:</p>
-                                            <p style="font-size: medium">
-                                                Время: {{ formObj.startTime.getHours()}}:{{ formatTimeDigit(formObj.startTime.getMinutes())}} — {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
+                            <div class="col-sm-4 ">                                
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">Планирование</div>
+                                    <div style="font-size: small"
+                                         class="panel-body text-left" *ngIf = "formObj">
+                                        <blockquote>
+                                            <p><strong>Тип экзамена/ов: </strong>{{formObj.type}}</p>
+                                            <p><strong>Время: </strong>
+                                                {{formObj.startTime.getHours()}}:{{formatTimeDigit(formObj.startTime.getMinutes())}} 
+                                                - 
+                                                {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
                                             </p>
-                                            <p style="font-size: medium">Продолжительность: <strong>{{ formObj.diffTime() }} мин.</strong></p>
-                                        </div>
+                                            <p *ngIf = "formObj.range"><strong>Продолжительность: </strong>{{formObj.range}} мин.</p>
+                                            <p *ngIf = "formObj.getFormResult().length > 0"><strong>Будет принято: </strong>{{formObj.getFormResult().length}} студент/ов</p>
+                                        </blockquote>
                                     </div>
                                 </div>
+                            </div>  
                             </div>
                         </div>
                         <ul class="list-inline pull-right">
@@ -167,39 +199,65 @@
 
                         <div *ngIf = "formObj && formObj.type == 'personal'">
                             <div class="col-xs-12 well well-lg" style="text-align: center">
-                                <h4>Определен промежуток в {{ formObj.diffTime() / 60 }} ч. Разбить на: </h4><br/>
-                                <div class="col-md-6 col-md-offset-3 col-xs-12">
-                                    <div class="input-group">
-                                        <div class="input-group-btn">
-                                            <button type="button" class="btn btn-info" (click) = "formObj.changeParams(10); hours.value=''">10 мин.</button>
-                                            <button type="button" class="btn btn-info" (click) = "formObj.changeParams(15); hours.value=''">15 мин.</button>
-                                            <button type="button" class="btn btn-info" (click) = "formObj.changeParams(20); hours.value=''">20 мин.</button>
-                                            <button type="button" class="btn btn-info" (click) = "formObj.changeParams(30); hours.value=''">30 мин.</button>                                        
+                                <div class="col-md-8 col-xs-12">
+                                    <p><strong>Определен промежуток в {{ formObj.diffTime() / 60 }} ч. Разбить на: </strong></p><br/>
+                                    <div class="thumbnail">
+                                        <div class="caption">
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-info" (click) = "formObj.changeParams(10); hours.value=''">10 мин.</button>
+                                                    <button type="button" class="btn btn-info" (click) = "formObj.changeParams(15); hours.value=''">15 мин.</button>
+                                                    <button type="button" class="btn btn-info" (click) = "formObj.changeParams(20); hours.value=''">20 мин.</button>
+                                                    <button type="button" class="btn btn-info" (click) = "formObj.changeParams(30); hours.value=''">30 мин.</button>                                        
+                                                </div>
+                                                <input #hours type="text" class="form-control" placeholder="Свой интервал" (input) = "formObj.changeParams($event.target.value)">
+                                                <span class="input-group-addon">
+                                                    <input #hvostik title="Добавлять выходящий за пределы последний экзамен" type="checkbox" (change) = "formObj.changeParams(hvostik.checked)">
+                                                </span>
+                                            </div>
                                         </div>
-                                        <input #hours type="text" class="form-control" placeholder="Свой интервал" (input) = "formObj.changeParams($event.target.value)">
-                                        <span class="input-group-addon">
-                                            <input #hvostik title="Добавлять выходящий за пределы последний экзамен" type="checkbox" (change) = "formObj.changeParams(hvostik.checked)">
-                                        </span>
                                     </div>
                                 </div>
+                            <div class="col-sm-4 ">                                
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">Планирование</div>
+                                    <div style="font-size: small"
+                                         class="panel-body text-left" *ngIf = "formObj">
+                                        <blockquote>
+                                            <p><strong>Тип экзамена/ов: </strong>{{formObj.type}}</p>
+                                            <p><strong>Время: </strong>
+                                                {{formObj.startTime.getHours()}}:{{formatTimeDigit(formObj.startTime.getMinutes())}} 
+                                                - 
+                                                {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
+                                            </p>
+                                            <p *ngIf = "formObj.range"><strong>Продолжительность: </strong>{{formObj.range}} мин.</p>
+                                            <p *ngIf = "formObj.getFormResult().length > 0"><strong>Будет принято: </strong>{{formObj.getFormResult().length}} студент/ов</p>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>                                   
 
                                 <div class="col-xs-12" *ngIf = "formObj.examensObject.length > 0">
                                     <br/>
-                                <h4>Снимите активность с не нужных</h4>
+                                <p>Снимите активность с не нужных</p>
                                 <div class="col-xs-12" style="text-align: left">
-                                    <div    class="thumbnail" [class.deactive] ="!item.isSelected" 
-                                            *ngFor = "let item of formObj.examensObject" style="float: left; margin: 4px">
+                                    <div class="thumbnail">
                                         <div class="caption">
-                                            <ul class="list-group">
-                                                <li class="list-group-item">
-                                                    <span class="glyphicon glyphicon glyphicon-time" aria-hidden="true"></span>
-                                                    {{item.start.getHours()}}:{{formatTimeDigit(item.start.getMinutes())}} - 
-                                                    {{item.end.getHours()}}:{{formatTimeDigit(item.end.getMinutes())}}
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <input type="checkbox" checked="item.isSelected" (change) = "item.isSelected = !item.isSelected"/> Активность
-                                                </li>
-                                            </ul>
+                                            <div    class="thumbnail examen-element" [class.deactive] ="!item.isSelected" 
+                                                    *ngFor = "let item of formObj.examensObject">
+                                                <div class="caption">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item">
+                                                            <span class="glyphicon glyphicon glyphicon-time" aria-hidden="true"></span>
+                                                            {{item.start.getHours()}}:{{formatTimeDigit(item.start.getMinutes())}} - 
+                                                            {{item.end.getHours()}}:{{formatTimeDigit(item.end.getMinutes())}}
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <input type="checkbox" checked="item.isSelected" (change) = "item.isSelected = !item.isSelected"/> Активность
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -209,14 +267,32 @@
 
                         <div *ngIf = "formObj && formObj.type == 'collective'">
                             <div class="col-xs-12 well well-lg" style="text-align: center">
-                                <div class="col-md-6 col-md-offset-3 col-xs-12">
+                                <div class="col-md-8 col-xs-12">
+                                    <p>Будет принято: {{formObj.getCountPlace()}} студентов</p>
                                     <div class="thumbnail">
                                         <div class="caption">
-                                            <p>Выбрано мест: {{formObj.getCountPlace()}}</p>
                                             <slider [min]="1" [max]="100" [value]="90" (onChangeSlider)="formObj.changeParams($event)"></slider>
                                         </div>
                                     </div>
                                 </div>
+                            <div class="col-sm-4 ">                                
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">Планирование</div>
+                                    <div style="font-size: small"
+                                         class="panel-body text-left" *ngIf = "formObj">
+                                        <blockquote>
+                                            <p><strong>Тип экзамена/ов: </strong>{{formObj.type}}</p>
+                                            <p><strong>Время: </strong>
+                                                {{formObj.startTime.getHours()}}:{{formatTimeDigit(formObj.startTime.getMinutes())}} 
+                                                - 
+                                                {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
+                                            </p>
+                                            <p *ngIf = "formObj.range"><strong>Продолжительность: </strong>{{formObj.range}} мин.</p>
+                                            <p *ngIf = "formObj.getFormResult().length > 0"><strong>Будет принято: </strong>{{formObj.getFormResult().length}} студент/ов</p>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>   
                             </div>
                         </div>
 

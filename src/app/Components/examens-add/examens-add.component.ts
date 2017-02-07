@@ -1,7 +1,8 @@
 import { DataManagerService } from './../../Services/data-manager.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { addFirstZero, getMonthName, diffTime } from './../../Shared/function';
+import { IFormState, FormPersonal, FormCollective } from './../../Models/form-objects.model';
 declare var $:any;
 
 @Component({
@@ -20,7 +21,8 @@ export class ExamensAddComponent implements OnInit {
 
 	constructor( private route: ActivatedRoute,
 			 private router: Router,
-			 private dataManager: DataManagerService){
+			 private dataManager: DataManagerService,
+			 private cdr: ChangeDetectorRef){
 		console.log("Создан компонент создания экзаменов");
 	}
 
@@ -58,6 +60,7 @@ export class ExamensAddComponent implements OnInit {
 	changeExamenType( type: string ){
 		if ( type == 'personal') { this.formObj = new FormPersonal( new Date( this.date ), new Date( this.date ) ); }
 		if ( type == 'collective') { this.formObj = new FormCollective( new Date( this.date ), new Date( this.date ) ); }
+		this.cdr.detectChanges();
 		console.log('Смена типа экзамена');
 	}
 
@@ -84,162 +87,9 @@ export class ExamensAddComponent implements OnInit {
 	}
 
 	saveExamens(){
-		console.log( this.formObj.examensObject );
-	}
+		let ttt = this.formObj.getFormResult();
+		this.dataManager.addExamens( this.formObj.getFormResult(), this.formObj.type, this.disciplineId);
 
-}
-
-interface IFormState{
-	type: string;
-	startTime: Date;
-	endTime: Date;
-
-	examensObject: FormExamenViewModel | FormExamenViewModel[];
-
-	getCountPlace(): number;
-
-	getFormResult();
-
-	changeTime( start: Date, end: Date);
-
-	changeParams( value: boolean | number);
-
-	diffTime();
-}
-
-class FormCollective implements IFormState{
-
-	type: string = 'collective';
-	startTime: Date;
-	endTime: Date;
-
-	examensObject: FormExamenViewModel;
-
-	constructor( start: Date, end: Date){
-		this.startTime = start;
-		this.endTime = end;
-		this.examensObject = new FormExamenViewModel( this.startTime, this.endTime );
-	}
-
-	getCountPlace(): number{
-		return this.examensObject.count;
-	}
-
-	changeParams( value: number ){
-		this.examensObject.count = value;
-	}
-
-	changeTime( start?: Date, end?: Date){
-		this.startTime = start || this.startTime;
-		this.endTime = end || this.endTime;
-
-		this.examensObject.start = this.startTime;
-		this.examensObject.end = this.endTime;
-	}
-
-	getFormResult(){
-		return new Array().push( this.examensObject );
-	}
-
-	diffTime(){
-		return diffTime( this.startTime, this.endTime, 'minutes');
-	}
-}
-
-class FormPersonal implements IFormState{
-
-	type: string = 'personal';
-	startTime: Date;
-	endTime: Date;
-
-	range: number;
-	surplus: boolean = false;
-
-	examensObject: FormExamenViewModel[];
-
-	constructor( start: Date, end: Date){
-		this.startTime = start;
-		this.endTime = end;
-		this.examensObject = new Array();
-	}
-
-	getCountPlace(): number{
-		return this.getFormResult().length;
-	}
-
-	getFormResult(){
-		return this.examensObject.filter( item => item.isSelected );
-	}
-
-	changeTime( start?: Date, end?: Date){
-		this.startTime = start || this.startTime;
-		this.endTime = end || this.endTime;
-
-		this.range = undefined;
-		this.surplus = false;
-
-		this.examensObject = new Array();
-	}
-
-
-	changeParams( value: number ): void;
-	changeParams( value: boolean ): void;
-	changeParams( value: number | boolean ): void{
-		if ( typeof value == 'string' ){
-			value = parseInt(value);
-		}
-		if ( typeof value == 'number' ){
-			if ( value && value < 5 ) { return; } 
-			this.range = value || this.range;
-		}
-		if ( typeof value == 'boolean' ){
-			this.surplus = value ;
-		}
-		this.divideRange();
-	}
-
-	private divideRange(){
-
-		this.examensObject = new Array();
-
-		let count: number;
-		let mod = diffTime( this.startTime, this.endTime, 'minutes') % this.range;
-
-		if ( mod > 0 && this.surplus ){
-			count = Math.floor( diffTime( this.startTime, this.endTime, 'minutes') / this.range ) + 1;
-		} else {
-			count = Math.floor( diffTime( this.startTime, this.endTime, 'minutes') / this.range );
-		}
-
-		let index = 0;
-
-		for(let i=0; i < count; i++){
-			let tm = new Date( this.startTime );			
-			tm.setMinutes(index);
-			let mt = new Date( this.startTime );
-			mt.setMinutes(index+this.range);
-
-			this.examensObject.push( new FormExamenViewModel(tm, mt, 1) );
-
-			index += this.range;
-		}
-	}
-
-	diffTime(){
-		return diffTime( this.startTime, this.endTime, 'minutes');
-	}
-}
-
-class FormExamenViewModel{
-	start: Date;
-	end: Date;
-	isSelected: boolean;
-	count: number;
-
-	constructor( start: Date, end: Date, count?: number ){
-		this.start = start;
-		this.end = end;
-		this.isSelected = true;
-		this.count = count;
+		this.router.navigate(['/discipline', this.disciplineId ]);
 	}
 }

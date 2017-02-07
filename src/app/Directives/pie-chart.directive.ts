@@ -1,4 +1,6 @@
 import { Directive, ElementRef, OnInit, Input } from '@angular/core';
+import './../../../node_modules/peity/jquery.peity.min';
+
 declare var $:any;
 
 @Directive({
