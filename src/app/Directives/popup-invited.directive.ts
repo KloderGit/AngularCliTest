@@ -11,16 +11,11 @@ export class PopupInvitedDirective implements OnInit, OnDestroy{
 
 	@Output() eventDelete = new EventEmitter();
 
-	idGen;
-
-    constructor(private element: ElementRef){
-		this.idGen = Math.floor(Math.random() * (10000 - 1000)) + 1000;		
-	}
+    constructor(private element: ElementRef){}
 
     ngOnInit(){
-		let gen = this.idGen;
 		let popupString: string = `
-			<div id="` + gen + `" class = "content-of-popover">
+			<div class = "content-of-popover">
 				<p><strong>Всего эзаменов: ` + this.countExamens +`</strong></p>
 				<p>Занято - ` + this.currentStudentsInvited + ` (<strong>` + this.percentage + `%</strong>)</p>
 				<div class="dropup">
@@ -42,26 +37,25 @@ export class PopupInvitedDirective implements OnInit, OnDestroy{
     }
 
     init_plugin( popupString: string ){
-
-		let cnx = this;
-
+		let context = this;
 		$(this.element.nativeElement).popover({
 			'html':true,    
     		content: popupString
 		});
 
-			let str = '#' + cnx.idGen + ' ' + '#perenos';
-			console.log(str);
-
-			$(str).on("show", function(e){
+		$(this.element.nativeElement).on('inserted.bs.popover', function () {
+			$(this).data('bs.popover').$tip.find('#perenos').on("click", function(){
 				console.log('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF');
+				emite();
 			});
+		});
+		$(this.element.nativeElement).on('hidden.bs.popover', function () {
+			$(this).data('bs.popover').$tip.find('#perenos').unbind("click");
+		});
 
-
-		// $('#' + this.idGen + ' ' + '#perenos').on("click", function(e){
-		// 	e.preventDefault();
-		// 	console.log('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF');
-		// });
+		function emite(){
+			context.eventDelete.emit('delete');
+		}
     }
 
 	onDeleteEvent(){
