@@ -1,4 +1,5 @@
-import { DataManagerService } from './Shared/data-manager.service';
+import { DataManagerService } from './Services/data-manager.service';
+import { MessagesService } from './Services/messages.service';
 import { ServiceJsonService } from './Services/service-json.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -20,7 +21,7 @@ var routerMaps = RouterModule.forRoot([
 @NgModule({
   imports: [ BrowserModule, HttpModule, routerMaps ],
   declarations: [ AppComponent, DisciplineListComponent ],
-  providers: [ServiceJsonService, DataManagerService],
+  providers: [ServiceJsonService, DataManagerService, MessagesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

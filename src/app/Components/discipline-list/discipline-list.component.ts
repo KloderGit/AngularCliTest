@@ -1,5 +1,5 @@
+import { DataManagerService } from './../../Services/data-manager.service';
 import { DisciplineModel } from './../../Models/discipline-model';
-import { DataManagerService } from './../../Shared/data-manager.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({  
@@ -38,7 +38,6 @@ export class DisciplineListComponent implements OnInit {
 	}
 
 	filterTeacherChange( teacherId: string ){
-		console.log(teacherId);
 		this.forTeacher = teacherId;
 	}
 

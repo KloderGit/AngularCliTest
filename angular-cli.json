@@ -24,9 +24,7 @@
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
-        "../node_modules/bootstrap3/dist/js/bootstrap.min.js",
-        "../node_modules/air-datepicker/dist/js/datepicker.min.js",
-        "../node_modules/peity/jquery.peity.min.js"
+        "../node_modules/bootstrap3/dist/js/bootstrap.min.js"
       ],
       "environments": {
         "source": "environments/environment.ts",

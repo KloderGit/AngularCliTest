@@ -1,7 +1,8 @@
+import { DataManagerService } from './../../Services/data-manager.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DataManagerService } from './../../Shared/data-manager.service';
-import { Component, OnInit } from '@angular/core';
-import { addFirstZero } from './../../Shared/function';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { addFirstZero, getMonthName, diffTime } from './../../Shared/function';
+import { IFormState, FormPersonal, FormCollective } from './../../Models/form-objects.model';
 declare var $:any;
 
 @Component({
@@ -14,26 +15,14 @@ export class ExamensAddComponent implements OnInit {
 
 	date: Date = new Date();
 	disciplineId: string;
+	monthName = getMonthName;
 
-	divided: { startTime: Date, endTime: Date, isSelected: boolean, disciplineId: string, countPlace: number }[] = [];
-
-	divideBy: number = 10;
-	divideByCheck: boolean = false;
-
-	formState: { 
-		type?: { 
-			isSet: boolean,
-			value: string
-		},
-		startTime?: Date,
-		endTime?: Date,
-		studentCount?: number,
-		stydentArray: { startTime: Date, endTime: Date }[]
- 	};
+	formObj: IFormState;
 
 	constructor( private route: ActivatedRoute,
 			 private router: Router,
-			 private dataManager: DataManagerService){
+			 private dataManager: DataManagerService,
+			 private cdr: ChangeDetectorRef){
 		console.log("Создан компонент создания экзаменов");
 	}
 
@@ -43,14 +32,6 @@ export class ExamensAddComponent implements OnInit {
 
 		this.date.setTime(date);
 		this.date.setHours(0,0,0);
-
-		this.formState =
-		{
-			type: { isSet: false, value: ''},
-			startTime: new Date( this.date ),
-			endTime: new Date( this.date ),
-			stydentArray: new Array()
-		}
 
 		this.init_jquery();
 	}
@@ -77,102 +58,38 @@ export class ExamensAddComponent implements OnInit {
 	};
 
 	changeExamenType( type: string ){
-		this.formState.type = { isSet: true, value: type };
-		this.divided = [];
+		if ( type == 'personal') { this.formObj = new FormPersonal( new Date( this.date ), new Date( this.date ) ); }
+		if ( type == 'collective') { this.formObj = new FormCollective( new Date( this.date ), new Date( this.date ) ); }
+		this.cdr.detectChanges();
+		console.log('Смена типа экзамена');
 	}
 
-	startTimeChange( value: any ){
-		this.formState.startTime.setHours( value.hours, value.minutes );
-		this.divided = [];
-	}
-	
-	endTimeChange( value: any ){
-		this.formState.endTime.setHours( value.hours, value.minutes );
-		this.divided = [];
-	}
-
-	changeStudentCount( value: number ){
-		this.formState.studentCount = value;
-	}
-
-	diffTime(){
-		let diff = ( +this.formState.endTime - +this.formState.startTime );
-		return diff;
+	changeTime( start?, end? ){
+		if (start){
+			let time = new Date( this.formObj.startTime );
+			time.setHours( start.hours, start.minutes );
+			this.formObj.changeTime(time, null);
+		}
+		if (end){
+			let time = new Date( this.formObj.endTime );
+			time.setHours( end.hours, end.minutes );
+			this.formObj.changeTime(null, time);
+		}		
 	}
 
 	formatTimeDigit(n){		
 		return addFirstZero( n );
 	}
 
-	addExamen(){
-
-		if ( this.formState.type.value == 'personal'){
-			this.dataManager.addExamen( this.divided.filter( item => item.isSelected) );
-		} 
-
-		if ( this.formState.type.value == 'collective'){
-			let result = [
-				{ startTime: this.formState.startTime, endTime: this.formState.endTime, disciplineId: this.disciplineId, countPlace: this.formState.studentCount }
-			];
-			this.dataManager.addExamen( result );
-		}
-
-		this.router.navigate(['/discipline', this.disciplineId ]);
-		
-	}
-
-	resultPersonalCount(){
-		return this.divided.filter( item => item.isSelected );
-	}
-
-	changeDivideByButton( value: any ){
-		value = parseInt(value);
-		this.divideBy = value;
-		this.dividePeriod();
-	}
-	changeDivideByInput( value: any ){
-		value = parseInt(value);
-		if( value < 5) { return }
-		this.divideBy = value;
-		this.dividePeriod();		
-	}
-	changeDivideByCheckBox( value: any ){
-		this.divideByCheck = value;
-		this.dividePeriod();		
-	}
-
-	dividePeriod(){
-		let n = this.divideBy;
-		let h = this.divideByCheck;
-		this.divided = [];
-		let count: number;
-		let mod = (this.diffTime() / 1000 / 60) % n;
-
-		if ( mod > 0 && h ){
-			count = Math.floor( (this.diffTime() / 1000 / 60) / n ) + 1;
-		} else {
-			count = Math.floor( (this.diffTime() / 1000 / 60) / n );
-		}
-
-		let index = 0;
-		let stT = this.formState.startTime;
-
-		for(let i=0; i < count; i++){
-			let tm = new Date(stT);			
-			tm.setMinutes(index);
-			let mt = new Date(stT);
-			mt.setMinutes(index+n);
-			this.divided[i] = { startTime: tm, endTime: mt, isSelected: true, disciplineId: this.disciplineId, countPlace: 1 };
-			index +=n;
-		}
-	}
 
 	getDiscipline(){
 		return this.dataManager.getDisciplineByID( this.disciplineId );
 	}
 
-	getMonthName(){
-		let str = this.formState.startTime.toLocaleString("ru-ru", { month: "long" }) + " " + this.formState.startTime.getFullYear();
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    } 	
+	saveExamens(){
+		let ttt = this.formObj.getFormResult();
+		this.dataManager.addExamens( this.formObj.getFormResult(), this.formObj.type, this.disciplineId);
+
+		this.router.navigate(['/discipline', this.disciplineId ]);
+	}
 }

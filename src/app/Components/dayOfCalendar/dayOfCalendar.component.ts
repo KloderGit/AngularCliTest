@@ -21,6 +21,10 @@ export class DayOfCalendarComponent{
 				.map(arr => arr.join());
 	}
 
+onDeleteEvent(){
+	console.log('PPPPPPPPPPPPPPPPPPP');
+}
+
 	countExamensOfDay(){
 		return	this.examens.map(item => item.limit)
 				.reduce( (previus, current) => { 	
@@ -32,6 +36,10 @@ export class DayOfCalendarComponent{
 
 	percentageOneInTwo( x, y ){
 		return Math.floor( 100 / ( y / x ));
+	}
+
+	onDelete( event ){
+		console.log( event, 'sdsa' );
 	}
 }
 

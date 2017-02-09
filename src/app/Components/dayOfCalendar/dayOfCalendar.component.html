@@ -3,6 +3,7 @@
     <span>{{ percentageOneInTwo( currentStudentsInvited().length, countExamensOfDay() ) }}%</span>
 
     <a  popup-invited 
+        (eventDelete) = "onDelete($event)"
         [countExamens] = "countExamensOfDay()"
         [currentStudentsInvited] = "currentStudentsInvited().length"
         [percentage] = "percentageOneInTwo( currentStudentsInvited().length, countExamensOfDay() )"

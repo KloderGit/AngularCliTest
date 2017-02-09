@@ -1,0 +1,10 @@
+.loggerMessages{
+    position: fixed;
+    top: 20;
+    z-index: 1000;
+}
+
+.loggerMessages .alert{
+    transition-delay:0s;
+    transition: visibility 0s linear 0.5s,opacity 0.5s linear;
+}

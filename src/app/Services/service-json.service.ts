@@ -10,7 +10,7 @@ export class ServiceJsonService {
   constructor(private http: Http) { }
 
     getDisciplinesAll(){
-        return this.http.get('../assets/disciplines.mock.json')
+        return this.http.get('./assets/disciplines.mock.json')
         .toPromise()
         .then( ( res ) => { 
                console.log('Service: Сервис получил дисциплины'); 
@@ -19,7 +19,7 @@ export class ServiceJsonService {
     }
 
     getTeachersAll(){
-        return this.http.get('../assets/teachers.mock.json')
+        return this.http.get('./assets/teachers.mock.json')
         .toPromise()
         .then( ( res ) => { 
                let temp = res.json() as TeacherModel[]; 
@@ -29,7 +29,7 @@ export class ServiceJsonService {
     }     
 
     getExamensForDiscipline( disciplineId: string, year: number, month: number ){
-        return this.http.get('../assets/examens.mock.json')
+        return this.http.get('./assets/examens.mock.json')
         .toPromise()
         .then( ( res ) => {
                let array = res.json();

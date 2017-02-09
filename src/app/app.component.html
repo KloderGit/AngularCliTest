@@ -1,4 +1,4 @@
-<!--<div class="loggerMessages col-xs-12">
+<div class="loggerMessages col-xs-12">
     <div class="row" *ngIf="showLoggerMessage().length > 0">
         <div class="col-sm-3"></div>
         <div class="col-xs-6">
@@ -7,13 +7,12 @@
                 <button (click)="message.isShow = !message.isShow" type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                 </button>
-                <strong>{{message.title}}</strong> {{message.message}}
+                <strong>{{message.title}}</strong> {{message.content}}
             </div>
         </div>
         <div class="col-sm-3"></div>
     </div>
-</div>-->
-<div class="container">
+</div>
     <div class="row">
         <div class="header clearfix">
             <nav class="navbar navbar-default">
@@ -28,4 +27,3 @@
         </div>
     </div>
     <router-outlet></router-outlet>
-</div>
