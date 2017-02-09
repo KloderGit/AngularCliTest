@@ -22,4 +22,27 @@ export class ExamenModel{
     public set setEndTime(value) {
         this.endTime = new Date(value);
     }
+
+    static map(object: {
+        id?: string,
+        active?: boolean,
+        disciplineId?: string,
+        startTime?: Date,
+        endTime?: Date,
+        isShared?: boolean,
+        limit?: number,
+        students?: Array<string>} ) { 
+
+        let ex = new ExamenModel();
+        ex.id = object.id || undefined;
+        ex.active = object.active || undefined;
+        ex.disciplineId = object.disciplineId || undefined;
+        ex.isShared = object.isShared || undefined;
+        ex.limit = object.limit || undefined;
+        ex.students = object.students || [];
+        ex.startTime = new Date(object.startTime) || undefined;
+        ex.endTime = new Date(object.endTime) || undefined;
+
+        return ex;
+    }
 }

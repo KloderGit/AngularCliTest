@@ -9,7 +9,7 @@ export class PopupInvitedDirective implements OnInit, OnDestroy{
 	@Input() currentStudentsInvited: number;
 	@Input() percentage: number;
 
-	@Output() eventDelete = new EventEmitter();
+	@Output() eventAction = new EventEmitter();
 
     constructor(private element: ElementRef){}
 
@@ -24,10 +24,11 @@ export class PopupInvitedDirective implements OnInit, OnDestroy{
 					<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-					<li><button id='perenos'>Перенос</button></li>
-					<li><a href="#">Копировать</a></li>
+					<li><a id='change-examens-day' data-action='change'>Перенос</a></li>
+					<li><a id='copy-examens-day' data-action='copy'>Копировать</a></li>
+					<li><a id='delete-examens-day' data-action='delete'>Удалить</a></li>
 					<li role="separator" class="divider"></li>
-					<li><a href="#">Редактировать</a></li>
+					<li><a id='edit-examens-day' data-action='edit'>Редактировать</a></li>
 				</ul>
 				</div>				
 			</div>
@@ -38,29 +39,37 @@ export class PopupInvitedDirective implements OnInit, OnDestroy{
 
     init_plugin( popupString: string ){
 		let context = this;
+
 		$(this.element.nativeElement).popover({
 			'html':true,    
     		content: popupString
 		});
 
+		let shown = false;
+
 		$(this.element.nativeElement).on('inserted.bs.popover', function () {
-			$(this).data('bs.popover').$tip.find('#perenos').on("click", function(){
-				console.log('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF');
-				emite();
+			let parent = $(this).data('bs.popover').$tip;
+			parent.find('#change-examens-day, #copy-examens-day, #delete-examens-day, #edit-examens-day').on("click", function (event) {
+				event.preventDefault();
+				context.onDeleteEvent( $(this).data("action") );
 			});
-		});
-		$(this.element.nativeElement).on('hidden.bs.popover', function () {
-			$(this).data('bs.popover').$tip.find('#perenos').unbind("click");
+			shown = true;
 		});
 
-		function emite(){
-			context.eventDelete.emit('delete');
-		}
+		$(this.element.nativeElement).on('hidden.bs.popover', function () {
+			let parent = $(this).data('bs.popover').$tip;
+
+			if (shown) { 
+				parent.find('#change-examens-day, #copy-examens-day, #delete-examens-day, #edit-examens-day').unbind("click");
+			}
+
+			shown = false;
+
+		});
     }
 
-	onDeleteEvent(){
-		console.log('dir');
-		this.eventDelete.emit('delete');
+	onDeleteEvent( action ){
+		this.eventAction.emit( action );
 	}
 
 	ngOnDestroy(){

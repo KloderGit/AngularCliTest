@@ -90,15 +90,16 @@ export class DataManagerService {
     loadExamensFromService(disciplineId: string, year: number, month: number) {
         this.service.getExamensForDiscipline(disciplineId, year, month)
             .then(data => {
-               for (var i = 0; i < data.length; i++) {
-                   let ex = new ExamenModel();
-                   ex.id = data[i].id;
-                   ex.disciplineId = data[i].disciplineId;
-                   ex.setStartTime = data[i].startTime;
-                   ex.setEndTime = data[i].endTime;
-                   ex.isShared = data[i].isShared;
-                   ex.limit = data[i].limit || 1;
-                   ex.students = data[i].students;
+                for (var i = 0; i < data.length; i++) {
+                   
+                    let ex = ExamenModel.map(data[i]);
+                //    ex.id = data[i].id;
+                //    ex.disciplineId = data[i].disciplineId;
+                //    ex.setStartTime = data[i].startTime;
+                //    ex.setEndTime = data[i].endTime;
+                //    ex.isShared = data[i].isShared;
+                //    ex.limit = data[i].limit || 1;
+                //    ex.students = data[i].students;
                    this.examens.push( ex  );
                }
               
@@ -143,5 +144,53 @@ export class DataManagerService {
         }
         
         this.messages.addMessage( new Message( { title: 'DataManager', content: 'Созданы экзамены для ' + (type == 'collective'? objects[0].count : objects.length) + ' студентов.', type: 'success' } ));
+    }
+
+
+    copyExamens(array: ExamenModel[], date) {
+
+        let newExamens: ExamenModel[] = [];
+
+        for (let i = 0; i < array.length; i++) {
+            let ex = ExamenModel.map(array[i]);
+            ex.startTime.setFullYear(date.getFullYear());
+            ex.startTime.setMonth(date.getMonth());
+            ex.startTime.setDate(date.getDate());
+            ex.endTime.setFullYear(date.getFullYear());
+            ex.endTime.setMonth(date.getMonth());
+            ex.endTime.setDate(date.getDate());
+
+            newExamens.push(ex);
+        }
+
+
+        for (let i = 0; i < newExamens.length; i++) {
+            this.examens.push(newExamens[i]);
+        }
+
+        this.messages.addMessage(new Message({ title: 'DataManager', content: 'Скопированно ' + array.length + ' экзаменов.', type: 'success' }));
+    }
+
+    deleteExamens(array: ExamenModel[]) { 
+        let cnt = 0;
+        for (let i = 0; i < array.length; i++) {
+            let indx = this.examens.indexOf(array[i]);
+            if (indx != -1) {
+                this.examens.splice(indx, 1);
+                cnt += 1;
+            }
+        }        
+        this.messages.addMessage(new Message({ title: 'DataManager', content: 'Удалено ' + cnt + ' экзаменов.', type: 'success' }));
+    }
+
+    changeExamensDate(array: ExamenModel[], date) { 
+        array.forEach(item => { 
+            item.startTime.setFullYear(date.getFullYear());
+            item.endTime.setFullYear(date.getFullYear());
+            item.startTime.setMonth(date.getMonth());
+            item.endTime.setMonth(date.getMonth());
+            item.startTime.setDate(date.getDate());
+            item.endTime.setDate(date.getDate());
+        });
     }
 }
