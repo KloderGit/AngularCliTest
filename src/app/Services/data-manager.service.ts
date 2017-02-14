@@ -72,23 +72,6 @@ export class DataManagerService {
   }  
 
   //  Дисциплины
-
-  private loadDisciplines() {
-    this.service.getDisciplinesAll()
-      .then(data => {
-        for (var i = 0; i < data.length; i++) {
-          let dscp = new DisciplineModel();
-          dscp.id = data[i].id;
-          dscp.title = data[i].title;
-          dscp.teacherId = data[i].teacherId;
-          dscp.active = data[i].active == 'Y' ? true : false;
-          dscp.format = data[i].format;
-          this.disciplines.push(dscp);
-        }
-        console.log('DataManager: Получены дисциплины из сервиса', this.disciplines);
-      });
-  }
-
   getDisciplinesAll() {
     return this.disciplines;
   }
@@ -96,19 +79,6 @@ export class DataManagerService {
   getDisciplineByID(id: string) {
     let index = this.disciplines.map(x => x.id).indexOf(id);
     return this.disciplines[index];
-  }
-
-  private loadTeachers() {
-    this.service.getTeachersAll()
-      .then(data => {
-        for (var i = 0; i < data.length; i++) {
-          let thr = new TeacherModel();
-          thr.id = data[i].id;
-          thr.name = data[i].name;
-          this.teachers.push(thr);
-          }
-        console.log('DataManager: Получены преподаатели из сервиса', data)
-      });
   }
 
   getTeachersAll() {
