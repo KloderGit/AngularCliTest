@@ -49,10 +49,8 @@ export class ServiceJsonService {
         .toPromise()
         .then( ( res ) => {
                let array = res.json();
-               console.log('Service: Сервис получил экзамены', array); 
-               return array.filter( item => item.disciplineId == disciplineId )
-                          .filter( item => new Date(item.startTime).getFullYear() == year )
-                          .filter( item => new Date(item.startTime).getMonth() == month );
+               console.log('Service: Сервис получил экзамены'); 
+               return array;
             }
         );        
     }

@@ -17,11 +17,13 @@ export class DayOfCalendarComponent{
 	constructor( private dataManager: DataManagerService) { }
 
 	currentStudentsInvited(){
-		return	this.examens.map( item => item.students )
-				.filter( items => items	
-						.filter( item => item != null)
-				.length > 0)
-				.map(arr => arr.join());
+		debugger;
+		let t = this.examens.map( item => item.students );
+				// .filter( items => items	
+				// 		.filter( item => item != null)
+				// .length > 0)
+				// .map(arr => arr.join());
+		return	t;
 	}
 
 	countExamensOfDay(){

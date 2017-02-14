@@ -23,8 +23,8 @@
             "id" => $res["ID"], 
             "active" => $res["ACTIVE"],
             "disciplineId" => $res["PROPERTY_SUBJECT_VALUE"],
-            "startTime" => $res["PROPERTY_DATE_BEGIN_VALUE"],
-            "endTime" => $res["PROPERTY_DATE_END_VALUE"],
+            "startTime" => ConvertDateTime($res["PROPERTY_DATE_BEGIN_VALUE"], "YYYY-MM-DD HH:MI:SS", "ru"),
+            "endTime" => ConvertDateTime($res["PROPERTY_DATE_END_VALUE"], "YYYY-MM-DD HH:MI:SS", "ru"),
             "students" => $res["PROPERTY_STUDENT_VALUE"]
         ];
     }

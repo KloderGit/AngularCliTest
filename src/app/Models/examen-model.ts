@@ -25,7 +25,7 @@ export class ExamenModel{
 
     static map(object: {
         id?: string,
-        active?: boolean,
+        active?: boolean | string,
         disciplineId?: string,
         startTime?: Date,
         endTime?: Date,
@@ -35,7 +35,8 @@ export class ExamenModel{
 
         let ex = new ExamenModel();
         ex.id = object.id || undefined;
-        ex.active = object.active || undefined;
+        if (object.active && typeof object.active == 'string'){ ex.active = object.active == "Y"? true: false; }
+        if (object.active && typeof object.active == 'boolean'){ ex.active = object.active; }
         ex.disciplineId = object.disciplineId || undefined;
         ex.isShared = object.isShared || undefined;
         ex.limit = object.limit || undefined;

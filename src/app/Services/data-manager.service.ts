@@ -111,18 +111,9 @@ export class DataManagerService {
     this.service.getExamensForDiscipline(disciplineId, year, month)
       .then(data => {
         for (var i = 0; i < data.length; i++) {
-
           let ex = ExamenModel.map(data[i]);
-          //    ex.id = data[i].id;
-          //    ex.disciplineId = data[i].disciplineId;
-          //    ex.setStartTime = data[i].startTime;
-          //    ex.setEndTime = data[i].endTime;
-          //    ex.isShared = data[i].isShared;
-          //    ex.limit = data[i].limit || 1;
-          //    ex.students = data[i].students;
           this.examens.push(ex);
         }
-
         this.messages.addMessage(new Message({
           title: 'DataManager',
           content: 'Загружены данные: год - ' + year + ', месяц - ' + (month + 1),
