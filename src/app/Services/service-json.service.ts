@@ -45,7 +45,7 @@ export class ServiceJsonService {
     }     
 
     getExamensForDiscipline( disciplineId: string, year: number, month: number ){
-        return this.http.get('http://dev.fitness-pro.ru/getTeachers.php?disciplineId=' + disciplineId + '&year=' + year + '&month=' + month)
+        return this.http.get('http://dev.fitness-pro.ru/getExamens.php?disciplineId=' + disciplineId + '&year=' + year + '&month=' + month)
         .toPromise()
         .then( ( res ) => {
                let array = res.json();

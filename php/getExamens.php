@@ -8,10 +8,8 @@
        $month = intval($_REQUEST["month"]);
    }
 
-   $startDate = ConvertDateTime( '1.'.$month.'.'.$year, "YYYY-MM-DD") . " 00:00:00";
-   $endDate = ConvertDateTime( '28.'.$month.'.'.$year, "YYYY-MM-DD") . " 00:00:00";
-
-   echo $disciplineId, $startDate, $endDate ;
+   $startDate = ConvertDateTime( '1.'.($month+1).'.'.$year, "YYYY-MM-DD") . " 00:00:00";
+   $endDate = ConvertDateTime( '28.'.($month+1).'.'.$year, "YYYY-MM-DD") . " 00:00:00";
 
    $filter = array( "IBLOCK_ID" => 21, "PROPERTY_SUBJECT" => $disciplineId,
                     ">=PROPERTY_DATE_BEGIN" => $startDate, "<=PROPERTY_DATE_END" => $endDate );
@@ -21,10 +19,15 @@
     "PROPERTY_DATE_END", "PROPERTY_STUDENT"));
 
     while ($res = $result->Fetch()) {
-        $array[] = $res;
+        $subjects[]= [ 
+            "id" => $res["ID"], 
+            "active" => $res["ACTIVE"],
+            "disciplineId" => $res["PROPERTY_SUBJECT_VALUE"],
+            "startTime" => $res["PROPERTY_DATE_BEGIN_VALUE"],
+            "endTime" => $res["PROPERTY_DATE_END_VALUE"],
+            "students" => $res["PROPERTY_STUDENT_VALUE"]
+        ];
     }
 
-    echo '<pre>';
-        print_r($array);
-    echo '<pre>';
+    echo json_encode($subjects);
 ?>
