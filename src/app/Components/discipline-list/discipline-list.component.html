@@ -8,32 +8,32 @@
   </div>
   </div>
   <div class="col-sm-6">
-    <div class="form-group">
+    <!--<div class="form-group" *ngIf = "getTeacher().length > 0">
       <label for="sel1">По преподавателю:</label>
       <select class="form-control" id="sel1" 
-               *ngIf = "getTeachers().length > 0"
               (change) = "filterTeacherChange($event.target.value)">
         <option value = "all">Все преподаватели</option>
         <option *ngFor = "let teacher of getCurrentTeachers()" value = "{{teacher.id}}">{{teacher.name}}</option>
       </select>
-    </div>
+    </div>-->
   </div>
 </div>
 <br/>
-<div class="card" style="width: 24rem; float: left; margin-right: 20px" *ngFor="let discipine of getDisciplines()">
-  <div class="card-header">
-    {{discipine.format}} <span class="badge badge-primary">{{discipine.active}}</span>
+
+<div class="col-xs-12" *ngIf = "disciplines.length > 0">
+  <div class="col-md-3 col-sm-4 col-xs-12" *ngFor="let discipine of getDisciplines()">
+  <div  class="thumbnail">
+    <div class="caption">
+      <h4 class="card-title">{{discipine.title}}</h4>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" *ngIf="getTeacher(discipine.teacherId)">Преподаватель:<br/>{{getTeacher(discipine.teacherId).name}}</li>
+        <li class="list-group-item">Форма обучения: {{discipine.format}}</li>
+        <li class="list-group-item">Активность: {{discipine.active}}</li>
+      </ul>
+      <div class="card-block">
+        <a routerLink="/discipline/{{discipine.id}}" class="card-link">Планирование</a>
+      </div>
+    </div>
   </div>
-  <div class="card-block">
-    <h4 class="card-title">{{discipine.title}}</h4>
-    <p class="card-text">Нет описания</p>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item" *ngIf = "getTeacher(discipine.teacherId)">Преподаватель:<br/>{{getTeacher(discipine.teacherId).name}}</li>
-    <li class="list-group-item">Форма обучения: {{discipine.format}}</li>
-    <li class="list-group-item">Активность: {{discipine.active}}</li>
-  </ul>
-  <div class="card-block">
-    <a routerLink="/discipline/{{discipine.id}}" class="card-link">Планирование</a>
   </div>
 </div>
