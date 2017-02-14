@@ -1,3 +1,4 @@
+import { DataManagerService } from './Services/data-manager.service';
 import { MessagesService } from './Services/messages.service';
 import { Component } from '@angular/core';
 
@@ -8,7 +9,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   
-    constructor( private messages: MessagesService ){}
+    constructor(private messages: MessagesService,
+                private dataManager: DataManagerService
+    ) { }
 
     showLoggerMessage(){
         return this.messages.messages.filter( mes => mes.isShow );

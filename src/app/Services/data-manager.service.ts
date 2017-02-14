@@ -25,9 +25,9 @@ import {
 @Injectable()
 export class DataManagerService {
 
-  disciplines: DisciplineModel[] = new Array();
-  teachers: TeacherModel[] = new Array();
-  examens: ExamenModel[] = new Array();
+  disciplines: DisciplineModel[] = [];
+  teachers: TeacherModel[] = [];
+  examens: ExamenModel[] = [];
 
   monthLoadedTabel: {
     disciplineID: string,
@@ -38,10 +38,38 @@ export class DataManagerService {
   constructor(private service: ServiceJsonService,
     private messages: MessagesService) {
     console.log('Создание DataManager');
-    this.loadTeachers();
-    this.loadDisciplines();
+
+    this.init();
+
+    // this.loadTeachers();
+    // this.loadDisciplines();
   }
 
+  init() { 
+    this.service.getTeachersAll()
+      .then(tchr => {
+        for (var i = 0; i < tchr.length; i++) {
+          let thr = new TeacherModel();
+          thr.id = tchr[i].id;
+          thr.name = tchr[i].name;
+          this.teachers.push(thr);
+        }
+      })
+      .then( tchrs => { 
+        this.service.getDisciplinesAll()
+          .then(data => {
+            for (var i = 0; i < data.length; i++) {
+              let dscp = new DisciplineModel();
+              dscp.id = data[i].id;
+              dscp.title = data[i].title;
+              dscp.teacherId = data[i].teacherId;
+              dscp.active = data[i].active == 'Y' ? true : false;
+              dscp.format = data[i].format;
+              this.disciplines.push(dscp);
+            }
+          })
+      });
+  }  
 
   //  Дисциплины
 
