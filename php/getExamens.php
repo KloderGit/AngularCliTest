@@ -42,11 +42,11 @@
 
         $subjects[]= [ 
             "id" => $res["ID"], 
-            "active" => $res["ACTIVE"],
+            "active" => $res["ACTIVE"] == "Y"? true: false,
             "disciplineId" => $res["PROPERTY_SUBJECT_VALUE"],
             "startTime" => strtotime(ConvertDateTime($res["PROPERTY_DATE_BEGIN_VALUE"], "YYYY-MM-DD HH:MI:SS", "ru")) * 1000,
             "endTime" => strtotime(ConvertDateTime($res["PROPERTY_DATE_END_VALUE"], "YYYY-MM-DD HH:MI:SS", "ru")) * 1000,
-            "isShared" => $res["PROPERTY_NO_INTERVALS_VALUE"],
+            "isShared" => $res["PROPERTY_NO_INTERVALS_VALUE"] == "Да"? true: false,
             "limit" => $res["PROPERTY_LIMIT_VALUE"],
             "students" => $cur_student
         ];

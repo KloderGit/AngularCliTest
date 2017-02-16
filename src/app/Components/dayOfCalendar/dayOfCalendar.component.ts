@@ -17,21 +17,31 @@ export class DayOfCalendarComponent{
 	constructor( private dataManager: DataManagerService) { }
 
 	currentStudentsInvited(){
-		let t = this.examens.map( item => item.students )
-				.filter( items => items	
-						.filter( item => item != null)
-				.length > 0)
-				.map(arr => arr.join());
+
+		let a = this.examens.filter(item => !item.isShared)
+			.filter(items => items.students.length > 0);
+		
+		let b = a.map(item => item.students);
+		let c = b.map(items => items.join());
+
+		let t = this.examens
+			.filter(item => item.students.length > 0)
+			.map(item => item.students);
+
+		// let t = this.examens.map( item => item.students )
+		// 		.filter( items => items	
+		// 				.filter( item => item != null)
+		// 		.length > 0)
+		// 		.map(arr => arr.join());
 		return	t;
 	}
 
-	countExamensOfDay(){
-		return	this.examens.map(item => item.limit)
-				.reduce( (previus, current) => { 	
-					if ( previus == null ){ previus = 1; }				
-					if ( current == null ){ return previus +1;
-					} else { return previus + current; }
-				 });
+	countExamensOfDay() {
+		return this.examens
+			.map(item => item.isShared ? item.limit: 1)
+			.reduce(function (result, num) {
+				return result + num;
+			}, 0);
 	}
 
 	percentageOneInTwo( x, y ){
