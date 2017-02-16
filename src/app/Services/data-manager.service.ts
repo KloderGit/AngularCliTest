@@ -110,21 +110,23 @@ export class DataManagerService {
   loadExamensFromService(disciplineId: string, year: number, month: number) {
     this.service.getExamensForDiscipline(disciplineId, year, month)
       .then(data => {
-        for (var i = 0; i < data.length; i++) {
-          let ex = ExamenModel.map(data[i]);
-          this.examens.push(ex);
-        }
-        this.messages.addMessage(new Message({
-          title: 'DataManager',
-          content: 'Загружены данные: год - ' + year + ', месяц - ' + (month + 1),
-          type: 'success'
-        }));
-        this.addLoadedMonth({
-          disciplineID: disciplineId,
-          year: year,
-          month: month
-        });
+        if (data) {
+          for (var i = 0; i < data.length; i++) {
+            let ex = ExamenModel.map(data[i]);
+            this.examens.push(ex);
+          }
+          this.messages.addMessage(new Message({
+            title: 'DataManager',
+            content: 'Загружены данные: год - ' + year + ', месяц - ' + (month + 1),
+            type: 'success'
+          }));
+        }  
       });
+    this.addLoadedMonth({
+      disciplineID: disciplineId,
+      year: year,
+      month: month
+    });
   }
 
   getExamensByDiscipline(disciplineId: string) {

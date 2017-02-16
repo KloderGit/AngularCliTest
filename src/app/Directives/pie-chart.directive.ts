@@ -16,8 +16,8 @@ export class PieChartDirective implements OnInit{
     constructor(private element: ElementRef){}
 
     ngOnInit(){
-        this.element.nativeElement.innerHTML = this.percent.dig + ',' + this.percent.in;
-        this.init_plugin();
+        this.element.nativeElement.innerHTML = this.percent.dig + '/' + this.percent.in;
+        this.init_plugin();        
     }
 
     init_plugin(){

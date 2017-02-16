@@ -10,15 +10,10 @@ export class ExamenModel{
 
     students: Array<string>;
 
-    public get getStartTime() : Date {
-        return this.startTime;
-    }
     public set setStartTime(value) {
         this.startTime = new Date(value);
     }
-    public get getEndTime() : Date {
-        return this.endTime;
-    }
+
     public set setEndTime(value) {
         this.endTime = new Date(value);
     }
@@ -31,7 +26,7 @@ export class ExamenModel{
         endTime?: Date,
         isShared?: boolean,
         limit?: number,
-        students?: Array<string>} ) { 
+        students? } ) { 
 
         let ex = new ExamenModel();
         ex.id = object.id || undefined;
@@ -40,7 +35,9 @@ export class ExamenModel{
         ex.disciplineId = object.disciplineId || undefined;
         ex.isShared = object.isShared || undefined;
         ex.limit = object.limit || undefined;
-        ex.students = object.students || [];
+        ex.students = object.students;
+
+
         ex.startTime = new Date(object.startTime) || undefined;
         ex.endTime = new Date(object.endTime) || undefined;
 
