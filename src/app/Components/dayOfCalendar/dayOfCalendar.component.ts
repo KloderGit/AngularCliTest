@@ -18,22 +18,23 @@ export class DayOfCalendarComponent{
 
 	currentStudentsInvited(){
 
-		let a = this.examens.filter(item => !item.isShared)
-			.filter(items => items.students.length > 0);
-		
-		let b = a.map(item => item.students);
-		let c = b.map(items => items.join());
+		// По количеству занятых экзаменов
+		let res = this.examens
+			.filter( examen => examen.students.length > 0)
+			.map( item => item.isShared ? item.limit : 1 )
+			.reduce(function (result, num) {
+				return result.concat(num);
+			}, []);
 
-		let t = this.examens
-			.filter(item => item.students.length > 0)
-			.map(item => item.students);
+		// По записаному народу включая овер запись
+		let res1 = this.examens
+			.filter( examen => examen.students.length > 0)
+			.map( item => item.students )
+			.reduce(function (result, num) {
+				return result.concat(num);
+			}, []);
 
-		// let t = this.examens.map( item => item.students )
-		// 		.filter( items => items	
-		// 				.filter( item => item != null)
-		// 		.length > 0)
-		// 		.map(arr => arr.join());
-		return	t;
+		return	res;
 	}
 
 	countExamensOfDay() {
