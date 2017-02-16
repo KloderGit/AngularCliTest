@@ -9,15 +9,25 @@
    }
 
 
-   $startDate = new DateTime($year . '-' . $month . '-1');
-   $endDate = new DateTime( $year . '-' . $month . '-' . $startDate->format('t') );
+   $startDate = new DateTime($year . '-' . ($month+1) . '-' . '1');
+   $endDate = new DateTime( $year . '-' . ($month+1) . '-' . $startDate->format('t') );
 
-   $filter = array( "IBLOCK_ID" => 21, "PROPERTY_SUBJECT" => $disciplineId,
-                    ">=PROPERTY_DATE_BEGIN" => $startDate, "<=PROPERTY_DATE_END" => $endDate );
+    $filter = array(    "IBLOCK_ID" => 21, 
+                        "PROPERTY_SUBJECT" => $disciplineId,
+                        ">=PROPERTY_DATE_BEGIN" => $startDate->format('Y-m-d H:i:s'),
+                        "<=PROPERTY_DATE_END" => $endDate->format('Y-m-d H:i:s') );
 
-    $result = CIBlockElement::GetList(array("PROPERTY_DATE_BEGIN" => "ASC"), $filter, false, false, array(
-    "ID", "ACTIVE", "PROPERTY_SUBJECT", "PROPERTY_DATE_BEGIN",
-    "PROPERTY_DATE_END", "PROPERTY_STUDENT"));
+    $order = array( "PROPERTY_DATE_BEGIN" => "ASC" );
+
+    $selectFields = array(  "ID",
+                            "ACTIVE",
+                            "PROPERTY_SUBJECT",
+                            "PROPERTY_DATE_BEGIN",
+                            "PROPERTY_DATE_END",
+                            "PROPERTY_NO_INTERVALS",
+                            "PROPERTY_LIMIT" );
+
+    $result = CIBlockElement::GetList( $order, $filter, false, false, $selectFields);
 
     while ($res = $result->Fetch()) {
 
@@ -34,8 +44,10 @@
             "id" => $res["ID"], 
             "active" => $res["ACTIVE"],
             "disciplineId" => $res["PROPERTY_SUBJECT_VALUE"],
-            "startTime" => ConvertDateTime($res["PROPERTY_DATE_BEGIN_VALUE"], "YYYY-MM-DD HH:MI:SS", "ru"),
-            "endTime" => ConvertDateTime($res["PROPERTY_DATE_END_VALUE"], "YYYY-MM-DD HH:MI:SS", "ru"),
+            "startTime" => strtotime(ConvertDateTime($res["PROPERTY_DATE_BEGIN_VALUE"], "YYYY-MM-DD HH:MI:SS", "ru")) * 1000,
+            "endTime" => strtotime(ConvertDateTime($res["PROPERTY_DATE_END_VALUE"], "YYYY-MM-DD HH:MI:SS", "ru")) * 1000,
+            "isShared" => $res["PROPERTY_NO_INTERVALS_VALUE"],
+            "limit" => $res["PROPERTY_LIMIT_VALUE"],
             "students" => $cur_student
         ];
     }

@@ -117,7 +117,7 @@ export class DataManagerService {
           }
           this.messages.addMessage(new Message({
             title: 'DataManager',
-            content: 'Загружены данные: год - ' + year + ', месяц - ' + (month + 1),
+            content: 'Загружены данные: год - ' + year + ', месяц - ' + month,
             type: 'success'
           }));
         }  
