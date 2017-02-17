@@ -19,15 +19,15 @@ export class DayOfCalendarComponent{
 	currentStudentsInvited(){
 
 		// По количеству занятых экзаменов
-		let res = this.examens
-			.filter( examen => examen.students.length > 0)
-			.map( item => item.isShared ? item.limit : 1 )
-			.reduce(function (result, num) {
-				return result.concat(num);
-			}, []);
+		// let res1 = this.examens
+		// 	.filter( examen => examen.students.length > 0)
+		// 	.map( item => item.isShared ? item.limit : 1 )
+		// 	.reduce(function (result, num) {
+		// 		return result.concat(num);
+		// 	}, []);
 
 		// По записаному народу включая овер запись
-		let res1 = this.examens
+		let res = this.examens
 			.filter( examen => examen.students.length > 0)
 			.map( item => item.students )
 			.reduce(function (result, num) {
