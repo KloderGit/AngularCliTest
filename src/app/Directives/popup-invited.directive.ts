@@ -1,14 +1,10 @@
-import { Directive, ElementRef, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Directive, ElementRef, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 declare var $:any;
 
 @Directive({
     selector: '[popup-invited]'
 })
 export class PopupInvitedDirective implements OnInit, OnDestroy{
-    @Input() countExamens: number;
-	@Input() currentStudentsInvited: number;
-	@Input() percentage: number;
-
 	@Output() eventAction = new EventEmitter();
 
     constructor(private element: ElementRef){}
@@ -16,21 +12,14 @@ export class PopupInvitedDirective implements OnInit, OnDestroy{
     ngOnInit(){
 		let popupString: string = `
 			<div class = "content-of-popover">
-				<p><strong>Всего эзаменов: ` + this.countExamens +`</strong></p>
-				<p>Занято - ` + this.currentStudentsInvited + ` (<strong>` + this.percentage + `%</strong>)</p>
-				<div class="dropup">
-				<button class="btn btn-info btn-sm btn-block dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Действия
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-					<li><a id='change-examens-day' data-action='change'>Перенос</a></li>
-					<li><a id='copy-examens-day' data-action='copy'>Копировать</a></li>
-					<li><a id='delete-examens-day' data-action='delete'>Удалить</a></li>
-					<li role="separator" class="divider"></li>
-					<li><a id='edit-examens-day' data-action='edit'>Редактировать</a></li>
-				</ul>
-				</div>				
+				<p><strong>Действия:</strong> </p>
+				<div class="btn-group-vertical" role="group">
+				<button id='change-examens-day' data-action='change' type="button" class="btn btn-info">Перенос</button>
+				<button id='copy-examens-day' data-action='copy' type="button" class="btn btn-info">Копировать</button>
+				<button id='delete-examens-day' data-action='delete' type="button" class="btn btn-danger">Удалить</button>
+				<hr style="margin: 5px;"/>
+				<button id='edit-examens-day' data-action='edit' type="button" class="btn btn-success">Редактировать</button>
+				</div>
 			</div>
 			`;        
 			
