@@ -1,6 +1,6 @@
 import { DataManagerService } from './../../Services/data-manager.service';
 import { ExamenModel } from './../../Models/examen-model';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 declare var $:any;
 
@@ -11,10 +11,28 @@ declare var $:any;
 	styleUrls: ['dayOfCalendar.component.css']
 })
 
-export class DayOfCalendarComponent{
+export class DayOfCalendarComponent implements OnInit{
 	@Input() examens: ExamenModel[];
+	@ViewChild("popupTarget") popupTarget: ElementRef;
+	@ViewChild("popupWindow") popupWindow: ElementRef;
+	
+	elementDOMPositionX: number;
+	elementDOMPositionY: number;
 
-	constructor( private dataManager: DataManagerService) { }
+	constructor(private dataManager: DataManagerService) { }
+	
+	ngOnInit() { 
+		let position = $(this.popupTarget.nativeElement).position();
+		this.elementDOMPositionX = position.left;
+		this.elementDOMPositionY = position.top;
+
+		$(this.popupWindow.nativeElement).offset({ top: this.elementDOMPositionX, left: this.elementDOMPositionY});
+	}
+
+
+	ddd() { 
+		$(this.popupWindow.nativeElement).toggle();
+	}
 
 	currentStudentsInvited(){
 
