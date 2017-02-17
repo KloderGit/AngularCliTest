@@ -3,5 +3,5 @@ export class DisciplineModel {
     title: string;
     teacherId: string;
     active: boolean;
-    format: 'string'
+    format: string;
 }

@@ -17,20 +17,32 @@ export class DayOfCalendarComponent{
 	constructor( private dataManager: DataManagerService) { }
 
 	currentStudentsInvited(){
-		return	this.examens.map( item => item.students )
-				.filter( items => items	
-						.filter( item => item != null)
-				.length > 0)
-				.map(arr => arr.join());
+
+		// По количеству занятых экзаменов
+		// let res1 = this.examens
+		// 	.filter( examen => examen.students.length > 0)
+		// 	.map( item => item.isShared ? item.limit : 1 )
+		// 	.reduce(function (result, num) {
+		// 		return result.concat(num);
+		// 	}, []);
+
+		// По записаному народу включая овер запись
+		let res = this.examens
+			.filter( examen => examen.students.length > 0)
+			.map( item => item.students )
+			.reduce(function (result, num) {
+				return result.concat(num);
+			}, []);
+
+		return	res;
 	}
 
-	countExamensOfDay(){
-		return	this.examens.map(item => item.limit)
-				.reduce( (previus, current) => { 	
-					if ( previus == null ){ previus = 1; }				
-					if ( current == null ){ return previus +1;
-					} else { return previus + current; }
-				 });
+	countExamensOfDay() {
+		return this.examens
+			.map(item => item.isShared ? item.limit: 1)
+			.reduce(function (result, num) {
+				return result + num;
+			}, 0);
 	}
 
 	percentageOneInTwo( x, y ){
