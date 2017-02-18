@@ -1,0 +1,29 @@
+<div #selfElement
+    class="popoverAction">
+  <div class="arrow"></div>
+  <h3 class="popoverAction-title">Действия</h3>
+  <div class="popoverAction-content">
+					<div class="btn-group-vertical" role="group">
+						<button id='change-examens-day' data-action='change' type="button" class="btn btn-sm btn-info">Перенос</button>
+						<button id='copy-examens-day' data-action='copy' type="button" class="btn btn-sm btn-info">Копировать</button>
+
+						<div class="btn-group" role="group">
+							<button type="button" class="btn btn-sm btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Удаление
+							</button>
+							<ul class="dropdown-menu" style="padding:7px; text-align: ctnter">
+							<li><p>Подтвердите удаление</p></li>
+							<li>
+								<div class="btn-group btn-group-sm" role="group">
+									<button id='delete-examens-day' data-action='delete' type="button" class="btn btn-sm btn-success">Удалить</button>
+									<button type="button" class="btn btn-danger">Нет</button>
+								</div>
+							</li>
+							</ul>
+						</div>
+
+						<hr style="margin: 5px;"/>
+						<button id='edit-examens-day' data-action='edit' type="button" class="btn btn-sm btn-success">Редактировать</button>
+					</div>
+  </div>
+</div>

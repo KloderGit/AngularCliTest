@@ -1,25 +1,23 @@
-<div  class="dayOfCalendar" >
-<!--<button #popupTarget (click)="ddd()" style="z-index: 100"> sasdasd </button>-->
+<div #selfElement
+     class="dayOfCalendar" >
+    <span class="percent_invited">{{ percentageOneInTwo( currentStudentsInvited().length, countExamensOfDay() ) }}%</span>
 
-<div #popupWindow class="popupWindow">
-    asdasd
-</div>
-    <!--<span class="percent_invited">{{ percentageOneInTwo( currentStudentsInvited().length, countExamensOfDay() ) }}%</span>-->
+    <div #popupWrapper style="position: relative; width: 60px; margin: 0 auto;">
+        <a class="day-popover" 
+        (click) = "popupWindow()">
+                <span pie-chart class="pie-chart" 
+                    [innerRadius]="25" 
+                    [radius]="28" 
+                    [percent]="{ dig: currentStudentsInvited().length, in: countExamensOfDay() }">
+                </span>
+        </a>
+            <popupActionOfDay [initialElement] = 'popupWrapper'></popupActionOfDay>
 
-    <a #popupTarget (click)="ddd()">
-            <span pie-chart class="pie-chart" 
-                [innerRadius]="25" 
-                [radius]="28" 
-                [percent]="{ dig: currentStudentsInvited().length, in: countExamensOfDay() }">
-            </span>
-    </a>
-
+    </div>
 
     <span  class="student_invited">{{currentStudentsInvited().length}}</span>
     <span class="examens_count">{{countExamensOfDay()}}</span>
 
 
-
-
-
 </div>
+

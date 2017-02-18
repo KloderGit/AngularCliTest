@@ -13,26 +13,11 @@ declare var $:any;
 
 export class DayOfCalendarComponent implements OnInit{
 	@Input() examens: ExamenModel[];
-	@ViewChild("popupTarget") popupTarget: ElementRef;
-	@ViewChild("popupWindow") popupWindow: ElementRef;
-	
-	elementDOMPositionX: number;
-	elementDOMPositionY: number;
+	@ViewChild("selfElement") selfElement: ElementRef;
 
 	constructor(private dataManager: DataManagerService) { }
 	
-	ngOnInit() { 
-		let position = $(this.popupTarget.nativeElement).position();
-		this.elementDOMPositionX = position.left;
-		this.elementDOMPositionY = position.top;
-
-		$(this.popupWindow.nativeElement).offset({ top: this.elementDOMPositionX, left: this.elementDOMPositionY});
-	}
-
-
-	ddd() { 
-		$(this.popupWindow.nativeElement).toggle();
-	}
+	ngOnInit() {}
 
 	currentStudentsInvited(){
 
@@ -54,6 +39,18 @@ export class DayOfCalendarComponent implements OnInit{
 
 		return	res;
 	}
+
+popupWindow(){
+	let childrenPopup = $(this.selfElement.nativeElement).find('.popoverAction');
+
+	if( childrenPopup.is(':visible') ){
+		childrenPopup.hide();
+	} else {
+		$('.popoverAction').hide();
+		childrenPopup.show();
+	}
+}
+
 
 	countExamensOfDay() {
 		return this.examens
