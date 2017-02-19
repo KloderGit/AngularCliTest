@@ -11,7 +11,7 @@
                     [percent]="{ dig: currentStudentsInvited().length, in: countExamensOfDay() }">
                 </span>
         </a>
-            <popupActionOfDay [initialElement] = 'popupWrapper'></popupActionOfDay>
+            <popupActionOfDay [initialElement] = 'popupWrapper' (eventAction) = "onAction($event)"></popupActionOfDay>
 
     </div>
 

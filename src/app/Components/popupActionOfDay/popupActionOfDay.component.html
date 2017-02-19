@@ -1,29 +1,49 @@
-<div #selfElement
-    class="popoverAction">
+<div #selfElement class="popoverAction">
   <div class="arrow"></div>
   <h3 class="popoverAction-title">Действия</h3>
   <div class="popoverAction-content">
-					<div class="btn-group-vertical" role="group">
-						<button id='change-examens-day' data-action='change' type="button" class="btn btn-sm btn-info">Перенос</button>
-						<button id='copy-examens-day' data-action='copy' type="button" class="btn btn-sm btn-info">Копировать</button>
-
-						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-sm btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <div class="btn-group-vertical" role="group" style="position: relative">
+      <button (click)="selectDayChange()" type="button" class="btn btn-sm btn-info">Перенос</button>
+      <div class="selectDayChange">
+        <div class="dateOverflow">
+          <div class="input-group">
+            <input #selectChange air-datapicker [view]="{ view: 'days', minView: 'days'}" [inline]="false" [dateFormat]="'dd/mm/yyyy'"
+              [altFieldDateFormat]="'yyyy-mm-dd'" type="text" id="{{selectDayForChange + randomId}}" class="form-control" placeholder="Дата" />
+            <span class="input-group-btn">
+        		<button class="btn btn-primary btn-sm" type="button" (click)="changeDate( selectChange.id )">Выполнить</button>
+      		</span>
+          </div>
+        </div>
+      </div>
+      <button (click)="selectDayCopy()" type="button" class="btn btn-sm btn-info">Скопировать</button>
+      <div class="selectDayCopy">
+        <div class="dateOverflow">
+          <div class="input-group">
+            <input #selectCopy air-datapicker [view]="{ view: 'days', minView: 'days'}" [inline]="false" [dateFormat]="'dd/mm/yyyy'"
+              [altFieldDateFormat]="'yyyy:m'" type="text" id="{{generateCopyId()}}" class="form-control" placeholder="Дата" />
+            <span class="input-group-btn">
+        		<button class="btn btn-primary btn-sm" type="button" (click)="copyDate( selectCopy.id )">Выполнить</button>
+      		</span>
+          </div>
+        </div>
+      </div>      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-sm btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Удаление
 							</button>
-							<ul class="dropdown-menu" style="padding:7px; text-align: ctnter">
-							<li><p>Подтвердите удаление</p></li>
-							<li>
-								<div class="btn-group btn-group-sm" role="group">
-									<button id='delete-examens-day' data-action='delete' type="button" class="btn btn-sm btn-success">Удалить</button>
-									<button type="button" class="btn btn-danger">Нет</button>
-								</div>
-							</li>
-							</ul>
-						</div>
-
-						<hr style="margin: 5px;"/>
-						<button id='edit-examens-day' data-action='edit' type="button" class="btn btn-sm btn-success">Редактировать</button>
-					</div>
+        <ul class="dropdown-menu" style="padding:7px; text-align: ctnter">
+          <li>
+            <p>Подтвердите удаление</p>
+          </li>
+          <li>
+            <div class="btn-group btn-group-sm" role="group">
+              <button (click)="onActionEvent('delete')" type="button" class="btn btn-sm btn-primary">Удалить</button>
+              <button type="button" class="btn btn-default">Нет</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <hr style="margin: 5px;" />
+      <button (click)="onActionEvent('edit')" type="button" class="btn btn-sm btn-success">Редактировать</button>
+    </div>
   </div>
 </div>

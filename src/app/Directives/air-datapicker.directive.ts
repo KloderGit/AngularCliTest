@@ -28,6 +28,8 @@ export class AirDataPickerDirective implements OnInit, OnDestroy{
             `
         );
 
+        console.log(this.element.nativeElement.id, '----------');
+
         $(this.element.nativeElement).datepicker({
             view: this.view.view,
             minView: this.view.minView,

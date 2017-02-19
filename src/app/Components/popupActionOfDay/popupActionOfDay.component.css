@@ -1,7 +1,7 @@
 .popoverAction {
     position: absolute;
     display: none;
-    z-index: 1060;
+    z-index: 50;
     max-width: 276px;
     padding: 1px;
     background-color: #fff;
@@ -25,4 +25,14 @@
 
 .popoverAction-content {
     padding: 9px 14px;
+}
+
+.selectDayChange, .selectDayCopy{
+    height: 45px;
+    display: none;
+}
+
+.dateOverflow{
+    position: absolute;
+    width: 190px;
 }
