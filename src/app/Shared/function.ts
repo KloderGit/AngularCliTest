@@ -15,3 +15,7 @@ export function diffTime( start: Date, end: Date, type?: string ){
 
 		return res;
 }
+
+export function random(min, max){
+    return Math.round(Math.random() * (max - min) + min);
+}

@@ -8,9 +8,9 @@
         <div class="dateOverflow">
           <div class="input-group">
             <input #selectChange air-datapicker [view]="{ view: 'days', minView: 'days'}" [inline]="false" [dateFormat]="'dd/mm/yyyy'"
-              [altFieldDateFormat]="'yyyy-mm-dd'" type="text" id="{{selectDayForChange + randomId}}" class="form-control" placeholder="Дата" />
+              [altFieldDateFormat]="'yyyy-mm-dd'" type="text" class="form-control" placeholder="Дата" />
             <span class="input-group-btn">
-        		<button class="btn btn-primary btn-sm" type="button" (click)="changeDate( selectChange.id )">Выполнить</button>
+        		<button class="btn btn-primary btn-sm" type="button" (click)="changeDate( selectChange )">Выполнить</button>
       		</span>
           </div>
         </div>
@@ -20,9 +20,9 @@
         <div class="dateOverflow">
           <div class="input-group">
             <input #selectCopy air-datapicker [view]="{ view: 'days', minView: 'days'}" [inline]="false" [dateFormat]="'dd/mm/yyyy'"
-              [altFieldDateFormat]="'yyyy:m'" type="text" id="{{generateCopyId()}}" class="form-control" placeholder="Дата" />
+              [altFieldDateFormat]="'yyyy-mm-dd'" type="text" class="form-control" placeholder="Дата" />
             <span class="input-group-btn">
-        		<button class="btn btn-primary btn-sm" type="button" (click)="copyDate( selectCopy.id )">Выполнить</button>
+        		<button class="btn btn-primary btn-sm" type="button" (click)="copyDate( selectCopy )">Выполнить</button>
       		</span>
           </div>
         </div>

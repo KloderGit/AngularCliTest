@@ -1,5 +1,7 @@
 import { Directive, ElementRef, OnInit, Input, OnDestroy } from '@angular/core';
 import "../../../node_modules/air-datepicker/dist/js/datepicker.min"
+import { random } from './../Shared/function';
+
 declare var $:any;
 
 @Directive({
@@ -12,23 +14,19 @@ export class AirDataPickerDirective implements OnInit, OnDestroy{
     @Input() dateFormat: string;
     @Input() timepicker: boolean = false;
     @Input() altFieldDateFormat: string;
-    
+
+    altFieldId = 'AlternateField' + random(10, 10000);
+
     constructor(private element: ElementRef){}
 
-    ngOnInit(){
+    ngOnInit() {
         this.init_plugin();
     }
 
     init_plugin(){
         $(this.element.nativeElement).parent().append(
-            `<input 
-                style="display: none"
-                type="text"
-                id="` + this.element.nativeElement.id  + `-alternate"/>
-            `
+            '<input style="display: none" type="text" id="' + this.altFieldId  + '"/>'
         );
-
-        console.log(this.element.nativeElement.id, '----------');
 
         $(this.element.nativeElement).datepicker({
             view: this.view.view,
@@ -36,7 +34,7 @@ export class AirDataPickerDirective implements OnInit, OnDestroy{
             inline: this.inline,
             dateFormat: this.dateFormat,
             autoClose: true,
-			altField: "#" + this.element.nativeElement.id  + "-alternate",
+            altField: "#" + this.altFieldId,
 			altFieldDateFormat: this.altFieldDateFormat,
             showOtherMonths: true,
             timepicker: this.timepicker

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { random } from './../../Shared/function';
 
 declare var $: any;
 
@@ -15,11 +16,7 @@ export class PopupActionOfDayComponent implements OnInit {
 
 	@Output() eventAction = new EventEmitter();
 
-	randomId: number;
-
-	constructor(){
-		this.randomId = this.random(100, 1000);
-	}
+	constructor(){}
 
 	ngOnInit() {
 		this.initialElement = $(this.initialElement);
@@ -30,32 +27,24 @@ export class PopupActionOfDayComponent implements OnInit {
 		let selfHeight = $(this.selfElement.nativeElement).height();
 
 		$(this.selfElement.nativeElement).offset({	top: 0 - selfHeight - 10, 
-													left: 0 - selfWith/2 + wraperWidth/2});
-
+			left: 0 - selfWith / 2 + wraperWidth / 2
+		});
 	}
 
 	onActionEvent( action: string ){
 		this.eventAction.emit( action );
 	}
 
-	changeDate( id ){
-		let res = $('#' + id + '-alternate' ).val();
-
-		console.log(id, new Date(res));
+	changeDate( inputElement ) {
+		let altInputId = $(inputElement).siblings('input').attr('id');
+		let value = $('#' + altInputId).val();
+		this.onActionEvent('change');
 	}
 
-	copyDate( id ){
-		let res = $('#' + id + '-alternate' ).val();
-
-		console.log(id, new Date(res));
-	}
-
-	generateCopyId(){
-		return 'selectDayForCopy' + this.randomId;
-	}
-
-	random(min, max){
-		return Math.round( Math.random() * (max - min) + min );
+	copyDate(inputElement ){
+		let altInputId = $(inputElement).siblings('input').attr('id');
+		let value = $('#' + altInputId).val();
+		this.onActionEvent('copy');
 	}
 
 	selectDayChange(){
