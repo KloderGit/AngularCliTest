@@ -11,7 +11,12 @@
                     [percent]="{ dig: currentStudentsInvited().length, in: countExamensOfDay() }">
                 </span>
         </a>
-            <popupActionOfDay [initialElement] = 'popupWrapper' (eventAction) = "onAction($event)"></popupActionOfDay>
+            <popupActionOfDay   [initialElement] = 'popupWrapper' 
+                                (onChange) = "changeExamens($event)"
+                                (onCopy) = "copyExamens($event)"
+                                (onDelete) = "deleteExamens()"
+                                (onEdit) = "editExamens()">
+            </popupActionOfDay>
 
     </div>
 

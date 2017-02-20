@@ -14,7 +14,10 @@ export class PopupActionOfDayComponent implements OnInit {
 	@Input() initialElement;
 	@ViewChild("selfElement") selfElement: ElementRef;
 
-	@Output() eventAction = new EventEmitter();
+	@Output() onChange = new EventEmitter();
+	@Output() onCopy = new EventEmitter();
+	@Output() onDelete = new EventEmitter();
+	@Output() onEdit = new EventEmitter();
 
 	constructor(){}
 
@@ -31,20 +34,28 @@ export class PopupActionOfDayComponent implements OnInit {
 		});
 	}
 
-	onActionEvent( action: string ){
-		this.eventAction.emit( action );
-	}
+	// onActionEvent( action: string ){
+	// 	this.eventAction.emit( action );
+	// }
 
 	changeDate( inputElement ) {
 		let altInputId = $(inputElement).siblings('input').attr('id');
 		let value = $('#' + altInputId).val();
-		this.onActionEvent('change');
+		this.onChange.emit( new Date(value) );
 	}
 
-	copyDate(inputElement ){
+	copyDate( inputElement ){
 		let altInputId = $(inputElement).siblings('input').attr('id');
 		let value = $('#' + altInputId).val();
-		this.onActionEvent('copy');
+		this.onCopy.emit( new Date(value) );
+	}
+
+	deleteExamens() {
+		this.onDelete.emit();
+	}
+
+	editExamens() {
+		this.onEdit.emit();
 	}
 
 	selectDayChange(){

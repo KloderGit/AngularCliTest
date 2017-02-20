@@ -40,17 +40,16 @@ export class DayOfCalendarComponent implements OnInit{
 		return	res;
 	}
 
-popupWindow(){
-	let childrenPopup = $(this.selfElement.nativeElement).find('.popoverAction');
+	popupWindow(){
+		let childrenPopup = $(this.selfElement.nativeElement).find('.popoverAction');
 
-	if( childrenPopup.is(':visible') ){
-		childrenPopup.hide();
-	} else {
-		$('.popoverAction').hide();
-		childrenPopup.show();
+		if( childrenPopup.is(':visible') ){
+			childrenPopup.hide();
+		} else {
+			$('.popoverAction').hide();
+			childrenPopup.show();
+		}
 	}
-}
-
 
 	countExamensOfDay() {
 		return this.examens
@@ -62,23 +61,6 @@ popupWindow(){
 
 	percentageOneInTwo( x, y ){
 		return Math.floor( 100 / ( y / x ));
-	}
-
-	onAction( action ){
-		switch (action) {
-			case 'delete':
-				this.deleteExamens(); 
-				break;
-			case 'copy':
-				this.copyExamens(new Date);
-				break;
-			case 'change':
-				this.changeExamens(new Date());
-				break;
-			case 'edit':
-				this.editExamens();
-				break;
-		} 
 	}
 
 	deleteExamens() { 

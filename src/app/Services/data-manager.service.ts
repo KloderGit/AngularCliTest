@@ -172,7 +172,19 @@ export class DataManagerService {
   }
 
 
-  copyExamens(array: ExamenModel[], date) {
+  copyExamens(array: ExamenModel[], date: Date) {  
+
+    let dateIsLoaded: boolean = this.getLoadedMonth(array[0].disciplineId).filter(item => item.year == date.getFullYear())
+      .filter(item => item.month == date.getMonth()).length > 0;
+    
+    if (!dateIsLoaded) { 
+      this.messages.addMessage(new Message({
+        title: 'DataManager',
+        content: 'Месяц для копирования не загружен. Перед копированием загрузите целевой месяц.',
+        type: 'danger'
+      }));
+      return;
+    }
 
     let newExamens: ExamenModel[] = [];
 
@@ -217,6 +229,19 @@ export class DataManagerService {
   }
 
   changeExamensDate(array: ExamenModel[], date) {
+
+    let dateIsLoaded: boolean = this.getLoadedMonth(array[0].disciplineId).filter(item => item.year == date.getFullYear())
+      .filter(item => item.month == date.getMonth()).length > 0;
+
+    if (!dateIsLoaded) {
+      this.messages.addMessage(new Message({
+        title: 'DataManager',
+        content: 'Месяц для переноса не загружен. Перед переносом загрузите целевой месяц.',
+        type: 'danger'
+      }));
+      return;
+    }
+
     array.forEach(item => {
       item.startTime.setFullYear(date.getFullYear());
       item.endTime.setFullYear(date.getFullYear());
