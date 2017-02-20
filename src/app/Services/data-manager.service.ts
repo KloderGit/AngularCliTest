@@ -1,3 +1,4 @@
+import { Response } from '@angular/http';
 import {
   FormExamenViewModel
 } from './../Models/form-objects.model';
@@ -22,6 +23,18 @@ import {
   Injectable
 } from '@angular/core';
 
+
+
+import { Http } from '@angular/http';
+import { Headers } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
+
+
+
+
 @Injectable()
 export class DataManagerService {
 
@@ -35,7 +48,7 @@ export class DataManagerService {
     month: number
   }[] = [];
 
-  constructor(private service: ServiceJsonService,
+  constructor(private service: ServiceJsonService, private http: Http,
     private messages: MessagesService) {
     console.log('Создание DataManager');
 
@@ -250,5 +263,25 @@ export class DataManagerService {
       item.startTime.setDate(date.getDate());
       item.endTime.setDate(date.getDate());
     });
+
+
+    const body = JSON.stringify(array);
+
+    let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
+
+    let r = this.http.post('http://dev.fitness-pro.ru/updateExamens.php', body, { headers: headers })
+      .toPromise()
+      .then((res) => {
+        let array = res.json();
+        console.log(array);
+        debugger;
+
+        return array;
+      }
+      );
+
+
+
+
   }
 }
