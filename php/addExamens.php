@@ -15,7 +15,6 @@ foreach ($objectsArray as $element) {
         "IBLOCK_ID" => 21,
         "MODIFIED_BY" => 33,
         "NAME" => "Тест создания",
-        "CODE" => "nazvanie-elementa" . rand(5, 1500),
         "PROPERTY_VALUES" => array(
                 "SUBJECT" => $element["disciplineId"],
                 "DATE_BEGIN" => ConvertTimeStamp( strtotime($element["startTime"]), 'FULL'),
@@ -66,7 +65,7 @@ foreach ($objectsArray as $element) {
             "endTime" => strtotime(ConvertDateTime($res["PROPERTY_DATE_END_VALUE"], "YYYY-MM-DD HH:MI:SS", "ru")) * 1000,
             "isShared" => $res["PROPERTY_NO_INTERVALS_VALUE"] == "Да"? true: false,
             "limit" => $res["PROPERTY_LIMIT_VALUE"],
-            "students" => $cur_student
+            "students" => []
         ];
     }
 
