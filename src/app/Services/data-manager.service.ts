@@ -248,20 +248,32 @@ export class DataManagerService {
     }));
   }
 
+
+
+
   deleteExamens(array: ExamenModel[]) {
-    let cnt = 0;
-    for (let i = 0; i < array.length; i++) {
-      let indx = this.examens.indexOf(array[i]);
-      if (indx != -1) {
-        this.examens.splice(indx, 1);
-        cnt += 1;
+    const body = JSON.stringify(array.map( item => item.id));
+    let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
+
+    this.http.post('http://dev.fitness-pro.ru/deleteExamens.php', body, { headers: headers })
+      .toPromise()
+      .then(res => {
+        let data = res.json()
+        let cnt = 0;
+        for (let i = 0; i < data.length; i++) {
+          let indx = this.examens.map( item => item.id).indexOf(data[i]);
+          if (indx != -1) {
+            this.examens.splice(indx, 1);
+            cnt += 1;
+          }
+        }        
+        this.messages.addMessage(new Message({
+          title: 'DataManager',
+          content: 'Удалено ' + cnt + ' экзаменов.',
+          type: 'success'
+        }));        
       }
-    }
-    this.messages.addMessage(new Message({
-      title: 'DataManager',
-      content: 'Удалено ' + cnt + ' экзаменов.',
-      type: 'success'
-    }));
+    );
   }
 
   changeExamensDate(array: ExamenModel[], date) {
