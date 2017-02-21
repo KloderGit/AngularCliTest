@@ -1,0 +1,49 @@
+<div #selfElement class="popoverAction">
+  <div class="arrow"></div>
+  <h3 class="popoverAction-title">Действия</h3>
+  <div class="popoverAction-content">
+    <div class="btn-group-vertical" role="group" style="position: relative">
+      <button (click)="selectDayChange()" type="button" class="btn btn-sm btn-info">Перенос</button>
+      <div class="selectDayChange">
+        <div class="dateOverflow">
+          <div class="input-group">
+            <input #selectChange air-datapicker [view]="{ view: 'days', minView: 'days'}" [inline]="false" [dateFormat]="'dd/mm/yyyy'"
+              [altFieldDateFormat]="'yyyy-mm-dd'" type="text" class="form-control" placeholder="Дата" />
+            <span class="input-group-btn">
+        		<button class="btn btn-primary btn-sm" type="button" (click)="changeDate( selectChange )">Выполнить</button>
+      		</span>
+          </div>
+        </div>
+      </div>
+      <button (click)="selectDayCopy()" type="button" class="btn btn-sm btn-info">Скопировать</button>
+      <div class="selectDayCopy">
+        <div class="dateOverflow">
+          <div class="input-group">
+            <input #selectCopy air-datapicker [view]="{ view: 'days', minView: 'days'}" [inline]="false" [dateFormat]="'dd/mm/yyyy'"
+              [altFieldDateFormat]="'yyyy-mm-dd'" type="text" class="form-control" placeholder="Дата" />
+            <span class="input-group-btn">
+        		<button class="btn btn-primary btn-sm" type="button" (click)="copyDate( selectCopy )">Выполнить</button>
+      		</span>
+          </div>
+        </div>
+      </div>      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-sm btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Удаление
+							</button>
+        <ul class="dropdown-menu" style="padding:7px; text-align: ctnter">
+          <li>
+            <p>Подтвердите удаление</p>
+          </li>
+          <li>
+            <div class="btn-group btn-group-sm" role="group">
+              <button (click)="deleteExamens()" type="button" class="btn btn-sm btn-primary">Удалить</button>
+              <button type="button" class="btn btn-default">Нет</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <hr style="margin: 5px;" />
+      <button (click)="editExamens()" type="button" class="btn btn-sm btn-success">Редактировать</button>
+    </div>
+  </div>
+</div>

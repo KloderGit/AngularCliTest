@@ -11,8 +11,15 @@
         <span class="input-group-addon" id="basic-addon1">
           <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </span>
-        <input #selectAnyMonth air-datapicker [view]="{ view: 'months', minView: 'months'}" [inline]="false" [dateFormat]="'MM yyyy'"
-          [altFieldDateFormat]="'yyyy:m'" type="text" id="selectMonts" class="form-control" placeholder="Выбор месяца" />
+        <input  #selectAnyMonth 
+                air-datapicker 
+                [view]="{ view: 'months', minView: 'months'}" 
+                [inline]="false" [dateFormat]="'MM yyyy'"
+                [altFieldDateFormat]="'yyyy:m'" 
+                type="text" 
+                id="selectMonts" 
+                class="form-control" 
+                placeholder="Выбор месяца" />
         <span class="input-group-btn">
         <button class="btn btn-primary btn-block" type="button" (click)="loadAnyMonth( selectAnyMonth )">Загрузить</button>
       </span>

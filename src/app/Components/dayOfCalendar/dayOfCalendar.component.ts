@@ -1,6 +1,6 @@
 import { DataManagerService } from './../../Services/data-manager.service';
 import { ExamenModel } from './../../Models/examen-model';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 declare var $:any;
 
@@ -11,10 +11,13 @@ declare var $:any;
 	styleUrls: ['dayOfCalendar.component.css']
 })
 
-export class DayOfCalendarComponent{
+export class DayOfCalendarComponent implements OnInit{
 	@Input() examens: ExamenModel[];
+	@ViewChild("selfElement") selfElement: ElementRef;
 
-	constructor( private dataManager: DataManagerService) { }
+	constructor(private dataManager: DataManagerService) { }
+	
+	ngOnInit() {}
 
 	currentStudentsInvited(){
 
@@ -37,6 +40,17 @@ export class DayOfCalendarComponent{
 		return	res;
 	}
 
+	popupWindow(){
+		let childrenPopup = $(this.selfElement.nativeElement).find('.popoverAction');
+
+		if( childrenPopup.is(':visible') ){
+			childrenPopup.hide();
+		} else {
+			$('.popoverAction').hide();
+			childrenPopup.show();
+		}
+	}
+
 	countExamensOfDay() {
 		return this.examens
 			.map(item => item.isShared ? item.limit: 1)
@@ -47,23 +61,6 @@ export class DayOfCalendarComponent{
 
 	percentageOneInTwo( x, y ){
 		return Math.floor( 100 / ( y / x ));
-	}
-
-	onAction( action ){
-		switch (action) {
-			case 'delete':
-				this.deleteExamens(); 
-				break;
-			case 'copy':
-				this.copyExamens(new Date);
-				break;
-			case 'change':
-				this.changeExamens(new Date());
-				break;
-			case 'edit':
-				this.editExamens();
-				break;
-		} 
 	}
 
 	deleteExamens() { 

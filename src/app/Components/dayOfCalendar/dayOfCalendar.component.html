@@ -1,22 +1,28 @@
-<div *ngIf="examens.length" class="dayOfCalendar" >
-    <!--Сколько экзменов занято-->
-    <span>{{ percentageOneInTwo( currentStudentsInvited().length, countExamensOfDay() ) }}%</span>
+<div #selfElement
+     class="dayOfCalendar" >
+    <span class="percent_invited">{{ percentageOneInTwo( currentStudentsInvited().length, countExamensOfDay() ) }}%</span>
 
-    <a  popup-invited 
-        (eventAction) = "onAction($event)"
-        [countExamens] = "countExamensOfDay()"
-        [currentStudentsInvited] = "currentStudentsInvited().length"
-        [percentage] = "percentageOneInTwo( currentStudentsInvited().length, countExamensOfDay() )"
-        class="day-popover" 
-        data-container="body" 
-        data-toggle="popover" 
-        data-placement="top">
+    <div #popupWrapper style="position: relative; width: 60px; margin: 0 auto;">
+        <a class="day-popover" 
+        (click) = "popupWindow()">
+                <span pie-chart class="pie-chart" 
+                    [innerRadius]="25" 
+                    [radius]="28" 
+                    [percent]="{ dig: currentStudentsInvited().length, in: countExamensOfDay() }">
+                </span>
+        </a>
+            <popupActionOfDay   [initialElement] = 'popupWrapper' 
+                                (onChange) = "changeExamens($event)"
+                                (onCopy) = "copyExamens($event)"
+                                (onDelete) = "deleteExamens()"
+                                (onEdit) = "editExamens()">
+            </popupActionOfDay>
 
-            <span   pie-chart
-                    class="pie-chart"
-                    [innerRadius] = "25"
-                    [radius] = "28"
-                    [percent] = "{ dig: currentStudentsInvited().length, in: countExamensOfDay() }">
-            </span>                    
-    </a>
+    </div>
+
+    <span  class="student_invited">{{currentStudentsInvited().length}}</span>
+    <span class="examens_count">{{countExamensOfDay()}}</span>
+
+
 </div>
+

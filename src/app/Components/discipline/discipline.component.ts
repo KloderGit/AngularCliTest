@@ -47,8 +47,9 @@ export class DisciplineComponent implements OnInit {
 		this.dataManager.loadExamensFromService( this.discipline.id, year, month );
 	}
 
-	loadAnyMonth( inputElement ){
-		let anyMonth = this.alternateFieldForDatePicker(inputElement);
+	loadAnyMonth(inputElement) {
+		let altInputId = $(inputElement).siblings('input').attr('id');
+		let anyMonth = $('#' + altInputId).val();
 
 		if ( anyMonth =="" || anyMonth == undefined){	
 			return;
@@ -68,8 +69,4 @@ export class DisciplineComponent implements OnInit {
 		return this.dataManager.getExamensByDiscipline( this.discipline.id );
 	}	
 
-	alternateFieldForDatePicker( inputElement ): string{
-		let altElementID = inputElement.id + '-alternate'
-		return $('#' + altElementID ).val();
-	}
 }

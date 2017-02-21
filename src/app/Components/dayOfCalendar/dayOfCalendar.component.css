@@ -1,16 +1,85 @@
 .dayOfCalendar {
-    width: 60px;
+    /*width: 60px;*/
     height: 60px;
     margin: 0 auto;
     position: relative;
     text-align: center;
-    line-height: 60px;
+    /*line-height: 60px;*/
     font-size: small;
 }
 
-.dayOfCalendar > .day-popover{
+.dayOfCalendar .day-popover{
     display: block;
+    position: relative;
+    cursor: pointer;
+    width: 55px;
+    height: 55px;
+    margin: 0 auto;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.dayOfCalendar .day-popover:hover {
+     background: rgba(0, 170, 238, 0.1);
+}
+
+/*.dayOfCalendar a{
+    text-decoration: none;
+    color: #333;
+}*/
+
+.dayOfCalendar .student_invited, .dayOfCalendar .examens_count {
+    position: absolute;
+    border-radius: 50%;
+    background-color: #d9f4ff;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    /*border: 1px solid #bcd0de;*/
+}
+
+.dayOfCalendar .student_invited{
+    top: 7px;
+    right: -5px;
+}
+
+.dayOfCalendar .examens_count {
+    bottom: 7px;
+    right: -5px;
+}
+
+
+.dayOfCalendar .percent_invited{
+    display: block;
+    width: 100%;
+    height: 100%;
     position: absolute;
     top: 0;
-    cursor: pointer;
+    text-align: center;
+    line-height: 60px;
 }
+/*
+
+.popupWindow{
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    line-break: auto;
+}
+
+.popover-title {
+    padding: 8px 14px;
+    margin: 0;
+    font-size: 14px;
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ebebeb;
+    border-radius: 5px 5px 0 0;
+}*/

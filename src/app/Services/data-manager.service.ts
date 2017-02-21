@@ -1,3 +1,5 @@
+import { examenAddDTO } from './../DTO/exaxmensAddDTO';
+import { Response } from '@angular/http';
 import {
   FormExamenViewModel
 } from './../Models/form-objects.model';
@@ -22,6 +24,18 @@ import {
   Injectable
 } from '@angular/core';
 
+
+
+import { Http } from '@angular/http';
+import { Headers } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
+
+
+
+
 @Injectable()
 export class DataManagerService {
 
@@ -35,7 +49,7 @@ export class DataManagerService {
     month: number
   }[] = [];
 
-  constructor(private service: ServiceJsonService,
+  constructor(private service: ServiceJsonService, private http: Http,
     private messages: MessagesService) {
     console.log('Создание DataManager');
 
@@ -151,18 +165,40 @@ export class DataManagerService {
 
   addExamens(objects: FormExamenViewModel[], type: string, discplineID: string) {
 
+    let prefExamens = [];
+    
     for (let i = 0; i < objects.length; i++) {
-      let ex = new ExamenModel();
-      ex.id = "new";
+      let ex = new examenAddDTO();
       ex.disciplineId = discplineID;
-      ex.startTime = objects[i].start;
-      ex.endTime = objects[i].end;
+      ex.startTime = objects[i].start.toUTCString();
+      ex.endTime = objects[i].end.toUTCString();
       ex.isShared = type == 'collective' ? true : false;
       ex.limit = objects[i].count;
-      ex.students = [];
 
-      this.examens.push(ex);
+      prefExamens.push(ex);
     }
+
+    const body = JSON.stringify(prefExamens);
+    let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
+
+    this.http.post('http://dev.fitness-pro.ru/addExamens.php', body, { headers: headers })
+      .toPromise()
+      .then(res => {
+        let data = res.json()
+        if (data) {
+          for (var i = 0; i < data.length; i++) {
+            let ex = ExamenModel.map(data[i]);
+            this.examens.push(ex);
+          }
+          this.messages.addMessage(new Message({
+            title: 'DataManager',
+            content: 'Успешно добавлено - ' + data.length + ' экзаменов.',
+            type: 'success'
+          }));
+        }  
+      }
+    );
+
 
     this.messages.addMessage(new Message({
       title: 'DataManager',
@@ -172,7 +208,19 @@ export class DataManagerService {
   }
 
 
-  copyExamens(array: ExamenModel[], date) {
+  copyExamens(array: ExamenModel[], date: Date) {  
+
+    let dateIsLoaded: boolean = this.getLoadedMonth(array[0].disciplineId).filter(item => item.year == date.getFullYear())
+      .filter(item => item.month == date.getMonth()).length > 0;
+    
+    if (!dateIsLoaded) { 
+      this.messages.addMessage(new Message({
+        title: 'DataManager',
+        content: 'Месяц для копирования не загружен. Перед копированием загрузите целевой месяц.',
+        type: 'danger'
+      }));
+      return;
+    }
 
     let newExamens: ExamenModel[] = [];
 
@@ -217,6 +265,19 @@ export class DataManagerService {
   }
 
   changeExamensDate(array: ExamenModel[], date) {
+
+    let dateIsLoaded: boolean = this.getLoadedMonth(array[0].disciplineId).filter(item => item.year == date.getFullYear())
+      .filter(item => item.month == date.getMonth()).length > 0;
+
+    if (!dateIsLoaded) {
+      this.messages.addMessage(new Message({
+        title: 'DataManager',
+        content: 'Месяц для переноса не загружен. Перед переносом загрузите целевой месяц.',
+        type: 'danger'
+      }));
+      return;
+    }
+
     array.forEach(item => {
       item.startTime.setFullYear(date.getFullYear());
       item.endTime.setFullYear(date.getFullYear());
@@ -225,5 +286,25 @@ export class DataManagerService {
       item.startTime.setDate(date.getDate());
       item.endTime.setDate(date.getDate());
     });
+
+
+    const body = JSON.stringify(array);
+
+    let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
+
+    let r = this.http.post('http://dev.fitness-pro.ru/updateExamens.php', body, { headers: headers })
+      .toPromise()
+      .then((res) => {
+        let array = res.json();
+        console.log(array);
+        debugger;
+
+        return array;
+      }
+      );
+
+
+
+
   }
 }

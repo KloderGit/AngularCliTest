@@ -1,0 +1,38 @@
+.popoverAction {
+    position: absolute;
+    display: none;
+    z-index: 50;
+    max-width: 276px;
+    padding: 1px;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.popoverAction-title {
+    padding: 8px 14px;
+    margin: 0;
+    font-size: 14px;
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ebebeb;
+    border-radius: 5px 5px 0 0;
+}
+
+.popoverAction-content {
+    padding: 9px 14px;
+}
+
+.selectDayChange, .selectDayCopy{
+    height: 45px;
+    display: none;
+}
+
+.dateOverflow{
+    position: absolute;
+    width: 190px;
+}

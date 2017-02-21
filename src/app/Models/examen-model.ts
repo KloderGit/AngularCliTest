@@ -47,6 +47,8 @@ export class ExamenModel{
         ex.startTime = new Date(object.startTime);
         ex.endTime = new Date(object.endTime);
 
+        console.log('Маппинг объекта - ', ex);
+
         return ex;
     }
 }
