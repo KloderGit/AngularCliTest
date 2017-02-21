@@ -1,3 +1,4 @@
+import { examenAddDTO } from './../DTO/exaxmensAddDTO';
 import { Response } from '@angular/http';
 import {
   FormExamenViewModel
@@ -164,18 +165,40 @@ export class DataManagerService {
 
   addExamens(objects: FormExamenViewModel[], type: string, discplineID: string) {
 
+    let prefExamens = [];
+    
     for (let i = 0; i < objects.length; i++) {
-      let ex = new ExamenModel();
-      ex.id = "new";
+      let ex = new examenAddDTO();
       ex.disciplineId = discplineID;
-      ex.startTime = objects[i].start;
-      ex.endTime = objects[i].end;
+      ex.startTime = objects[i].start.toUTCString();
+      ex.endTime = objects[i].end.toUTCString();
       ex.isShared = type == 'collective' ? true : false;
       ex.limit = objects[i].count;
-      ex.students = [];
 
-      this.examens.push(ex);
+      prefExamens.push(ex);
     }
+
+    const body = JSON.stringify(prefExamens);
+    let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
+
+    this.http.post('http://dev.fitness-pro.ru/addExamens.php', body, { headers: headers })
+      .toPromise()
+      .then(res => {
+        let data = res.json()
+        if (data) {
+          for (var i = 0; i < data.length; i++) {
+            let ex = ExamenModel.map(data[i]);
+            this.examens.push(ex);
+          }
+          this.messages.addMessage(new Message({
+            title: 'DataManager',
+            content: 'Успешно добавлено - ' + data.length + ' экзаменов.',
+            type: 'success'
+          }));
+        }  
+      }
+    );
+
 
     this.messages.addMessage(new Message({
       title: 'DataManager',
