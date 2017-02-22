@@ -249,8 +249,6 @@ export class DataManagerService {
   }
 
 
-
-
   deleteExamens(array: ExamenModel[]) {
     const body = JSON.stringify(array.map( item => item.id));
     let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
@@ -304,19 +302,14 @@ export class DataManagerService {
 
     let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
 
-    let r = this.http.post('http://dev.fitness-pro.ru/updateExamens.php', body, { headers: headers })
+    let r = this.http.post('http://dev.fitness-pro.ru/perenosExamens.php', body, { headers: headers })
       .toPromise()
       .then((res) => {
         let array = res.json();
         console.log(array);
-        debugger;
-
         return array;
       }
       );
-
-
-
 
   }
 }
