@@ -4,13 +4,8 @@ CModule::IncludeModule('iblock');
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-$set_start_time = '21.02.2017 20:10:00';
-$set_end_time = '21.02.2017 20:30:00';
-
-
 $arrayID = array_map(
 	function( $item ){
-		// print_r($item);
 		return intval( $item["id"] );
 	}, $data
 );
@@ -36,7 +31,8 @@ $errorUpdate = array();
     $cur_student = array();
     $db_props = CIBlockElement::GetProperty(21, $res["ID"], 
 		array("sort" => "asc"), 
-		Array("CODE"=>"STUDENT"));
+		Array("CODE"=>"STUDENT")
+	);
 
     while ($ob = $db_props->GetNext())
     {
@@ -45,27 +41,25 @@ $errorUpdate = array();
         }
     }
 
-
 	$el = new CIBlockElement;
 
 	$PROP = array();
-	        $PROP[263] = $dataObject["disciplineId"];
+	$PROP[263] = $dataObject["disciplineId"];
+	$PROP[261] = ConvertTimeStamp( strtotime( $dataObject["startTime"]), 'FULL' );			
+	$PROP[264] = ConvertTimeStamp( strtotime( $dataObject["endTime"]), 'FULL' );
+	$PROP[265] = ConvertTimeStamp( strtotime( $dataObject["startTime"]), 'SHORT' );
+	$PROP[266] = ConvertTimeStamp( strtotime( $dataObject["startTime"]), 'SHORT' );
+	$PROP[267] = $cur_student;
+	$PROP[312] = $dataObject["isShared"] ? array("VALUE"=>"122") : null;
+	$PROP[313] = $dataObject["limit"];
 
-			$PROP[261] = ConvertTimeStamp( strtotime( $dataObject["startTime"]), 'FULL' );			
-			$PROP[264] = ConvertTimeStamp( strtotime( $dataObject["endTime"]), 'FULL' );
-			$PROP[265] = ConvertTimeStamp( strtotime( $dataObject["startTime"]), 'SHORT' );
-	        $PROP[266] = ConvertTimeStamp( strtotime( $dataObject["startTime"]), 'SHORT' );
-
-	        $PROP[267] = $cur_student;
-	        $PROP[312] = $dataObject["isShared"];
-	        $PROP[313] = $dataObject["limit"];
-
-			$arLoadProductArray = Array(
-				"IBLOCK_ID"      => 21,
-				"PROPERTY_VALUES"=> $PROP
-				);
+	$valuesArray = Array(
+		"IBLOCK_ID"      => 21,
+		"PROPERTY_VALUES"=> $PROP
+	);
     
-    if( $el->Update($res["ID"], $arLoadProductArray) ){
+
+    if( $el->Update($res["ID"], $valuesArray) ){
 		$succesUpdate[] = $res["ID"];
 	} else {
 		$errorUpdate = $res["ID"];
