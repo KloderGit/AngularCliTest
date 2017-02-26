@@ -14,6 +14,7 @@ $query = CIBlockElement::GetList( array(), array( "ID"=>$arrayID ), false, false
     array(
         "ID",
         "ACTIVE",
+		"NAME",
         "PROPERTY_SUBJECT",
         "PROPERTY_DATE_BEGIN",
         "PROPERTY_DATE_END",
@@ -55,10 +56,10 @@ $errorUpdate = array();
 
 	$valuesArray = Array(
 		"IBLOCK_ID"      => 21,
+		"NAME" => $res["NAME"] . '. Перенесен на ' . ConvertTimeStamp( strtotime( $dataObject["startTime"]), 'SHORT' ),
 		"PROPERTY_VALUES"=> $PROP
 	);
     
-
     if( $el->Update($res["ID"], $valuesArray) ){
 		$succesUpdate[] = $res["ID"];
 	} else {
