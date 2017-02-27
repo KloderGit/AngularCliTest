@@ -92,11 +92,14 @@ export class ExamensAddComponent implements OnInit {
 		console.log('Сохраняем экзамен');
 
 		this.dataManager.addExamens( this.formObj.getFormResult(), this.formObj.type, this.disciplineId)
-			.then( i => {
-				console.log('Экзамен сохранен', i);
-
-						this.router.navigate(['/discipline', this.disciplineId ]);
-
+			.then(i => {
+				if (i) {
+					console.log('Экзамен сохранен', i);
+					this.router.navigate(['/discipline', this.disciplineId]);
+				} else { 
+					console.log( i);
+					return;
+				}
 			} )
 	}
 }

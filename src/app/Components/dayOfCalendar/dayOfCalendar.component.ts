@@ -2,6 +2,7 @@ import { MessagesService, Message } from './../../Services/messages.service';
 import { DataManagerService } from './../../Services/data-manager.service';
 import { ExamenModel } from './../../Models/examen-model';
 import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 declare var $:any;
 
@@ -16,7 +17,9 @@ export class DayOfCalendarComponent implements OnInit{
 	@Input() examens: ExamenModel[];
 	@ViewChild("selfElement") selfElement: ElementRef;
 
-	constructor(private dataManager: DataManagerService, private messages: MessagesService) { }
+	constructor(private dataManager: DataManagerService,
+		private messages: MessagesService,
+		private router: Router) { }
 	
 	ngOnInit() {
 		$(this.selfElement.nativeElement).tooltip(
@@ -26,6 +29,7 @@ export class DayOfCalendarComponent implements OnInit{
 			}
 		);
 	}
+
 
 	currentStudentsInvited(){
 
@@ -130,7 +134,7 @@ export class DayOfCalendarComponent implements OnInit{
 	}
 
 	editExamens() { 
-		console.log('Переход к редактированию');
+		this.router.navigate(['/editexamens', + this.examens[0].startTime, this.examens[0].disciplineId ] );
 	}
 }
 

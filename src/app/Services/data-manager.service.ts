@@ -147,6 +147,13 @@ export class DataManagerService {
     return this.examens.filter(item => item.disciplineId == disciplineId);
   }
 
+  getExamensByDate(disciplineId: string, date: Date) {
+    return this.examens.filter(item => item.disciplineId == disciplineId)
+      .filter(item => item.startTime.getFullYear() == date.getFullYear())
+      .filter(item => item.startTime.getMonth() == date.getMonth())
+      .filter(item => item.startTime.getDate() == date.getDate());    
+  }  
+
   addExamen(inObject: any) {
     for (let i = 0; i < inObject.length; i++) {
 
