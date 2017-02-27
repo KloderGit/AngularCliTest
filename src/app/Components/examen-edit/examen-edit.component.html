@@ -22,13 +22,14 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of examens; let count = index">
-                <th scope="row">{{count+1}}</th>
+            <tr *ngFor="let item of formModel; let count = index">
+                <td>{{count+1}}</td>
                 <td>{{timeString(item)}}</td>
-                <td>Otto</td>
+                <td>{{item?.students | json}}</td>
                 <td>@mdo</td>
                 <td>@mdo</td>
             </tr>
+            <tr #edit></tr>
         </tbody>
     </table>
 </div>

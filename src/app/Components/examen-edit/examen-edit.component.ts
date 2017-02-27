@@ -1,3 +1,7 @@
+import { FormEditItem } from './../../Models/form-examen-edit-model';
+import { CommentModel } from './../../Models/comments-model';
+import { RateModel } from './../../Models/rate-model';
+import { StudentModel } from './../../Models/student-model';
 import { ExamenModel } from './../../Models/examen-model';
 import { DataManagerService } from './../../Services/data-manager.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,6 +20,8 @@ export class ExamenEditComponent implements OnInit {
 	discipline: DisciplineModel;
 	examens: ExamenModel[];
 
+	formModel: FormEditItem[];
+
 	constructor(private route: ActivatedRoute,
 		private router: Router,
 		private dataManager: DataManagerService) {
@@ -33,14 +39,28 @@ export class ExamenEditComponent implements OnInit {
 			this.date.setHours(0, 0, 0);
 
 			this.discipline = this.dataManager.getDisciplineByID(disciplineId);
-
 			this.examens = this.dataManager.getExamensByDate(this.discipline.id, this.date);
+
+			this.formModelInit();
 		}
 	}
 
-	timeString(examen: ExamenModel) { 
-		return addFirstZero(examen.startTime.getHours()) + ':' + addFirstZero(examen.startTime.getMinutes())
-			+ ' - ' + addFirstZero(examen.endTime.getHours()) + ':' + addFirstZero(examen.endTime.getMinutes());
+	formModelInit() { 
+		for (let i = 0; i < this.examens.length; i++) { 
+			let count = this.examens[i].limit;
+
+			for (let j = 0; j < count; j++) { 
+				let editItem = new FormEditItem();
+				editItem.startTime = this.examens[i].startTime;
+				editItem.endTime = this.examens[i].endTime;
+				this.formModel.push(editItem);
+			}
+		}
+	}
+
+	timeString(formItem: { start: Date, end: Date } ) { 
+		return addFirstZero(formItem.start.getHours()) + ':' + addFirstZero(formItem.start.getMinutes())
+			+ ' - ' + addFirstZero(formItem.end.getHours()) + ':' + addFirstZero(formItem.end.getMinutes());
 	}	
 
 }
