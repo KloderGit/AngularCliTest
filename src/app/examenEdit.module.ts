@@ -1,3 +1,4 @@
+import { ExamenEditItemModelComponent } from './Components/examen-edit-item-model/examen-edit-item-model.component';
 import { ExamenEditComponent } from './Components/examen-edit/examen-edit.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from "@angular/common";
@@ -9,6 +10,6 @@ export const routerConfig = [{
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(routerConfig)],
-    declarations: [ExamenEditComponent]
+    declarations: [ExamenEditComponent, ExamenEditItemModelComponent]
 })
 export default class ExamensAddModule { }

@@ -11,25 +11,7 @@
 </div>
 
 <div class="col-xs-12">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th  width=30>#</th>
-                <th  width=150>Время</th>
-                <th>Студент</th>
-                <th width=100>Результат</th>
-                <th  width=80>Комментарии</th>                
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of formModel; let count = index">
-                <td>{{count+1}}</td>
-                <td>{{timeString(item)}}</td>
-                <td>{{item?.students | json}}</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-            </tr>
-            <tr #edit></tr>
-        </tbody>
-    </table>
+    <div class="row">
+        <examen-edit-item-model *ngFor="let item of formModel; let count = index" [model] = "item"></examen-edit-item-model>
+    </div>
 </div>

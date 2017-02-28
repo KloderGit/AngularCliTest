@@ -109,9 +109,8 @@ export class ServiceJsonService {
             return array;
         },
             err => {
-                console.log(111);
                 this.messages.addMessage(new Message({
-                    title: 'DataManager',
+                    title: 'Service',
                     content: err,
                     type: 'danger'
                 }));
@@ -129,11 +128,34 @@ export class ServiceJsonService {
             .then(res => {
                 return res.json();
             },
-                err => {
-                    return { mes: 'Ошибка получения данных'}
-                }
+            err => {
+                this.messages.addMessage(new Message({
+                    title: 'Service',
+                    content: err,
+                    type: 'danger'
+                }));
+            }
             );        
-    }    
+    }
+
+
+    getStudents(array: number[]) { 
+        let body = JSON.stringify(array);
+
+        return this.http.get('http://dev.fitness-pro.ru/getStudents.php?students=' + body)
+            .toPromise()
+            .then(res => {
+                return res.json();
+            },
+            err => {
+                this.messages.addMessage(new Message({
+                    title: 'Service',
+                    content: err,
+                    type: 'danger'
+                }));
+            }
+            );          
+    }
 }
 
 

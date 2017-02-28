@@ -340,8 +340,6 @@ export class DataManagerService {
       }
     )
     .catch( err => {
-                      console.log(222);
-
         this.messages.addMessage(new Message({
           title: 'DataManager',
           content: err,
@@ -349,5 +347,18 @@ export class DataManagerService {
         }));
         return false; 
     });
+  }
+
+  getStudents( array: any[] ) { 
+    let result = [];
+
+    for (let i = 0; i < array.length; i++) { 
+      result.push( parseInt(array[i]) );
+    }
+
+    return this.service.getStudents(result)
+      .then(data => { 
+        return data;
+      });
   }
 }

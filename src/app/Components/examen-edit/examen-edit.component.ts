@@ -20,7 +20,9 @@ export class ExamenEditComponent implements OnInit {
 	discipline: DisciplineModel;
 	examens: ExamenModel[];
 
-	formModel: FormEditItem[];
+	students: StudentModel[] = [];
+
+	formModel: FormEditItem[] = [];
 
 	constructor(private route: ActivatedRoute,
 		private router: Router,
@@ -42,25 +44,43 @@ export class ExamenEditComponent implements OnInit {
 			this.examens = this.dataManager.getExamensByDate(this.discipline.id, this.date);
 
 			this.formModelInit();
+		
 		}
 	}
 
 	formModelInit() { 
-		for (let i = 0; i < this.examens.length; i++) { 
-			let count = this.examens[i].limit;
 
-			for (let j = 0; j < count; j++) { 
-				let editItem = new FormEditItem();
-				editItem.startTime = this.examens[i].startTime;
-				editItem.endTime = this.examens[i].endTime;
-				this.formModel.push(editItem);
+		let studenstID = this.examens.filter(item => item.students.length > 0)
+			.map(item => item.students)
+			.reduce(function (result, num) {
+				return result.concat(num);
+			}, []);
+
+		this.dataManager.getStudents(studenstID).then(data => {
+			for (let i = 0; i < data.length; i++) {
+				let student = new StudentModel();
+				student.id = parseInt(data[i].id);
+				student.name = data[i].name;
+				student.phone = data[i].phone;
+				student.skype = data[i].skype;
+				student.email = data[i].email;
+				this.students.push(student);
 			}
-		}
-	}
 
-	timeString(formItem: { start: Date, end: Date } ) { 
-		return addFirstZero(formItem.start.getHours()) + ':' + addFirstZero(formItem.start.getMinutes())
-			+ ' - ' + addFirstZero(formItem.end.getHours()) + ':' + addFirstZero(formItem.end.getMinutes());
-	}	
+			for (let i = 0; i < this.examens.length; i++) {
+				let item = this.examens[i];
+				let count = item.limit;
+
+				for (let j = 0; j < count; j++) {
+					let editItem = new FormEditItem();
+					editItem.startTime = item.startTime;
+					editItem.endTime = item.endTime;
+					editItem.student = this.students[this.students.map(item => item.id).indexOf( parseInt(this.examens[i].students[j]) )];
+					this.formModel.push(editItem);
+				}
+			}
+		});	
+
+	}
 
 }
