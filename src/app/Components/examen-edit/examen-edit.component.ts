@@ -49,38 +49,83 @@ export class ExamenEditComponent implements OnInit {
 	}
 
 	formModelInit() { 
+		for (let i = 0; i < this.examens.length; i++) {
+			let item = this.examens[i];
+			let count = item.limit || 1;
 
-		let studenstID = this.examens.filter(item => item.students.length > 0)
+			if ( item.students.length > (item.limit || 1) ) { 
+				count = item.students.length;
+			}
+
+			for (let j = 0; j < count; j++) {
+				let editItem = new FormEditItem();
+				editItem.startTime = item.startTime;
+				editItem.endTime = item.endTime;
+				editItem.student = item.students[j];
+				this.formModel.push(editItem);
+			}
+		}
+
+
+
+	}
+
+
+	ddd() { 
+		let studenstIDForRequest = this.examens.filter(item => item.students.length > 0)
 			.map(item => item.students)
 			.reduce(function (result, num) {
 				return result.concat(num);
 			}, []);
 
-		this.dataManager.getStudents(studenstID).then(data => {
+		this.dataManager.getStudents(studenstIDForRequest).then(data => {
 			for (let i = 0; i < data.length; i++) {
-				let student = new StudentModel();
-				student.id = parseInt(data[i].id);
-				student.name = data[i].name;
-				student.phone = data[i].phone;
-				student.skype = data[i].skype;
-				student.email = data[i].email;
+				let student = new StudentModel(parseInt(data[i].id), data[i].name, data[i].phone, data[i].skype, data[i].email);
 				this.students.push(student);
 			}
 
-			for (let i = 0; i < this.examens.length; i++) {
-				let item = this.examens[i];
-				let count = item.limit;
+			for (let j = 0; j < this.formModel.length; j++) {
+				let curentStudent = this.formModel[j].student;
 
-				for (let j = 0; j < count; j++) {
-					let editItem = new FormEditItem();
-					editItem.startTime = item.startTime;
-					editItem.endTime = item.endTime;
-					editItem.student = this.students[this.students.map(item => item.id).indexOf( parseInt(this.examens[i].students[j]) )];
-					this.formModel.push(editItem);
-				}
+				this.formModel[j].student = this.students[this.students.map(item => item.id).indexOf(parseInt(curentStudent))];
 			}
-		});	
-
+		});		
 	}
+
+
+	// formModelInit() { 
+
+	// 	let studenstID = this.examens.filter(item => item.students.length > 0)
+	// 		.map(item => item.students)
+	// 		.reduce(function (result, num) {
+	// 			return result.concat(num);
+	// 		}, []);
+
+	// 	this.dataManager.getStudents(studenstID).then(data => {
+	// 		for (let i = 0; i < data.length; i++) {
+	// 			let student = new StudentModel();
+	// 			student.id = parseInt(data[i].id);
+	// 			student.name = data[i].name;
+	// 			student.phone = data[i].phone;
+	// 			student.skype = data[i].skype;
+	// 			student.email = data[i].email;
+	// 			this.students.push(student);
+	// 		}
+
+	// 		for (let i = 0; i < this.examens.length; i++) {
+	// 			let item = this.examens[i];
+	// 			let count = item.limit;
+
+	// 			for (let j = 0; j < count; j++) {
+	// 				let editItem = new FormEditItem();
+	// 				editItem.startTime = item.startTime;
+	// 				editItem.endTime = item.endTime;
+	// 				editItem.student = this.students[this.students.map(item => item.id).indexOf( parseInt(this.examens[i].students[j]) )];
+	// 				this.formModel.push(editItem);
+	// 			}
+	// 		}
+	// 	});	
+
+	// }
 
 }

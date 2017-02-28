@@ -11,6 +11,7 @@ import { addFirstZero } from './../../Shared/function';
 export class ExamenEditItemModelComponent implements OnInit {
 
 	@Input() model: FormEditItem;
+	@Input() iterator: number;
 
 	ngOnInit() {
 		

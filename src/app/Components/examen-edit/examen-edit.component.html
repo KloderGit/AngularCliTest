@@ -5,13 +5,16 @@
             <p>Редактирование экзамена</p>
         </div>
         <div class="col-sm-5">
-            <p>Дата: {{ date }}</p>
+            <p>Дата проведения:<br/>
+            {{ date }}</p>
         </div>
     </div>
 </div>
 
 <div class="col-xs-12">
     <div class="row">
-        <examen-edit-item-model *ngFor="let item of formModel; let count = index" [model] = "item"></examen-edit-item-model>
+        <examen-edit-item-model *ngFor="let item of formModel; let count = index" [model] = "item" [iterator] = "count+1"></examen-edit-item-model>
     </div>
 </div>
+
+<button (click)="ddd()">ssssssssssss</button>
