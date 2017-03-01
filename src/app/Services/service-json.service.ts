@@ -156,6 +156,24 @@ export class ServiceJsonService {
             }
             );          
     }
+
+    getRates(array: number[]) {
+        let body = JSON.stringify(array);
+
+        return this.http.get('http://dev.fitness-pro.ru/getRates.php?id=' + body)
+            .toPromise()
+            .then(res => {
+                return res.json();
+            },
+            err => {
+                this.messages.addMessage(new Message({
+                    title: 'Service',
+                    content: err,
+                    type: 'danger'
+                }));
+            }
+            );
+    }    
 }
 
 

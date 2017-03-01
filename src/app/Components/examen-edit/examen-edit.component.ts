@@ -66,66 +66,43 @@ export class ExamenEditComponent implements OnInit {
 			}
 		}
 
-
+		this.fillFormModel();
 
 	}
 
 
-	ddd() { 
-		let studenstIDForRequest = this.examens.filter(item => item.students.length > 0)
-			.map(item => item.students)
-			.reduce(function (result, num) {
-				return result.concat(num);
-			}, []);
+	fillFormModel() { 
+		// С учетом того, что все студенты разнесены по элементам для формы
+		let studenstIDForRequest = this.formModel.filter(item => item.student).map(item => item.student);
 
+		// Выбор id студентов из всех экзаменов
+		// let studenstIDForRequest = this.examens.filter(item => item.students.length > 0)
+		// 	.map(item => item.students)
+		// 	.reduce(function (result, num) {
+		// 		return result.concat(num);
+		// 	}, []);
+		
 		this.dataManager.getStudents(studenstIDForRequest).then(data => {
 			for (let i = 0; i < data.length; i++) {
-				let student = new StudentModel(parseInt(data[i].id), data[i].name, data[i].phone, data[i].skype, data[i].email);
-				this.students.push(student);
+				let formElement = this.formModel[studenstIDForRequest.indexOf(parseInt(data[i].id))];
+				formElement.student = new StudentModel(parseInt(data[i].id), data[i].name, data[i].phone, data[i].skype, data[i].email);
+			}
+			return this.examens;
+		}).then(examens => { 
+			let examenIDForRequest = this.examens.map(item => item.id);
+			let studentIDArray = this.formModel.filter(item => item.student)
+				.map(item => item.student.id);
+			
+			this.dataManager.getRates(examenIDForRequest).then(rates => { 
+				for (let i = 0; i < rates.length; i++) {
+					let formElement = this.formModel[studentIDArray.indexOf(parseInt(rates[i].studentID))];
+					formElement.rate = new RateModel(rates[i].id, rates[i].examenID, rates[i].studentID, rates[i].rate);
+				}
 			}
 
-			for (let j = 0; j < this.formModel.length; j++) {
-				let curentStudent = this.formModel[j].student;
-
-				this.formModel[j].student = this.students[this.students.map(item => item.id).indexOf(parseInt(curentStudent))];
-			}
-		});		
+			);
+			}			
+		);
 	}
-
-
-	// formModelInit() { 
-
-	// 	let studenstID = this.examens.filter(item => item.students.length > 0)
-	// 		.map(item => item.students)
-	// 		.reduce(function (result, num) {
-	// 			return result.concat(num);
-	// 		}, []);
-
-	// 	this.dataManager.getStudents(studenstID).then(data => {
-	// 		for (let i = 0; i < data.length; i++) {
-	// 			let student = new StudentModel();
-	// 			student.id = parseInt(data[i].id);
-	// 			student.name = data[i].name;
-	// 			student.phone = data[i].phone;
-	// 			student.skype = data[i].skype;
-	// 			student.email = data[i].email;
-	// 			this.students.push(student);
-	// 		}
-
-	// 		for (let i = 0; i < this.examens.length; i++) {
-	// 			let item = this.examens[i];
-	// 			let count = item.limit;
-
-	// 			for (let j = 0; j < count; j++) {
-	// 				let editItem = new FormEditItem();
-	// 				editItem.startTime = item.startTime;
-	// 				editItem.endTime = item.endTime;
-	// 				editItem.student = this.students[this.students.map(item => item.id).indexOf( parseInt(this.examens[i].students[j]) )];
-	// 				this.formModel.push(editItem);
-	// 			}
-	// 		}
-	// 	});	
-
-	// }
 
 }

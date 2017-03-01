@@ -361,4 +361,18 @@ export class DataManagerService {
         return data;
       });
   }
+
+  getRates(array: any[]) {
+    let result = [];
+
+    for (let i = 0; i < array.length; i++) {
+      result.push(parseInt(array[i]));
+    }
+
+    return this.service.getRates(result)
+      .then(data => {
+        return data;
+      });
+  } 
+
 }
