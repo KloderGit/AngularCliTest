@@ -88,8 +88,18 @@ export class ExamensAddComponent implements OnInit {
 
 	saveExamens(){
 		let ttt = this.formObj.getFormResult();
-		this.dataManager.addExamens( this.formObj.getFormResult(), this.formObj.type, this.disciplineId);
 
-		this.router.navigate(['/discipline', this.disciplineId ]);
+		console.log('Сохраняем экзамен');
+
+		this.dataManager.addExamens( this.formObj.getFormResult(), this.formObj.type, this.disciplineId)
+			.then(i => {
+				if (i) {
+					console.log('Экзамен сохранен', i);
+					this.router.navigate(['/discipline', this.disciplineId]);
+				} else { 
+					console.log( i);
+					return;
+				}
+			} )
 	}
 }

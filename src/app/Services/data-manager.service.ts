@@ -147,6 +147,13 @@ export class DataManagerService {
     return this.examens.filter(item => item.disciplineId == disciplineId);
   }
 
+  getExamensByDate(disciplineId: string, date: Date) {
+    return this.examens.filter(item => item.disciplineId == disciplineId)
+      .filter(item => item.startTime.getFullYear() == date.getFullYear())
+      .filter(item => item.startTime.getMonth() == date.getMonth())
+      .filter(item => item.startTime.getDate() == date.getDate());    
+  }  
+
   addExamen(inObject: any) {
     for (let i = 0; i < inObject.length; i++) {
 
@@ -168,23 +175,18 @@ export class DataManagerService {
     let prefExamens = [];
     
     for (let i = 0; i < objects.length; i++) {
-      let ex = new examenAddDTO();
+      let ex = new ExamenModel();
       ex.disciplineId = discplineID;
-      ex.startTime = objects[i].start.toUTCString();
-      ex.endTime = objects[i].end.toUTCString();
+      ex.startTime = objects[i].start;
+      ex.endTime = objects[i].end;      
       ex.isShared = type == 'collective' ? true : false;
       ex.limit = objects[i].count;
 
       prefExamens.push(ex);
     }
 
-    const body = JSON.stringify(prefExamens);
-    let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
-
-    this.http.post('http://dev.fitness-pro.ru/addExamens.php', body, { headers: headers })
-      .toPromise()
-      .then(res => {
-        let data = res.json()
+    return this.service.addExamens( prefExamens )
+      .then( data => {
         if (data) {
           for (var i = 0; i < data.length; i++) {
             let ex = ExamenModel.map(data[i]);
@@ -192,19 +194,24 @@ export class DataManagerService {
           }
           this.messages.addMessage(new Message({
             title: 'DataManager',
-            content: 'Успешно добавлено - ' + data.length + ' экзаменов.',
+            content: 'Успешно добавлено - ' + data.length + ' экзамен/ов.',
             type: 'success'
           }));
-        }  
+        } 
+        // else {
+        //   throw new Error("Новых экзаменов не добавлено.");
+        // }
+        return true;
       }
-    );
-
-
-    this.messages.addMessage(new Message({
-      title: 'DataManager',
-      content: 'Созданы экзамены для ' + (type == 'collective' ? objects[0].count : objects.length) + ' студентов.',
-      type: 'success'
-    }));
+    )
+    .catch( err => {
+        this.messages.addMessage(new Message({
+          title: 'DataManager',
+          content: err,
+          type: 'danger'
+        }));
+        return false; 
+    });
   }
 
 
@@ -232,33 +239,43 @@ export class DataManagerService {
       ex.endTime.setFullYear(date.getFullYear());
       ex.endTime.setMonth(date.getMonth());
       ex.endTime.setDate(date.getDate());
+      ex.students = [];
 
       newExamens.push(ex);
     }
 
+    return this.service.copyExamens(newExamens)
+      .then( data => {
+        if (data) {
+          for (var i = 0; i < data.length; i++) {
+            let ex = ExamenModel.map(data[i]);
+            this.examens.push(ex);
+          }
+        }
+        this.messages.addMessage(new Message({
+          title: 'DataManager',
+          content: 'Успешно добавлено - ' + data.length + ' экзаменов.',
+          type: 'success'
+        }));
+        return true;
+      }
+    )
+    .catch( err => {
+        this.messages.addMessage(new Message({
+          title: 'DataManager',
+          content: err,
+          type: 'danger'
+        }));
+        return false; 
+    });
 
-    for (let i = 0; i < newExamens.length; i++) {
-      this.examens.push(newExamens[i]);
-    }
-
-    this.messages.addMessage(new Message({
-      title: 'DataManager',
-      content: 'Скопированно ' + array.length + ' экзаменов.',
-      type: 'success'
-    }));
   }
 
 
-
-
   deleteExamens(array: ExamenModel[]) {
-    const body = JSON.stringify(array.map( item => item.id));
-    let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
-
-    this.http.post('http://dev.fitness-pro.ru/deleteExamens.php', body, { headers: headers })
-      .toPromise()
-      .then(res => {
-        let data = res.json()
+    return this.service.deleteExamens(array)
+      .then( data => {
+        // let data = res.json();
         let cnt = 0;
         for (let i = 0; i < data.length; i++) {
           let indx = this.examens.map( item => item.id).indexOf(data[i]);
@@ -271,52 +288,91 @@ export class DataManagerService {
           title: 'DataManager',
           content: 'Удалено ' + cnt + ' экзаменов.',
           type: 'success'
-        }));        
+        }));
+        return true;      
       }
-    );
+    )
+    .catch( err => {
+        this.messages.addMessage(new Message({
+          title: 'DataManager',
+          content: err,
+          type: 'danger'
+        }));
+        return false; 
+    });
   }
 
   changeExamensDate(array: ExamenModel[], date) {
 
-    let dateIsLoaded: boolean = this.getLoadedMonth(array[0].disciplineId).filter(item => item.year == date.getFullYear())
-      .filter(item => item.month == date.getMonth()).length > 0;
+    let newExamens: ExamenModel[] = [];
 
-    if (!dateIsLoaded) {
-      this.messages.addMessage(new Message({
-        title: 'DataManager',
-        content: 'Месяц для переноса не загружен. Перед переносом загрузите целевой месяц.',
-        type: 'danger'
-      }));
-      return;
+    for (let i = 0; i < array.length; i++) {
+      let ex = ExamenModel.map(array[i]);
+      ex.startTime.setFullYear(date.getFullYear());
+      ex.startTime.setMonth(date.getMonth());
+      ex.startTime.setDate(date.getDate());
+      ex.endTime.setFullYear(date.getFullYear());
+      ex.endTime.setMonth(date.getMonth());
+      ex.endTime.setDate(date.getDate());
+
+      newExamens.push(ex);
+    }   
+
+    return this.service.changeExamens(newExamens)
+      .then( data => {
+        for(let i = 0; i < data.length; i++ ){
+          let indxObj = array.map( item => item.id ).indexOf( data[i] );
+          let exObj = array[indxObj];
+          exObj.startTime.setFullYear(date.getFullYear());
+          exObj.endTime.setFullYear(date.getFullYear());
+          exObj.startTime.setMonth(date.getMonth());
+          exObj.endTime.setMonth(date.getMonth());
+          exObj.startTime.setDate(date.getDate());
+          exObj.endTime.setDate(date.getDate());
+        }
+       
+        this.messages.addMessage(new Message({
+          title: 'DataManager',
+          content: 'Перенесено ' + data.length + ' экзамен\ов.',
+          type: 'success'
+        }));        
+        return true;      
+      }
+    )
+    .catch( err => {
+        this.messages.addMessage(new Message({
+          title: 'DataManager',
+          content: err,
+          type: 'danger'
+        }));
+        return false; 
+    });
+  }
+
+  getStudents( array: any[] ) { 
+    let result = [];
+
+    for (let i = 0; i < array.length; i++) { 
+      result.push( parseInt(array[i]) );
     }
 
-    array.forEach(item => {
-      item.startTime.setFullYear(date.getFullYear());
-      item.endTime.setFullYear(date.getFullYear());
-      item.startTime.setMonth(date.getMonth());
-      item.endTime.setMonth(date.getMonth());
-      item.startTime.setDate(date.getDate());
-      item.endTime.setDate(date.getDate());
-    });
-
-
-    const body = JSON.stringify(array);
-
-    let headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
-
-    let r = this.http.post('http://dev.fitness-pro.ru/updateExamens.php', body, { headers: headers })
-      .toPromise()
-      .then((res) => {
-        let array = res.json();
-        console.log(array);
-        debugger;
-
-        return array;
-      }
-      );
-
-
-
-
+    return this.service.getStudents(result)
+      .then(data => { 
+        return data;
+      });
   }
+
+  getRates(array: any[]) {
+    let result = [];
+
+    for (let i = 0; i < array.length; i++) {
+      result.push(parseInt(array[i]));
+    }
+
+    return this.service.getRates(result)
+      .then(data => {
+        return data;
+      });
+  } 
+
 }
