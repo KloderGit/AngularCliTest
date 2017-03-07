@@ -9,7 +9,8 @@ declare var $:any;
 
 @Component({
 	selector: 'discipline',
-	templateUrl: 'discipline.component.html'
+	templateUrl: 'discipline.component.html',
+	styleUrls: [ 'discipline.component.css' ]
 })
 
 export class DisciplineComponent implements OnInit {

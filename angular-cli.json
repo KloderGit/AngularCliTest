@@ -19,7 +19,6 @@
       "mobile": false,
       "styles": [
         "styles.css",
-        "../node_modules/bootstrap3/dist/css/bootstrap.min.css",
         "../node_modules/air-datepicker/dist/css/datepicker.min.css"
       ],
       "scripts": [

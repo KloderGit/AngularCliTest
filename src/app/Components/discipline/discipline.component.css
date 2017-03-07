@@ -1,3 +1,32 @@
-.discipline {
-
+.app-page-header{
+    display: flex;
+        flex-direction: column;
+    width: 80%;
+    justify-content: space-around;
+    align-items: stretch;
+    margin: 20px auto;
 }
+
+.app-page-title{
+    margin-bottom: 15px;
+}
+
+.app-page-title h1{
+    font-size: 24pt;
+}
+
+
+hr {
+  margin-top: 5px;
+  border: 0;
+  border-top: 1px solid #eee;
+  height: 0;
+  box-sizing: content-box;
+}
+
+.app-select-month{
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+

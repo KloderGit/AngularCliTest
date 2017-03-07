@@ -1,35 +1,30 @@
-<div class="jumbotron text-center">
-  <div class="row">
-    <div class="col-sm-7">
-      <h2>{{discipline?.title}}</h2>
-      <p>Планирование экзаменов</p>
+<div class="app-page-header center">
+  <div class="app-page-title">
+    <h1>{{discipline?.title}}</h1>
+    <p>Планирование экзаменов</p>    
+  </div>
+
+  <div class="app-select-month">
+    <!--<div class="calendar-icon">
+      <span class="glyphicon glyphicon-calendar"></span>
+    </div>-->
+
+    <div class="input-month-discipline">
+      <input #selectAnyMonth air-datapicker [view]="{ view: 'months', minView: 'months'}" [inline]="false" [dateFormat]="'MM yyyy'"
+        [altFieldDateFormat]="'yyyy:m'" type="text" 
+        id="selectMonts" 
+        class="app-input-select" 
+        placeholder="Выбор месяца" />
     </div>
-    <div class="col-sm-5">
-      <p>Активность: {{discipline?.active}}</p>
 
-      <div class="input-group">
-        <span class="input-group-addon" id="basic-addon1">
-          <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-        </span>
-        <input  #selectAnyMonth 
-                air-datapicker 
-                [view]="{ view: 'months', minView: 'months'}" 
-                [inline]="false" [dateFormat]="'MM yyyy'"
-                [altFieldDateFormat]="'yyyy:m'" 
-                type="text" 
-                id="selectMonts" 
-                class="form-control" 
-                placeholder="Выбор месяца" />
-        <span class="input-group-btn">
-        <button class="btn btn-primary btn-block" type="button" (click)="loadAnyMonth( selectAnyMonth )">Загрузить</button>
-      </span>
-      </div>
-
+    <div class="button-accept-month">
+      <button class="app-button app-button-primary" type="button" (click)="loadAnyMonth( selectAnyMonth )">Загрузить</button>
     </div>
   </div>
+
 </div>
 
-<div *ngIf="discipline != undefined">
+<div class="center" *ngIf="discipline != undefined">
   <calendar *ngFor="let monthTimestamp of getMonthLoaded() | ObjToTimestampPipe" [examens]="getExamens() | examensForMonth : monthTimestamp"
     [timestamp]="monthTimestamp" [disciplineID]="discipline.id">
     </calendar>

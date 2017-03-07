@@ -24,15 +24,27 @@
 }
 
 .popoverAction-content {
-    padding: 9px 14px;
+    padding: 9px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
 }
 
-.selectDayChange, .selectDayCopy{
+.selectDayChange, .selectDayCopy, .DeleteDay{
     height: 45px;
     display: none;
+}
+
+.DeleteDay p{
+    margin: 0;
 }
 
 .dateOverflow{
     position: absolute;
     width: 190px;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
 }
+

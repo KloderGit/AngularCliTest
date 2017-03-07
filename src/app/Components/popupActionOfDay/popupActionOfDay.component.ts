@@ -58,12 +58,19 @@ export class PopupActionOfDayComponent implements OnInit {
 		this.onEdit.emit();
 	}
 
-	selectDayChange(){
+	selectDayChange() {
+		$(this.selfElement.nativeElement).find('.DeleteDay').hide();
 		$(this.selfElement.nativeElement).find('.selectDayCopy').hide();
 		$(this.selfElement.nativeElement).find('.selectDayChange').toggle();
 	}
-	selectDayCopy(){
+	selectDayCopy() {
+		$(this.selfElement.nativeElement).find('.DeleteDay').hide();		
 		$(this.selfElement.nativeElement).find('.selectDayChange').hide();
 		$(this.selfElement.nativeElement).find('.selectDayCopy').toggle();
+	}
+	DeleteDay() {
+		$(this.selfElement.nativeElement).find('.selectDayChange').hide();
+		$(this.selfElement.nativeElement).find('.selectDayCopy').hide();
+		$(this.selfElement.nativeElement).find('.DeleteDay').toggle();
 	}
 }

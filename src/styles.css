@@ -1,3 +1,123 @@
-/* You can add global styles to this file, and also import other style files */
+.app-button {
+  display: block;
+  overflow: visible;
+  text-transform: none;
+  -webkit-appearance: button;
+  cursor: pointer;
+  padding: 6px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #fff;
+  text-decoration: none;
+}
 
-/*@import "../node_modules/bootstrap3/dist/css/bootstrap.min.css";*/
+.app-button-info {
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+
+.app-button-warning {
+  background-color: #f0ad4e;
+  border-color: #eea236;
+}
+
+.app-button-success {
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+.app-button-primary {
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+
+
+.app-input-select{
+      width: 204px;
+      height: 35px;
+      border: 1px solid rgba(0, 0, 0, .23);
+      border-radius: 13px 0 13px;
+      background-color: #f8f8f8;
+      box-shadow: inset 0 1px 4px rgba(143, 150, 161, .25);
+      padding: 5px 10px;
+      font-size: 13px;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+}
+
+
+.app-table td,
+.app-table th {
+  padding: 0;
+}
+
+.app-table>tbody>tr>td,
+.app-table>tbody>tr>th,
+.app-table>tfoot>tr>td,
+.app-table>tfoot>tr>th,
+.app-table>thead>tr>td,
+.app-table>thead>tr>th {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+}
+
+.app-table>tbody>tr>td,
+.app-table>tbody>tr>th,
+.app-table>tfoot>tr>td,
+.app-table>tfoot>tr>th,
+.app-table>thead>tr>td,
+.app-table>thead>tr>th {
+  border: 1px solid #ddd;
+}
+
+.app-table,
+.app-table * {
+  box-sizing: border-box;
+}
+
+.app-table {
+  border: 1px solid #ddd;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+  background-color: transparent;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.app-panel {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+  border-color: #ddd;
+}
+
+.app-panel .app-panel-heading {
+  padding: 10px 15px;
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  color: #333;
+  background-color: #f5f5f5;
+  border-color: #ddd;
+}
+
+.app-panel .app-panel-body {
+  padding: 15px;
+}
+
+.app-panel,
+.app-panel * {
+  box-sizing: border-box;
+}
