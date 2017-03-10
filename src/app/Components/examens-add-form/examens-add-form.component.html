@@ -1,35 +1,86 @@
-yui
-<div id="wizard">
-  <h2>First Step</h2>
-  <section>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut nulla nunc. Maecenas arcu sem, hendrerit a tempor
-      quis, sagittis accumsan tellus. In hac habitasse platea dictumst. Donec a semper dui. Nunc eget quam libero. Nam at
-      felis metus. Nam tellus dolor, tristique ac tempus nec, iaculis quis nisi.</p>
-  </section>
+<div class="app-page-header center">
+  <div class="app-page-title">
+    <h1>{{getDiscipline()?.title}}</h1>
+    <p>Планирование экзаменов</p>
+  </div>
 
-  <h2>Second Step</h2>
-  <section>
-    <p>Donec mi sapien, hendrerit nec egestas a, rutrum vitae dolor. Nullam venenatis diam ac ligula elementum pellentesque.
-      In lobortis sollicitudin felis non eleifend. Morbi tristique tellus est, sed tempor elit. Morbi varius, nulla quis
-      condimentum dictum, nisi elit condimentum magna, nec venenatis urna quam in nisi. Integer hendrerit sapien a diam adipiscing
-      consectetur. In euismod augue ullamcorper leo dignissim quis elementum arcu porta. Lorem ipsum dolor sit amet, consectetur
-      adipiscing elit. Vestibulum leo velit, blandit ac tempor nec, ultrices id diam. Donec metus lacus, rhoncus sagittis
-      iaculis nec, malesuada a diam. Donec non pulvinar urna. Aliquam id velit lacus.</p>
-  </section>
 
-  <h2>Third Step</h2>
-  <section>
-    <p>Morbi ornare tellus at elit ultrices id dignissim lorem elementum. Sed eget nisl at justo condimentum dapibus. Fusce
-      eros justo, pellentesque non euismod ac, rutrum sed quam. Ut non mi tortor. Vestibulum eleifend varius ullamcorper.
-      Aliquam erat volutpat. Donec diam massa, porta vel dictum sit amet, iaculis ac massa. Sed elementum dui commodo lectus
-      sollicitudin in auctor mauris venenatis.
-    </p>
-  </section>
+  <div wizard-form [titlesTag] = "'h2'">
 
-  <h2>Forth Step</h2>
-  <section>
-    <p>Quisque at sem turpis, id sagittis diam. Suspendisse malesuada eros posuere mauris vehicula vulputate. Aliquam sed sem
-      tortor. Quisque sed felis ut mauris feugiat iaculis nec ac lectus. Sed consequat vestibulum purus, imperdiet varius
-      est pellentesque vitae. Suspendisse consequat cursus eros, vitae tempus enim euismod non. Nullam ut commodo tortor.</p>
-  </section>
+    <div>
+      <h2>Шаг первый. Выберете тип экзамена.</h2>
+      <div>
+
+  <div>
+    <p><strong>Персональный</strong></p>
+    <label for="personalType" style="display: inherit; cursor: pointer">
+                                    <div class="thumbnail">
+                                        <img src="http://s1.iconbird.com/ico/2013/9/450/w256h2561380453931User256x25632.png" style="height: 80px">
+                                        <div class="caption">
+                                            <p style="font-size: small; font-weight: 400;">Каждый студент сдает экзамен отдельно, в назначенное ему время.</p>
+                                        </div>
+                                    </div>
+                                </label>
+  </div>
+  <div>
+    <p><strong>Коллективный</strong></p>
+    <label for="collectiveType" style="display: inherit; cursor: pointer">
+                                    <div class="thumbnail">
+                                        <img src="http://s1.iconbird.com/ico/2013/9/450/w256h2561380453931UserAccounts256x25632.png" style="height: 90px">
+                                        <div class="caption">
+                                            <p style="font-size: small; font-weight: 400;">Общий экзамен для группы студентов в аудитории. Одно время для всех.</p>
+                                        </div>
+                                    </div>
+                                </label>
+  </div>
+  <div>
+    <div class="panel panel-info">
+      <div class="panel-heading">Планирование</div>
+      <div style="font-size: small" class="panel-body text-left" *ngIf="formObj">
+        <blockquote>
+          <p><strong>Тип экзамена/ов: </strong>{{formObj.type}}</p>
+          <p><strong>Время: </strong> {{formObj.startTime.getHours()}}:{{formatTimeDigit(formObj.startTime.getMinutes())}} -
+            {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
+          </p>
+          <p *ngIf="formObj.range"><strong>Продолжительность: </strong>{{formObj.range}} мин.</p>
+          <p *ngIf="formObj.getFormResult().length > 0">
+            <strong>Будет принято: </strong> {{ formObj.type == 'personal'? formObj.getFormResult().length : formObj.examensObject.count}}
+            студент/ов
+          </p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+  <input style="display: none" id="personalType" type="radio" name="selectType" (change)="changeExamenType('personal')">
+  <input style="display: none" id="collectiveType" type="radio" name="selectType" (change)="changeExamenType('collective')">
+
+
+      </div>
+      <div>
+        <button data-wizard-forward>Forward</button>
+      </div>
+    </div>
+
+
+
+    <div>
+      <h2>Второй заголовок</h2>
+      <div>
+        <p>Two Content</p>
+      </div>
+      <div>
+        <button data-wizard-back>Back</button>
+        <button data-wizard-forward >Forward</button>
+      </div>
+    </div>
+    <div>
+      <h2>Последний заголовок</h2>
+      <div>
+        <p>Last Content</p>
+      </div>
+      <div>
+        <button data-wizard-back>Back</button>
+      </div>
+    </div>
+  </div>
 </div>

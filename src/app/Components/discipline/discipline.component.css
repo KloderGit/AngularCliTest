@@ -1,6 +1,6 @@
 .app-page-header{
     display: flex;
-        flex-direction: column;
+    flex-direction: column;
     width: 80%;
     justify-content: space-around;
     align-items: stretch;
