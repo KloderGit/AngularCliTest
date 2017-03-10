@@ -130,10 +130,14 @@
 
 
 .wizard-top-menu {
+    margin: 0;
+    padding: 0;
+
+
   width: 100%;
   text-align: center;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-content: stretch;
   height: 50px;
 
@@ -144,16 +148,27 @@
   display: inline-block;
   margin-right: 5px;
   padding: 5px;
-  width: 28%;
+  width: 29%;
   vertical-align: middle;
-  text-align: left;
+  text-align: center;
 }
+
 .wizard-top-menu li:last-child {
   margin-right: 0px;
 }
 
-
-.wizard-top-menu li .active{
+.wizard-top-menu li.active{
   background-color: #46b8da;
+}
+
+.wizard-content{
+  display: flex;
+  min-height: 300px;
+  justify-content: flex-start;
+}
+
+.wizard-content .collectiv,
+.wizard-content .personal {
+  width: 35%;
 }
 

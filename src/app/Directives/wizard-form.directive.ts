@@ -9,8 +9,10 @@ export class WizardFormDirective implements OnInit, OnDestroy {
 
     @Input() titlesTag: string;
     slideCollection: ElementRef[] = [];
+    titleCollection: ElementRef[] = [];
 
     ringContent: RingList;
+    ringTitle: RingList;
 
     constructor( private element: ElementRef) { }
 
@@ -18,45 +20,32 @@ export class WizardFormDirective implements OnInit, OnDestroy {
 
         let context = this;
 
-        let titles: ElementRef[] = [];
         this.slideCollection = $(this.element.nativeElement).children('div');
         this.ringContent = new RingList(this.slideCollection);
-
         this.activeSlide(this.ringContent.current());
-        
 
-        for (let i = 0; i < this.slideCollection.length; i++) { 
-            titles.push($(this.slideCollection[i]).children(this.titlesTag).first());
-        }
-
-        $(this.element.nativeElement).prepend('<ul class="wizard-top-menu"></ul>');
-                
-        for (let i = titles.length - 1; i >= 0; i--) {
-            let liItem = $('<li>' + titles[i][0].innerText + '</li>');
-            $('.wizard-top-menu').first().prepend(liItem);
-        }
-    
+        this.titleCollection = $(this.element.nativeElement).find('ul').children('li');
+        this.ringTitle = new RingList(this.titleCollection);
+        this.activeTitle(this.ringTitle.current());       
 
         $('[data-wizard-forward]').on('click', function () { 
             context.activeSlide(context.ringContent.next());
+            context.activeTitle(context.ringTitle.next());            
         });
         $('[data-wizard-back]').on('click', function () {
             context.activeSlide(context.ringContent.prev());
+            context.activeTitle(context.ringTitle.prev());                        
         });
-
     }
-
 
     activeSlide( element: any ): void { 
         $(this.slideCollection).hide();
         $(element).show();
-        // $('.wizard-top-menu').children().removeClass("active");
-        // let ulTabs = $('.wizard-top-menu').children();
-
-        console.log($('ul') );
-
-        // ulTabs[this.ringContent.getIndex()].addClass("active");
     }    
+    activeTitle( element: any) { 
+        $(this.titleCollection).removeClass('active');
+        $(element).addClass('active');
+    }
 
 
     ngOnDestroy(): void {
