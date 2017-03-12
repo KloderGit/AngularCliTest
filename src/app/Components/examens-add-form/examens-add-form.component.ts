@@ -36,8 +36,6 @@ export class ExamensAddFormComponent implements OnInit {
 		this.date.setTime(date);
 		this.date.setHours(0, 0, 0);
 
-		$('#rr').wizardByGiro()
-
 	}
 
 	changeExamenType(type: string) {

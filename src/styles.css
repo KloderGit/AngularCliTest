@@ -164,11 +164,23 @@
 .wizard-content{
   display: flex;
   min-height: 300px;
-  justify-content: flex-start;
+  justify-content: space-between;
+  /*align-content: stretch;*/
 }
 
-.wizard-content .collectiv,
-.wizard-content .personal {
-  width: 35%;
+.wizard-content > div {
+  width: 30%;
 }
 
+.app-button-group{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.examen-element{
+  width: 24%;
+  margin-right: 5px;
+  max-width: 250px;
+  min-width: 180px;
+}
