@@ -8,7 +8,7 @@
 <div class="selectDayChange">
   <div class="dateOverflow">
       <input #selectChange air-datapicker [view]="{ view: 'days', minView: 'days'}" [inline]="false" [dateFormat]="'dd/mm/yyyy'"
-        [altFieldDateFormat]="'yyyy-mm-dd'" type="text" class="form-control" placeholder="Дата" />
+        [altFieldDateFormat]="'yyyy-mm-dd'" type="text" class="app-input-select" placeholder="Дата" />
       <button class="app-button app-button-primary" type="button" (click)="changeDate( selectChange )">Выполнить</button>
   </div>
 </div>
@@ -18,7 +18,7 @@
 <div class="selectDayCopy">
   <div class="dateOverflow">
       <input #selectCopy air-datapicker [view]="{ view: 'days', minView: 'days'}" [inline]="false" [dateFormat]="'dd/mm/yyyy'"
-        [altFieldDateFormat]="'yyyy-mm-dd'" type="text" class="form-control" placeholder="Дата" />
+        [altFieldDateFormat]="'yyyy-mm-dd'" type="text" class="app-input-select" placeholder="Дата" />
       <button class="app-button app-button-primary" type="button" (click)="copyDate( selectCopy )">Выполнить</button>
   </div>
 </div>

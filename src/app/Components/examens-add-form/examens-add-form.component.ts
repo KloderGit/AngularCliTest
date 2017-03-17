@@ -83,4 +83,8 @@ export class ExamensAddFormComponent implements OnInit {
 				}
 			})
 	}
+
+	getDateString() { 
+		return this.date.getDate() + '-' + this.date.getMonth() + '-' + this.date.getFullYear();
+	}
 }

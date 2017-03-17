@@ -1,15 +1,15 @@
 <div class="app-page-header center">
   <div class="app-page-title">
     <h1>{{getDiscipline()?.title}}</h1>
-    <p>Планирование экзаменов</p>
+    <p>Планирование экзаменов. <strong>Дата планирования: {{getDateString()}}</strong></p>
   </div>
 
 
   <div wizard-form [titlesTag]="'h2'">
     <ul class="wizard-top-menu">
-      <li>One Tab</li>
-      <li>Two Tab</li>
-      <li>Three Tab</li>
+      <li>Тип экзамена</li>
+      <li>Время проведения</li>
+      <li>Количество студентов</li>
     </ul>
 
     <div class="wizard-content-tab">
@@ -18,7 +18,7 @@
         <div class='personal'>
           <p><strong>Персональный</strong></p>
           <label for="personalType" style="display: inherit; cursor: pointer">
-            <div class="thumbnail">
+            <div class="thumbnail" [class.thumbnail_active]="personalSelector.checked">
                 <img src="http://s1.iconbird.com/ico/2013/9/450/w256h2561380453931User256x25632.png" style="height: 80px">
                 <div class="caption">
                     <p style="font-size: small; font-weight: 400;">Каждый студент сдает экзамен отдельно, в назначенное ему время.</p>
@@ -29,7 +29,7 @@
         <div class='collectiv'>
           <p><strong>Коллективный</strong></p>
           <label for="collectiveType" style="display: inherit; cursor: pointer">
-            <div class="thumbnail">
+            <div class="thumbnail" [class.thumbnail_active]="collectiveSelector.checked">
                 <img src="http://s1.iconbird.com/ico/2013/9/450/w256h2561380453931UserAccounts256x25632.png" style="height: 90px">
                 <div class="caption">
                     <p style="font-size: small; font-weight: 400;">Общий экзамен для группы студентов в аудитории. Одно время для всех.</p>
@@ -38,9 +38,9 @@
           </label>
         </div>
         <div>
-          <div class="app-panel">
+          <div class="app-panel"  *ngIf="formObj">
             <div class="app-panel-heading">Планирование</div>
-            <div style="font-size: small" class="app-panel-body" *ngIf="formObj">
+            <div style="font-size: small" class="app-panel-body">
                 <p><strong>Тип экзамена/ов: </strong>{{formObj.type}}</p>
                 <p><strong>Время: </strong> {{formObj.startTime.getHours()}}:{{formatTimeDigit(formObj.startTime.getMinutes())}}
                   - {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
@@ -53,11 +53,12 @@
             </div>
           </div>
         </div>
-        <input style="display: none" id="personalType" type="radio" name="selectType" (change)="changeExamenType('personal')">
-        <input style="display: none" id="collectiveType" type="radio" name="selectType" (change)="changeExamenType('collective')">
+        <input #personalSelector style="display: none" id="personalType" type="radio" name="selectType" (change)="changeExamenType('personal')">
+        <input #collectiveSelector style="display: none" id="collectiveType" type="radio" name="selectType" (change)="changeExamenType('collective')">
+
       </div>
-      <div>
-        <button data-wizard-forward>Forward</button>
+      <div class="navigation-button" [style.display]="formObj ? 'flex' : 'none'">
+        <button class="app-button app-button-warning" data-wizard-forward>Forward</button>
       </div>
     </div>
 
@@ -136,9 +137,12 @@
         </div>
       </div>
 
-      <div>
-        <button data-wizard-back>Back</button>
-        <button data-wizard-forward>Forward</button>
+<div class="navigation-button">
+
+<button class="app-button app-button-warning" data-wizard-forward>Forward</button>
+<button class="app-button app-button-warning" data-wizard-back>Back</button>
+
+
       </div>
     </div>
 
@@ -165,7 +169,7 @@
                     <button type="button" class="app-button app-button-info" (click)="formObj.changeParams(20); hours.value=''">20 мин.</button>
                     <button type="button" class="app-button app-button-info" (click)="formObj.changeParams(30); hours.value=''">30 мин.</button>
                     <input #hours type="text" class="app-input-select" placeholder="Свой интервал" (input)="formObj.changeParams($event.target.value)">
-                    <span class="input-group-addon">
+                    <span class="input-group-addon" style="display: flex; margin: auto 10px;">
                       <input #hvostik title="Добавлять выходящий за пределы последний экзамен" 
                             type="checkbox" 
                             (change) = "formObj.changeParams(hvostik.checked)">
@@ -190,7 +194,10 @@
                   <strong>Будет принято: </strong>
                       {{formObj.getFormResult().length}} студент/ов
               </p>
-              <button [disabled] = "formObj.getFormResult().length <= 0" type="button" class="btn btn-primary btn-large" (click)="saveExamens();">Сохранить</button>
+<button [style.display] ="formObj.getFormResult().length > 0 ? 'block':'none'" [disabled]="formObj.getFormResult().length <= 0" type="button" style="margin: 0 auto;" class="app-button app-button-info"
+  (click)="saveExamens();">Сохранить</button>
+
+
             </div>
           </div>
         </div>
@@ -204,16 +211,16 @@
                 </div>
                 <div class="app-panel-body" style="display: flex; flex-wrap: wrap; justify-content: center;">
                   <div  class="thumbnail examen-element" 
-                        style=""
                         [class.deactive]="!item.isSelected"
                         *ngFor="let item of formObj.examensObject">
                     <div class="caption">
-                      <ul>
-                        <li>
-                          <span class="glyphicon glyphicon glyphicon-time" aria-hidden="true"></span> {{item.start.getHours()}}:{{formatTimeDigit(item.start.getMinutes())}}
+                      <ul class="app-list-group">
+                        <li class="app-list-group-item">
+                          <span class="glyphicon glyphicon glyphicon-time" aria-hidden="true"></span>
+                          <strong>{{item.start.getHours()}}:{{formatTimeDigit(item.start.getMinutes())}}</strong>
                           - {{item.end.getHours()}}:{{formatTimeDigit(item.end.getMinutes())}}
                         </li>
-                        <li>
+                        <li class="app-list-group-item">
                           <input type="checkbox" checked="item.isSelected" (change)="item.isSelected = !item.isSelected" />                          Активность
                         </li>
                       </ul>
@@ -248,15 +255,20 @@
                     <strong>Будет принято: </strong> {{ formObj.type == 'personal'? formObj.getFormResult().length : formObj.examensObject.count}}
                     студент/ов
                   </p>
-                  <button [disabled]="formObj.getFormResult().length <= 0" type="button" class="btn btn-primary btn-large" (click)="saveExamens();">Сохранить</button>
+<button [disabled]="formObj.getFormResult().length <= 0" type="button" style="margin: 0 auto;" class="app-button app-button-info"
+  (click)="saveExamens();">Сохранить</button>
+
+
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div>
-        <button data-wizard-back>Back</button>
+<div class="navigation-button">
+
+<button class="app-button app-button-warning" data-wizard-back>Back</button>
+
       </div>
 
     </div>

@@ -3,6 +3,7 @@ import { ExamenEditComponent } from './Components/examen-edit/examen-edit.compon
 import { RouterModule } from '@angular/router';
 import { CommonModule } from "@angular/common";
 import { NgModule } from '@angular/core';
+import { AccordionItemDirective } from "app/Directives/accordion-item.directive";
 
 export const routerConfig = [{
     path: '', component: ExamenEditComponent
@@ -10,6 +11,6 @@ export const routerConfig = [{
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(routerConfig)],
-    declarations: [ExamenEditComponent, ExamenEditItemModelComponent]
+    declarations: [ExamenEditComponent, ExamenEditItemModelComponent, AccordionItemDirective]
 })
 export default class ExamensAddModule { }

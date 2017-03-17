@@ -1,3 +1,37 @@
-.examen-edit-item-model {
-
+.app-panel-heading{
+    display: flex;
+    justify-content: flex-start;
 }
+
+.app-panel-body{
+    display: flex;
+    justify-content: center;
+    /*flex-wrap: wrap;*/
+}
+
+.app-panel-body>.info,
+.app-panel-body>.comments,
+.app-panel-body>.action {
+    padding: 10px;
+}
+
+.app-panel-body>.info{
+    min-width: 30%;
+}
+.app-panel-body>.comments {
+  min-width: 50%;
+}
+.app-panel-body>.action {
+  min-width: 20%;
+}
+
+.app-panel-body .comments textarea{
+    padding: 10px;
+    height: 300px;
+    width: 100%;
+    border: 1px solid #0dc4d4;
+}
+
+
+
+

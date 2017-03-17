@@ -9,8 +9,8 @@
    }
 
 
-   $startDate = new DateTime($year . '-' . ($month+1) . '-' . '1');
-   $endDate = new DateTime( $year . '-' . ($month+1) . '-' . $startDate->format('t') );
+   $startDate = new DateTime($year . '-' . ($month+1) . '-' . '1 00:00:00');
+   $endDate = new DateTime( $year . '-' . ($month+1) . '-' . $startDate->format('t') . ' 23:59:00' );
 
     $filter = array(    "IBLOCK_ID" => 21, 
                         "PROPERTY_SUBJECT" => $disciplineId,

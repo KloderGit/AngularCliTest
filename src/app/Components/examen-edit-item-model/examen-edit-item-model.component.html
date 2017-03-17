@@ -1,31 +1,58 @@
-<div class="examen-edit-item-model">
-  <div class="col-xs-12">
-      <div class="row">
-    <div class="col-sm-1">
-        <div class="row">
-        {{iterator}}
+    <div class="app-panel app-panel-default">
+        <div class="app-panel-heading" 
+             id="heading{{iterator}}">
+             <p>{{iterator}}</p>
+
+            <p class="app-panel-title">
+                <a accordion-item  data-target="#body{{iterator}}">
+                   {{model.student | json}}
+                </a>
+            </p>
+        </div>
+        <div id="body{{iterator}}"
+             class="app-panel-collapse collapse">
+            <div class="app-panel-body">
+                <div class="info">
+                    <h4>Информация о студенте</h4>
+                    <br/>
+                    <h1>{{model.student?.name}}</h1>
+                    <ul class="app-list-group">
+                        <li class="app-list-group-item"
+                            *ngIf="model.student?.phone">{{model.student?.phone}}</li>
+                        <li class="app-list-group-item"
+                            *ngIf="model.student?.skype">{{model.student?.skype}}</li>
+                        <li class="app-list-group-item"
+                            *ngIf="model.student?.email">{{model.student?.email}}</li>
+                        <!--<li class="app-list-group-item"
+                        *ngIf="model.student?.email">Отписать от экзамена</li>                            -->
+                    </ul>
+                    <br/>
+                    <button class="app-button app-button-warning">
+                        Отписать от экзамена
+                    </button>
+                </div>
+                <div class="comments">
+                    <h4>ИСтория комментариев</h4>
+                    <br/>                    
+                    <textarea>
+Большая часть текста сделана из разделов 1.10.32–3 книги Цицерона «На грани Добра и Зла» («De finibus bonorum et malorum»).
+Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit является первой известной человечеству
+версией («Больше нет никого из тех, кто любит скорбь, поскольку это горе и поэтому хочет заполучить это»). Находка присваивается
+Ричарду МакКлинтоку (Richard McClintock), филологу, руководителю публикаций в колледже Хампден-Сидней, что в Вирджинии; он
+искал «citings consectetur» в классической латинской литературе, термин, который встречается удивительно редко в том литературном
+тексте. Версия Цицерона Liber Primus (Первая Книга), разделы 1.10.32–3 (фрагменты добавлены в большую часть Lorem ipsum красным
+цветом): diagonal layout based on Lorem Ipsum[32] Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium
+doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
+sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni
+dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet
+                    </textarea>
+                    <button class="app-button app-button-info">
+                        Добавить комментарий
+                    </button>                    
+                </div>
+                <div class="action">
+
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col-sm-2">
-        <div class="row">
-        {{ timeString() }}
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="row">
-        {{ model?.student?.name }}
-        </div>
-    </div>
-    <div class="col-sm-2">
-        <div class="row">
-        {{ rateValue() }}
-        </div>
-    </div>
-    <div class="col-sm-1">
-        <div class="row">
-        6 / 23
-        </div>
-    </div>
-  </div>
-  </div>
-</div>
