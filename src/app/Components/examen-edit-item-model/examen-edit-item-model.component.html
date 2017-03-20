@@ -9,23 +9,13 @@
                 </a>
             </p>
         </div>
-        <div id="body{{iterator}}"
+        <div *ngIf="model.student != undefined" id="body{{iterator}}"
              class="app-panel-collapse collapse">
             <div class="app-panel-body">
                 <div class="info">
                     <h4>Информация о студенте</h4>
                     <br/>
-                    <h1>{{model.student?.name}}</h1>
-                    <ul class="app-list-group">
-                        <li class="app-list-group-item"
-                            *ngIf="model.student?.phone">{{model.student?.phone}}</li>
-                        <li class="app-list-group-item"
-                            *ngIf="model.student?.skype">{{model.student?.skype}}</li>
-                        <li class="app-list-group-item"
-                            *ngIf="model.student?.email">{{model.student?.email}}</li>
-                        <!--<li class="app-list-group-item"
-                        *ngIf="model.student?.email">Отписать от экзамена</li>                            -->
-                    </ul>
+                    <student-info [student] = "model.student"></student-info>
                     <br/>
                     <button class="app-button app-button-warning">
                         Отписать от экзамена

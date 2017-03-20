@@ -1,0 +1,10 @@
+<div class="examen-edit-row">
+    <p *ngIf="model.student">{{model.student.name}}</p>
+    <p>current - {{curentRate() | json}}</p>
+
+    <ul *ngIf="model.rates.length > 0">
+        <li *ngFor="let rate of allRates()">
+            {{rate | json}}
+        </li>
+    </ul>
+</div>

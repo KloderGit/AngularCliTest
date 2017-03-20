@@ -7,7 +7,11 @@
 
 
 <div class="col-xs-12">
-    <div class="app-panel-group" id="accordion" >    
+    <!--<div class="app-panel-group" id="accordion" >    
         <examen-edit-item-model *ngFor="let item of formModel; let count = index" [model] = "item" [iterator] = "count+1"></examen-edit-item-model>
-    </div>
+    </div>-->
+</div>
+
+<div class="col-xs-12">
+        <examen-edit-row *ngFor="let item of formModel" [model] = "item" ></examen-edit-row>
 </div>

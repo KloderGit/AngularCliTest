@@ -18,7 +18,7 @@ export class ExamenEditComponent implements OnInit {
 
 	date: Date = new Date();
 	discipline: DisciplineModel;
-	examens: ExamenModel[];
+	examens: ExamenModel[] = [];
 
 	students: StudentModel[] = [];
 
@@ -51,8 +51,8 @@ export class ExamenEditComponent implements OnInit {
 	formModelInit() { 
 		for (let i = 0; i < this.examens.length; i++) {
 			let item = this.examens[i];
-			let count = item.limit || 1;
 
+			let count = item.limit || 1;
 			if ( item.students.length > (item.limit || 1) ) { 
 				count = item.students.length;
 			}
@@ -61,7 +61,9 @@ export class ExamenEditComponent implements OnInit {
 				let editItem = new FormEditItem();
 				editItem.startTime = item.startTime;
 				editItem.endTime = item.endTime;
-				editItem.student = item.students[j];
+				editItem.examenID = item.id;
+				editItem.disciplineId = item.disciplineId;
+				editItem.studentID = item.students[j];
 				this.formModel.push(editItem);
 			}
 		}
@@ -73,7 +75,7 @@ export class ExamenEditComponent implements OnInit {
 
 	fillFormModel() { 
 		// С учетом того, что все студенты разнесены по элементам для формы
-		let studenstIDForRequest = this.formModel.filter(item => item.student).map(item => item.student);
+		let studenstIDForRequest = this.formModel.filter(item => item.studentID).map(item => item.studentID);
 
 		// Выбор id студентов из всех экзаменов
 		// let studenstIDForRequest = this.examens.filter(item => item.students.length > 0)
@@ -84,24 +86,20 @@ export class ExamenEditComponent implements OnInit {
 		
 		this.dataManager.getStudents(studenstIDForRequest).then(data => {
 			for (let i = 0; i < data.length; i++) {
-				let formElement = this.formModel[studenstIDForRequest.indexOf(parseInt(data[i].id))];
+				let formIndex = this.formModel.map(item => item.studentID).indexOf( parseInt(data[i].id) );
+				let formElement = this.formModel[formIndex];
 				formElement.student = new StudentModel(parseInt(data[i].id), data[i].name, data[i].phone, data[i].skype, data[i].email);
 			}
-			return this.examens;
-		}).then(examens => { 
-			let examenIDForRequest = this.examens.map(item => item.id);
-			let studentIDArray = this.formModel.filter(item => item.student)
-				.map(item => item.student.id);
-			
-			this.dataManager.getRates(examenIDForRequest).then(rates => { 
-				for (let i = 0; i < rates.length; i++) {
-					let formElement = this.formModel[studentIDArray.indexOf(parseInt(rates[i].studentID))];
-					formElement.rate = new RateModel(rates[i].id, rates[i].examenID, rates[i].studentID, rates[i].rate);
-				}
-			}
+		}).then( () => { 	
+				this.dataManager.getRates(studenstIDForRequest).then(rates => { 
+					for (let i = 0; i < rates.length; i++) {
+						let rate = new RateModel(rates[i].id, rates[i].examenID, rates[i].studentID, rates[i].rate);
 
-			);
-			}			
+						let formIndex = this.formModel.map(item => item.studentID).indexOf(rate.studentID);
+						this.formModel[formIndex].rates.push(rate);
+					}
+				});
+			}
 		);
 	}
 

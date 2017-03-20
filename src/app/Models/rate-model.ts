@@ -9,6 +9,6 @@ export class RateModel {
         this.id = id;
         this.examenID = examenID;
         this.studentID = studentID;
-        this.value = parseInt(rate);
+        this.value = rate ? parseInt(rate) : undefined;
     }
 }

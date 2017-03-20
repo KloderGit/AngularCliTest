@@ -1,0 +1,10 @@
+<div class="student-info">
+    <h1>{{student.name}}</h1>
+    <ul class="app-list-group">
+        <li class="app-list-group-item" *ngIf="model.student.phone">{{student.phone}}</li>
+        <li class="app-list-group-item" *ngIf="model.student.skype">{{student.skype}}</li>
+        <li class="app-list-group-item" *ngIf="model.student.email">{{student.email}}</li>
+        <!--<li class="app-list-group-item"
+                            *ngIf="model.student?.email">Отписать от экзамена</li>                            -->
+    </ul>
+</div>

@@ -7,7 +7,7 @@
         $arrayID = json_decode($_REQUEST["id"]);
 
         $filter = array(    "IBLOCK_ID" => 29, 
-                            "PROPERTY_EXAM" => $arrayID );
+                            "PROPERTY_STUDENT" => $arrayID );
 
         $selectFields = array(  "ID",
                                 "PROPERTY_EXAM",
