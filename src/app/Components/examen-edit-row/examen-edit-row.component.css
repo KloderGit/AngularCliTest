@@ -1,3 +1,37 @@
-.examen-edit-row {
-
+.app-panel-heading {
+  display: flex;
+  justify-content: space-between;
 }
+
+.app-panel-heading p:first-child {
+  width: 60px;
+}
+
+.app-panel-heading p:last-child {
+  width: 100px;
+}
+
+
+
+.app-panel-body {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.app-panel-body>.info,
+.app-panel-body>.comments,
+.app-panel-body>.action {
+  width: 28%;
+  min-width: 210px;
+  padding: 10px;
+  margin: 1%;
+}
+
+.app-panel-body .comments textarea {
+  padding: 10px;
+  height: 300px;
+  width: 100%;
+  border: 1px solid #0dc4d4;
+}
+

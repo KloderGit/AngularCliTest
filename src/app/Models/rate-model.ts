@@ -1,11 +1,13 @@
+import { ExamenModel } from './examen-model';
 
 export class RateModel { 
-    id: number;
-    examenID: number;
+    id: string;
+    examenID: string;
+    examen: ExamenModel;
     studentID: number;
     value: number;
 
-    constructor(id: number, examenID: number, studentID: number, rate?) { 
+    constructor(id: string, examenID: string, studentID: number, rate?) { 
         this.id = id;
         this.examenID = examenID;
         this.studentID = studentID;

@@ -143,6 +143,21 @@ export class DataManagerService {
     });
   }
 
+  loadExamensByIDs( array ) {
+    return this.service.getExamensByIDs( array )
+      .then(data => {
+        let result = [];
+        if (data) {
+          for (var i = 0; i < data.length; i++) {
+            let ex = ExamenModel.map(data[i]);
+            result.push(ex);
+          }
+        }
+        return result;
+      });
+  }
+
+
   getExamensByDiscipline(disciplineId: string) {
     return this.examens.filter(item => item.disciplineId == disciplineId);
   }
@@ -153,6 +168,12 @@ export class DataManagerService {
       .filter(item => item.startTime.getMonth() == date.getMonth())
       .filter(item => item.startTime.getDate() == date.getDate());    
   }  
+
+  getExamenByID(id: string) { 
+    let r = this.examens.map(item => item.id).indexOf(id);
+    let m = this.examens[r];
+    return m;
+  }
 
   addExamen(inObject: any) {
     for (let i = 0; i < inObject.length; i++) {
@@ -366,7 +387,7 @@ export class DataManagerService {
     let result = [];
 
     for (let i = 0; i < array.length; i++) {
-      result.push(parseInt(array[i]));
+      result.push(array[i]);
     }
 
     return this.service.getRates(result)

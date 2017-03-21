@@ -1,10 +1,68 @@
-<div class="examen-edit-row">
-    <p *ngIf="model.student">{{model.student.name}}</p>
-    <p>current - {{curentRate() | json}}</p>
+<!--<div class="examen-edit-row">
 
-    <ul *ngIf="model.rates.length > 0">
-        <li *ngFor="let rate of allRates()">
-            {{rate | json}}
-        </li>
-    </ul>
+<table>
+    <tr>
+        <td>{{model.startTime}}</td>
+        <td><p *ngIf="model.student">{{model.student.name}}</p></td>
+        <td><p *ngIf="model.rates.length > 0">{{curentRate().value}}</p></td>
+    </tr>
+    <tr *ngIf="model.rates.length > 0">
+        <td *ngFor="let r of model.rates">
+            <p *ngIf="r.examen">{{r.examen.startTime}}</p>
+            <p *ngIf="r.value">{{r.value}}</p>            
+        </td>
+    </tr>
+</table>
+<hr/>
+</div>-->
+
+
+<div class="app-panel app-panel-default">
+    <div class="app-panel-heading">
+        <p>{{timeToString(model.startTime)}}</p>
+        <p *ngIf="model.student">{{model.student.name}}</p>    
+        <p *ngIf="curentRate()">{{curentRate().value}}</p>
+    </div>
+    <!--class="app-panel-collapse collapse"-->
+    <div *ngIf="model.student" >
+        <div class="app-panel-body">
+            <div class="info">
+                <h4>Информация о студенте</h4>
+                <br/>
+                <student-info [student]="model.student"></student-info>
+                <br/>
+                <button class="app-button app-button-warning" (click) = "groupBy()">
+                        Отписать от экзамена
+                    </button>
+            </div>
+            <div class="comments"  *ngIf="model.rates.length > 0"> 
+                <h4>Оценки студента</h4>
+                <br/>
+
+                <ul *ngFor="let r of allRates()">
+                    <li *ngIf="r.examen"><h3>{{getDiscipline(r.examen.disciplineId).title}}</h3></li>
+                    <li *ngIf="r.examen"><p>{{dateToString(r.examen.startTime)}}</p></li>
+                    <li *ngIf="r.value"><p>{{r.value}}</p></li>
+                </ul>                
+
+                <button class="app-button app-button-info" >
+                        Добавить комментарий
+                </button>
+            </div>
+            <div class="action">
+<h4>Оценки студента</h4>
+<br/>
+
+<ul *ngFor="let r of allRates()">
+    <li *ngIf="r.examen">{{getDiscipline(r.examen.disciplineId).title}}</li>
+    <li *ngIf="r.examen">{{r.examen.startTime}}</li>
+    <li *ngIf="r.value">{{r.value}}</li>
+</ul>
+
+<button class="app-button app-button-info">
+                        Добавить комментарий
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

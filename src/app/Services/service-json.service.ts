@@ -59,6 +59,18 @@ export class ServiceJsonService {
         );        
     }
 
+    getExamensByIDs(array) { 
+        let body = JSON.stringify(array);
+        return this.http.get('http://dev.fitness-pro.ru/getExamensByIds.php?ids=' + body)
+            .toPromise()
+            .then((res) => {
+                let array = res.json();
+                console.log('Service: Сервис получил экзамены');
+                return array;
+            }
+            );
+    }    
+
     addExamens( array: ExamenModel[] ){
         let body = JSON.stringify(array);
 

@@ -26,18 +26,18 @@ export class ExamenEditItemModelComponent implements OnInit {
 	rateValue() { 
 		let res = '';
 
-		if (this.model.rate && this.model.rate.value) { 
-			res = this.model.rate.value;
+		// if (this.model.rate && this.model.rate.value) { 
+		// 	res = this.model.rate.value;
 
-			switch ( parseInt(res)) {
-				case 6:
-					res = 'Зачет';
-					break;
-				case 7:
-					res = 'Незачет';
-					break;
-			}
-		}
+		// 	switch ( parseInt(res)) {
+		// 		case 6:
+		// 			res = 'Зачет';
+		// 			break;
+		// 		case 7:
+		// 			res = 'Незачет';
+		// 			break;
+		// 	}
+		// }
 
 		return res;
 	}

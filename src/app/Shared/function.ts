@@ -19,3 +19,26 @@ export function diffTime( start: Date, end: Date, type?: string ){
 export function random(min, max){
     return Math.round(Math.random() * (max - min) + min);
 }
+
+export function getHoursString( time: Date ): string { 
+    return addFirstZero(time.getHours()) + ':' + addFirstZero(time.getMinutes());
+}
+
+export function getDateString(time: Date): string {
+    return time.getDate() + ' ' + Month[time.getMonth()] + ' ' + time.getFullYear() + ' г.';
+}
+
+enum Month { 
+    Января,
+    Февраля,
+    Марта,
+    Апреля,
+    Мая,
+    Июня,
+    Июля,
+    Августа,
+    Сентября,
+    Октября,
+    Ноября,
+    Декабря
+}

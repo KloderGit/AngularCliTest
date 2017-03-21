@@ -61,8 +61,8 @@ export class ExamenEditComponent implements OnInit {
 				let editItem = new FormEditItem();
 				editItem.startTime = item.startTime;
 				editItem.endTime = item.endTime;
-				editItem.examenID = item.id;
-				editItem.disciplineId = item.disciplineId;
+				editItem.examen = item;
+				editItem.discipline = this.discipline;
 				editItem.studentID = item.students[j];
 				this.formModel.push(editItem);
 			}
@@ -91,13 +91,32 @@ export class ExamenEditComponent implements OnInit {
 				formElement.student = new StudentModel(parseInt(data[i].id), data[i].name, data[i].phone, data[i].skype, data[i].email);
 			}
 		}).then( () => { 	
-				this.dataManager.getRates(studenstIDForRequest).then(rates => { 
+			this.dataManager.getRates(studenstIDForRequest).then(rates => { 
 					for (let i = 0; i < rates.length; i++) {
 						let rate = new RateModel(rates[i].id, rates[i].examenID, rates[i].studentID, rates[i].rate);
 
 						let formIndex = this.formModel.map(item => item.studentID).indexOf(rate.studentID);
-						this.formModel[formIndex].rates.push(rate);
+						if (rate.examenID) { 
+							this.formModel[formIndex].rates.push(rate);
+						}
 					}
+					return rates.map(rate => rate.examenID);
+			}).then(examens => {
+				examens = examens.filter(item => item);
+				console.log(examens);
+					this.dataManager.loadExamensByIDs(examens).then(data => {
+						let rates = this.formModel.filter(model => model.rates.length > 0)
+							.map(model => model.rates)
+							.reduce(function (result, num) {
+								return result.concat(num);
+							}, []);
+
+						for (let i = 0; i < rates.length; i++) {
+							rates[i].examen = data[data.map( ex => ex.id ).indexOf(rates[i].examenID)];
+						}
+
+					});
+
 				});
 			}
 		);
