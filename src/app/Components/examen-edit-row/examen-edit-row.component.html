@@ -31,7 +31,7 @@
                 <br/>
                 <student-info [student]="model.student"></student-info>
                 <br/>
-                <button class="app-button app-button-warning" (click) = "groupBy()">
+                <button class="app-button app-button-warning" (click) = "groupby()">
                         Отписать от экзамена
                     </button>
             </div>
@@ -39,11 +39,22 @@
                 <h4>Оценки студента</h4>
                 <br/>
 
+                <!--<div>
+                <div *ngFor="let group of groupby() | async">
+                    <p><strong>{{group.title}}</strong></p>
+                    <ul>
+                        <li *ngFor="let arte of group.rates">
+                            {{arte.tm}} - {{arte.vl}}
+                        </li>
+                    </ul>
+                </div>
+                </div>-->
+
                 <ul *ngFor="let r of allRates()">
-                    <li *ngIf="r.examen"><h3>{{getDiscipline(r.examen.disciplineId).title}}</h3></li>
+                    <p *ngIf="r.examen"><strong>{{getDiscipline(r.examen.disciplineId).title}}</strong></p>
                     <li *ngIf="r.examen"><p>{{dateToString(r.examen.startTime)}}</p></li>
                     <li *ngIf="r.value"><p>{{r.value}}</p></li>
-                </ul>                
+                </ul>
 
                 <button class="app-button app-button-info" >
                         Добавить комментарий

@@ -40,4 +40,37 @@ export class ExamenEditRowComponent implements OnInit {
 		return this.dataManager.getDisciplineByID(id);
 	}
 
+
+	groupby() { 
+		let res = [];
+		let t = this.allRates().map(item => item.examen.disciplineId);
+		let r = this.unique(t);
+
+		for (var i = 0; i < r.length; i++) {
+			let name = this.dataManager.getDisciplineByID(r[i]);
+
+			let rat = this.allRates().filter(item => item.examen.disciplineId == r[i]);
+
+			let rr = rat.map(item => { return { tm: item.examen.startTime, vl: item.value } });
+			
+			res.push(
+				{ title: name, rates: rr }
+			);			
+		}		
+
+		console.log(res);
+		return res;
+	}
+
+unique(arr) {
+	var obj = {};
+
+	for (var i = 0; i < arr.length; i++) {
+		var str = arr[i];
+		obj[str] = true; // запомнить строку в виде свойства объекта
+	}
+
+	return Object.keys(obj); // или собрать ключи перебором для IE8-
+}
+
 }
