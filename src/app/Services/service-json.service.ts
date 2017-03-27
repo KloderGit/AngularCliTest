@@ -185,7 +185,27 @@ export class ServiceJsonService {
                 }));
             }
             );
-    }    
+    }
+
+    excludeStudent(examen: string, student: string) { 
+        let body = JSON.stringify({ id: examen, student: student});
+
+        return this.http.post('http://dev.fitness-pro.ru/leaveExamen.php',
+            body,
+            { headers: this.headers })
+            .toPromise()
+            .then(res => {
+                return res.json();
+            },
+            err => {
+                this.messages.addMessage(new Message({
+                    title: 'Service',
+                    content: err,
+                    type: 'danger'
+                }));
+            }); 
+    }
+    
 }
 
 

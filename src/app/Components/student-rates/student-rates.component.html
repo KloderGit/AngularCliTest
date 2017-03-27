@@ -1,0 +1,38 @@
+<div class="student-rates">
+  <h4>Оценки студента</h4>
+  <br/>
+
+  <div *ngIf="groupby().length >0" class="rate-wrapper">
+    <div *ngFor="let group of groupby()" class="rates-group">
+      <p><strong>{{group.title}}</strong></p>
+      <ul>
+        <li *ngFor="let arte of group.rates">
+          <span class="badge">
+            {{dateToString(arte.tm)}}
+          </span>
+          &emsp;—&emsp;
+          <span class="label label-primary">
+            {{arte.vl}}
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!--<ul *ngFor="let r of rates">
+    <p *ngIf="r.examen"><strong>{{getDiscipline(r.examen.disciplineId).title}}</strong></p>
+    <li *ngIf="r.examen">
+      <p>{{dateToString(r.examen.startTime)}}</p>
+    </li>
+    <li *ngIf="r.value">
+      <p>
+        {{r.value}}
+      </p>
+    </li>
+  </ul>
+
+  <button class="app-button app-button-info">
+    Добавить комментарий
+  </button>-->
+
+</div>

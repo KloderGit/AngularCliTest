@@ -19,14 +19,24 @@ export class AccordionItemDirective implements OnInit, OnDestroy {
     }
 
     slideToogle(): void {
-        let child = this.element.nativeElement.attributes.target.nodeValue;
+
+        let child = $(this.element.nativeElement).parent().parent().parent().find('.collapse');
+
+        let isVis = child.is(':visible');
+
+        // let child = this.element.nativeElement.attributes.target.nodeValue;
        
         $('.collapse').hide();
 
-        $(child).show();
+        if (!isVis) {
+            $(child).show();
+        } else { 
+            $(child).hide();
+        }
+
+        // $(child).show();
+
     }
-
-
 
     ngOnDestroy(): void {
         $(this.element.nativeElement).unbind();

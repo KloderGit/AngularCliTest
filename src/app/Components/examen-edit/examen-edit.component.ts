@@ -1,3 +1,4 @@
+import { getDateString } from 'app/Shared/function';
 import { FormEditItem } from './../../Models/form-examen-edit-model';
 import { CommentModel } from './../../Models/comments-model';
 import { RateModel } from './../../Models/rate-model';
@@ -19,6 +20,8 @@ export class ExamenEditComponent implements OnInit {
 	date: Date = new Date();
 	discipline: DisciplineModel;
 	examens: ExamenModel[] = [];
+
+	dateToString = getDateString;	
 
 	students: StudentModel[] = [];
 
@@ -88,7 +91,7 @@ export class ExamenEditComponent implements OnInit {
 			for (let i = 0; i < data.length; i++) {
 				let formIndex = this.formModel.map(item => item.studentID).indexOf( parseInt(data[i].id) );
 				let formElement = this.formModel[formIndex];
-				formElement.student = new StudentModel(parseInt(data[i].id), data[i].name, data[i].phone, data[i].skype, data[i].email);
+				formElement.student = new StudentModel(data[i].id, data[i].name, data[i].phone, data[i].skype, data[i].email);
 			}
 		}).then( () => { 	
 			this.dataManager.getRates(studenstIDForRequest).then(rates => { 
@@ -122,8 +125,10 @@ export class ExamenEditComponent implements OnInit {
 		);
 	}
 
-	getDateString() {
-		return this.date.getDate() + '-' + this.date.getMonth() + '-' + this.date.getFullYear();
+
+	changeRate() { 
+		console.log();
 	}
+
 
 }

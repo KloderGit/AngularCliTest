@@ -1,16 +1,36 @@
+.app-panel{
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+
+.app-panel .app-panel-heading {
+   border-bottom: 0; 
+}
+
+
 .app-panel-heading {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
 }
 
-.app-panel-heading p:first-child {
-  width: 60px;
+.event-time{
+  width: 10%;
+  min-width: 70px;
 }
 
-.app-panel-heading p:last-child {
-  width: 100px;
+.event-student{
+  width: 70%;
+  min-width: 250px;
+  font-size: 14px;
+  cursor: pointer;
 }
 
+.event-rate{
+  width: 10%;
+  min-width: 70px;
+}
 
 
 .app-panel-body {
@@ -34,4 +54,5 @@
   width: 100%;
   border: 1px solid #0dc4d4;
 }
+
 

@@ -1,3 +1,4 @@
+import { StudentModel } from './../Models/student-model';
 import { examenAddDTO } from './../DTO/exaxmensAddDTO';
 import { Response } from '@angular/http';
 import {
@@ -395,5 +396,32 @@ export class DataManagerService {
         return data;
       });
   } 
+
+
+  // excludeStudent(examen: ExamenModel, student: StudentModel) {
+  //   return this.service.excludeStudent(examen.id, student.id)
+  //     .then(data => {
+  //       if (data == 'succes') { examen.students }
+        
+  //       }
+  //       this.messages.addMessage(new Message({
+  //         title: 'DataManager',
+  //         content: 'Студент отписан от экзамена.',
+  //         type: 'success'
+  //       }));
+  //       return true;
+  //     }
+  //     )
+  //     .catch(err => {
+  //       this.messages.addMessage(new Message({
+  //         title: 'DataManager',
+  //         content: err,
+  //         type: 'danger'
+  //       }));
+  //       return false;
+  //     });
+  // }
+
+
 
 }
