@@ -1,3 +1,4 @@
+import { ExamenRowModel } from './../../Models/examen-list-model';
 import { getDateString } from 'app/Shared/function';
 import { FormEditItem } from './../../Models/form-examen-edit-model';
 import { CommentModel } from './../../Models/comments-model';
@@ -21,25 +22,27 @@ export class ExamenEditComponent implements OnInit {
 	discipline: DisciplineModel;
 	examens: ExamenModel[] = [];
 
-	dateToString = getDateString;	
+	dateToString = getDateString;
 
 	students: StudentModel[] = [];
 
 	formModel: FormEditItem[] = [];
 
+	examensList: ExamenRowModel[] = [];
+
 	constructor(private route: ActivatedRoute,
 		private router: Router,
 		private dataManager: DataManagerService) {
-		console.log("Создан компонент редактирования экзамена");
+		console.log('Создан компонент редактирования экзамена');
 	}
 
 	ngOnInit() {
-		let date = this.route.snapshot.params['date'];
-		let disciplineId = this.route.snapshot.params['discipline'];
+		const date = this.route.snapshot.params['date'];
+		const disciplineId = this.route.snapshot.params['discipline'];
 
-		if (disciplineId == undefined || date == undefined) {
+		if (disciplineId === undefined || date === undefined) {
 			this.router.navigate(['/disciplines']);
-		} else { 
+		} else {
 			this.date.setTime(date);
 			this.date.setHours(0, 0, 0);
 
@@ -47,88 +50,97 @@ export class ExamenEditComponent implements OnInit {
 			this.examens = this.dataManager.getExamensByDate(this.discipline.id, this.date);
 
 			this.formModelInit();
-		
 		}
 	}
 
-	formModelInit() { 
+	formModelInit() {
+
 		for (let i = 0; i < this.examens.length; i++) {
-			let item = this.examens[i];
+			const item = this.examens[i];
 
 			let count = item.limit || 1;
-			if ( item.students.length > (item.limit || 1) ) { 
+			if ( item.students.length > (item.limit || 1) ) {
 				count = item.students.length;
 			}
 
 			for (let j = 0; j < count; j++) {
-				let editItem = new FormEditItem();
-				editItem.startTime = item.startTime;
-				editItem.endTime = item.endTime;
-				editItem.examen = item;
-				editItem.discipline = this.discipline;
-				editItem.studentID = item.students[j];
-				this.formModel.push(editItem);
+				const rowItem = new ExamenRowModel();
+				rowItem.examen = item;
+				rowItem.studentID = item.students[j];
+				this.examensList.push(rowItem);
 			}
 		}
 
 		this.fillFormModel();
-
 	}
 
 
-	fillFormModel() { 
-		// С учетом того, что все студенты разнесены по элементам для формы
-		let studenstIDForRequest = this.formModel.filter(item => item.studentID).map(item => item.studentID);
+	fillFormModel() {
+		const studenstIDForRequest = this.examens.filter(item => item.students.length > 0)
+			.map(item => item.students)
+			.reduce(function (result, num) {
+				return result.concat(num);
+			}, []);
 
-		// Выбор id студентов из всех экзаменов
-		// let studenstIDForRequest = this.examens.filter(item => item.students.length > 0)
-		// 	.map(item => item.students)
-		// 	.reduce(function (result, num) {
-		// 		return result.concat(num);
-		// 	}, []);
-		
 		this.dataManager.getStudents(studenstIDForRequest).then(data => {
+
+			const studentsIDs = this.examensList.map(item => item.studentID);
+
 			for (let i = 0; i < data.length; i++) {
-				let formIndex = this.formModel.map(item => item.studentID).indexOf( parseInt(data[i].id) );
-				let formElement = this.formModel[formIndex];
-				formElement.student = new StudentModel(data[i].id, data[i].name, data[i].phone, data[i].skype, data[i].email);
+				const index = studentsIDs.indexOf( parseInt(data[i].id) );
+
+				if (index > -1) {
+					this.examensList[index].student = new StudentModel(data[i].id, data[i].name, data[i].phone, data[i].skype, data[i].email);
+				}
 			}
-		}).then( () => { 	
-			this.dataManager.getRates(studenstIDForRequest).then(rates => { 
+
+		}).then( () => {
+			this.dataManager.getRates(studenstIDForRequest).then(rates => {
+
+				const examensIDs = this.examensList.map( item => item.examen.id);
+
+				const ratesRes: RateModel[] = [];
+
 					for (let i = 0; i < rates.length; i++) {
-						let rate = new RateModel(rates[i].id, rates[i].examenID, rates[i].studentID, rates[i].rate);
-
-						let formIndex = this.formModel.map(item => item.studentID).indexOf(rate.studentID);
-						if (rate.examenID) { 
-							this.formModel[formIndex].rates.push(rate);
-						}
+						const rate = new RateModel(rates[i].id, rates[i].examenID, rates[i].studentID, rates[i].rate);
+						ratesRes.push(rate);
 					}
-					return rates.map(rate => rate.examenID);
-			}).then(examens => {
-				examens = examens.filter(item => item);
-				console.log(examens);
-					this.dataManager.loadExamensByIDs(examens).then(data => {
-						let rates = this.formModel.filter(model => model.rates.length > 0)
-							.map(model => model.rates)
-							.reduce(function (result, num) {
-								return result.concat(num);
-							}, []);
 
-						for (let i = 0; i < rates.length; i++) {
-							rates[i].examen = data[data.map( ex => ex.id ).indexOf(rates[i].examenID)];
+					const ratesForThisDate = ratesRes.filter( item => {
+						const t = examensIDs.indexOf( item.examenID );
+						if (t > -1) {
+							return true;
+						}
+					});
+
+					for (let i = 0; i < ratesForThisDate.length; i++) {
+						const elementRate = ratesForThisDate[i];
+
+						const examensOfRate = this.examensList.filter( item => item.examen.id === elementRate.examenID );
+						const arrayForSearchStudent = examensOfRate.map( item => item.student ? item.student.id : undefined);
+
+						const index = arrayForSearchStudent.indexOf( elementRate.studentID );
+
+						if (index > -1 && elementRate.examenID && elementRate.value) {
+							examensOfRate[index].rate = elementRate;
 						}
 
-					});
+					}
+
+						// const index = examensIDs.indexOf( rate.examenID );
+
+						// const examensOfRate = this.examensList.filter( item => item.examen.id === rate.examenID );
+						// const arrayForSearchStudent = examensOfRate.map( item => item.student ? item.student.id : undefined);
+						// const index = arrayForSearchStudent.indexOf( rate.studentID );
+
+						// if (index > -1 && rate.examenID && rate.value) {
+						// 	this.examensList[index].rate = rate;
+						// 	debugger;
+						// }
 
 				});
 			}
 		);
 	}
-
-
-	changeRate() { 
-		console.log();
-	}
-
 
 }

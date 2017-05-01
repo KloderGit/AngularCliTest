@@ -16,9 +16,9 @@ export class WizardFormDirective implements OnInit, OnDestroy {
 
     constructor( private element: ElementRef) { }
 
-    ngOnInit() {     
+    ngOnInit() {
 
-        let context = this;
+        const context = this;
 
         this.slideCollection = $(this.element.nativeElement).children('div');
         this.ringContent = new RingList(this.slideCollection);
@@ -26,23 +26,23 @@ export class WizardFormDirective implements OnInit, OnDestroy {
 
         this.titleCollection = $(this.element.nativeElement).find('ul').children('li');
         this.ringTitle = new RingList(this.titleCollection);
-        this.activeTitle(this.ringTitle.current());       
+        this.activeTitle(this.ringTitle.current());
 
-        $('[data-wizard-forward]').on('click', function () { 
+        $('[data-wizard-forward]').on('click', function () {
             context.activeSlide(context.ringContent.next());
-            context.activeTitle(context.ringTitle.next());            
+            context.activeTitle(context.ringTitle.next());
         });
         $('[data-wizard-back]').on('click', function () {
             context.activeSlide(context.ringContent.prev());
-            context.activeTitle(context.ringTitle.prev());                        
+            context.activeTitle(context.ringTitle.prev());
         });
     }
 
-    activeSlide( element: any ): void { 
+    activeSlide( element: any ): void {
         $(this.slideCollection).hide();
         $(element).show();
-    }    
-    activeTitle( element: any) { 
+    }
+    activeTitle( element: any) {
         $(this.titleCollection).removeClass('active');
         $(element).addClass('active');
     }
@@ -50,6 +50,6 @@ export class WizardFormDirective implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         $('[data-wizard-back], [data-wizard-back]').unbind();
-    }    
+    }
 
 }

@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 export class StudentInfoComponent implements OnInit {
 
-	@Input() student: StudentModel;	
-	
+	@Input() student: StudentModel;
+
 	ngOnInit() { }
 }

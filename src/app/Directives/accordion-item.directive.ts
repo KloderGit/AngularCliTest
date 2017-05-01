@@ -11,8 +11,8 @@ export class AccordionItemDirective implements OnInit, OnDestroy {
     constructor(private element: ElementRef) { }
 
     ngOnInit() {
-        let context = this;
-        $(this.element.nativeElement).on('click', function (e) { 
+        const context = this;
+        $(this.element.nativeElement).on('click', function (e) {
             e.preventDefault();
             context.slideToogle();
         });
@@ -20,17 +20,19 @@ export class AccordionItemDirective implements OnInit, OnDestroy {
 
     slideToogle(): void {
 
-        let child = $(this.element.nativeElement).parent().parent().parent().find('.collapse');
-
-        let isVis = child.is(':visible');
+        const rootDiv = $(this.element.nativeElement).parent().parent().parent();
+        const child = rootDiv.find('.collapse');
+        const isVis = child.is(':visible');
 
         // let child = this.element.nativeElement.attributes.target.nodeValue;
-       
+
         $('.collapse').hide();
+        $('.app-panel').removeClass('selectedBox');
 
         if (!isVis) {
             $(child).show();
-        } else { 
+            $(rootDiv).addClass('selectedBox');
+        } else {
             $(child).hide();
         }
 

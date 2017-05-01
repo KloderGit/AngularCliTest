@@ -1,14 +1,10 @@
-import { DisciplineModel } from './discipline-model';
 import { ExamenModel } from './examen-model';
 import { StudentModel } from './student-model';
 import { RateModel } from './rate-model';
 
-export class FormEditItem {
-    startTime: Date;
-    endTime: Date;
+export class ExamenRowModel {
     examen: ExamenModel;
-    discipline: DisciplineModel;
+    rate: RateModel;
     studentID: any;
-    rates: RateModel[] = [];
     student: StudentModel;
 }

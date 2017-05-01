@@ -4,13 +4,13 @@ export class RateModel {
     id: string;
     examenID: string;
     examen: ExamenModel;
-    studentID: number;
+    studentID: string;
     value: number;
 
-    constructor(id: string, examenID: string, studentID: number, rate?) { 
+    constructor(id: string, examenID: string, studentID: string, rate?) {
         this.id = id;
         this.examenID = examenID;
-        this.studentID = studentID;
+        this.studentID = studentID + ''; // ToString
         this.value = rate ? parseInt(rate) : undefined;
     }
 }

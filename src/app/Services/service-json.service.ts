@@ -56,7 +56,7 @@ export class ServiceJsonService {
                console.log('Service: Сервис получил экзамены'); 
                return array;
             }
-        );        
+        );
     }
 
     getExamensByIDs(array) { 
@@ -166,7 +166,7 @@ export class ServiceJsonService {
                     type: 'danger'
                 }));
             }
-            );          
+            );
     }
 
     getRates(array: number[]) {
