@@ -1,10 +1,12 @@
+import { DataManagerRatesService } from './../../Services/data-manager-rates.service';
+import { StudentModel } from './../../Models/student-model';
 import { ExamenRowModel } from './../../Models/examen-list-model';
 import { DataManagerStudentService } from './../../Services/data-manager-students.service';
 import { ExamenModel } from './../../Models/examen-model';
 import { DataManagerService } from './../../Services/data-manager.service';
 import { RateModel } from './../../Models/rate-model';
 import { FormEditItem } from './../../Models/form-examen-edit-model';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { getHoursString, getDateString } from 'app/Shared/function';
 
 
@@ -15,44 +17,51 @@ import { getHoursString, getDateString } from 'app/Shared/function';
 })
 
 export class ExamenEditRowComponent implements OnInit {
-
-	@Input() model: ExamenRowModel;
-
 	timeToString = getHoursString;
 
+	@Input() model: ExamenRowModel;
+	@Input() student: StudentModel;
+	@Input() rate: RateModel;
+
+	@Output() onAdd = new EventEmitter();
+	@Output() onUpdate = new EventEmitter();
+	@Output() onDelete = new EventEmitter();
+
 	constructor(private dataManager: DataManagerService,
-		private dataManagerStudents: DataManagerStudentService) { }
+		private dataManagerStudents: DataManagerStudentService,
+		private datamanagerRates: DataManagerRatesService) { }
 
 	ngOnInit() {}
 
-	// curentRate() {
-	// 	const array = this.model.rates
-	// 		.filter(item => item.examenID === this.model.examen.id);
-	// 	const indx = array
-	// 		.map(item => item.studentID)
-	// 		.indexOf(this.model.studentID);
-	// 	return array[indx];
-	// }
+	changeRateValue(value) { 
 
-	// historyRates() {
-	// 	return this.model.rates.filter(rate => rate.examenID !== this.model.examen.id && rate.examenID);
-	// }
+		console.log(this.rate, value);
+		
 
-	ddd() {
-		console.log(this.model.examen.id, this.model.student.id);
-		const t = this.dataManager.getExamenByID(this.model.examen.id);
-		console.log(t);
-		this.dataManager.getExamenByID(this.model.examen.id).students = [];
-		console.log(t);
-		this.model.studentID = undefined;
-		this.model.student = undefined;
+		if (!this.rate && value > 0) {
+			console.log('add');
+			
+			this.onAdd.emit(value);
+		}	
+
+		if (this.rate && value > 0) { 
+			console.log('edit');
+			
+			this.onUpdate.emit(value);
+		}		
+
+		if (this.rate && value == 0) { 
+			console.log('delete');
+			
+			this.onDelete.emit();
+		}
 	}
 
 
 	excludeStudent() {
-		this.dataManagerStudents.excludeStudent(this.model.examen, this.model.student).then(result => {
-			if (result) { this.model.studentID = undefined; this.model.student = undefined; }
-		});
+		// this.dataManagerStudents.excludeStudent(this.model.examen, this.model.student).then(result => {
+		// 	if (result) { this.model.studentID = undefined; this.model.student = undefined; }
+		// });
 	}
 
 }

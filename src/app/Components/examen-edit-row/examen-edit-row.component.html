@@ -1,37 +1,46 @@
 <div class="app-panel app-panel-default">
     <div class="app-panel-heading">
         <div class="event-time">
-            <p class="badge">{{timeToString(model.examen.startTime)}}</p>
+            <p class="badge">{{timeToString(model.parentExamen.startTime)}}</p>
         </div>
+
         <div class="event-student">
-            <p accordion-item *ngIf="model.student">{{model.student.name}}</p>
+            <p accordion-item *ngIf="student">{{student.name}}</p>
+            <p *ngIf="!student" style="font-style: italic; font-size: small; font-family: serif; color: #888">записать студента</p>
         </div>
+
         <div class="event-rate">
-            <p *ngIf="model.rate" class="label label-primary">{{model.rate.value}}</p>
+            <!--<p *ngIf="model.rate" class="label label-primary">{{model.rate.value}}</p>-->
+            <rate-selector *ngIf = "student" [rate] = "rate" (onChange) = 'changeRateValue($event)'></rate-selector>
         </div>
+
     </div>
-    <div *ngIf="model.student" class="app-panel-collapse collapse">
-        <div class="app-panel-body">
+    <!--<div *ngIf="model.student" class="app-panel-collapse collapse">
+        <div class="app-panel-body">           
+<div style="float:left">
+    <img src='https://lh4.googleusercontent.com/-nurOaKwIl6I/AAAAAAAAAAI/AAAAAAAAA6M/kSCACRLpBKU/photo.jpg' width="150" height="150"
+    />
+</div>            
             <div class="info">
-                <student-info [student]="model.student"></student-info>
+                <student-info [student]="student"></student-info>
                 <button class="app-button app-button-warning" (click) = "excludeStudent()">Отписать от экзамена</button>
-            </div>
+            </div>-->
             <!--<div class="comments" *ngIf="historyRates().length > 0">
                 <student-rates [rates] = "historyRates()"></student-rates>
             </div>-->
 
-            <div class="comments">
+            <!--<div class="comments">
                 <div>{{ model.examen | json }}</div>
-            </div>
+            </div>-->
 
-            <div class="action">
+            <!--<div class="action">
                 <h4>Оценки студента</h4>
                 <br/>
                 <div>{{ model.student | json }}</div>
                 <button class="app-button app-button-info">
                     Добавить комментарий
                 </button>
-            </div>
-        </div>
-    </div>
+            </div>-->
+        <!--</div>
+    </div>-->
 </div>

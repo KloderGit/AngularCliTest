@@ -371,27 +371,23 @@ export class DataManagerService {
     });
   }
 
-  getStudents( array: any[] ) { 
-    let result = [];
 
-    for (let i = 0; i < array.length; i++) { 
-      result.push( parseInt(array[i]) );
-    }
-
-    return this.service.getStudents(result)
-      .then(data => { 
-        return data;
-      });
-  }
-
-  getRates(array: any[]) {
+  getStudents(array: any[]) {
     let result = [];
 
     for (let i = 0; i < array.length; i++) {
-      result.push(array[i]);
+      result.push(parseInt(array[i]));
     }
 
-    return this.service.getRates(result)
+    return this.service.getStudents(result)
+      .then(data => {
+        return data;
+      });
+  }  
+
+
+  getRates(array: any[]) {
+    return this.service.getRates(array.filter(i=>i))
       .then(data => {
         return data;
       });

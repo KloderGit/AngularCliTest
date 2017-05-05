@@ -1,3 +1,4 @@
+import { RateModel } from './../Models/rate-model';
 import { ExamenModel } from './../Models/examen-model';
 import { TeacherModel } from './../Models/teacher-model';
 import { DisciplineModel } from './../Models/discipline-model';
@@ -191,6 +192,62 @@ export class ServiceJsonService {
         let body = JSON.stringify({ id: examen, student: student});
 
         return this.http.post('http://dev.fitness-pro.ru/leaveExamen.php',
+            body,
+            { headers: this.headers })
+            .toPromise()
+            .then(res => {
+                return res.json();
+            },
+            err => {
+                this.messages.addMessage(new Message({
+                    title: 'Service',
+                    content: err,
+                    type: 'danger'
+                }));
+            }); 
+    }
+
+    addRate( examen, student, rateValue ) { 
+        let body = JSON.stringify({ action: 'add', params: { examenID: examen.id, studentID: student.id, value: rateValue } });
+
+        return this.http.post('http://dev.fitness-pro.ru/rates.php',
+            body,
+            { headers: this.headers })
+            .toPromise()
+            .then(res => {
+                return res.json();
+            },
+            err => {
+                this.messages.addMessage(new Message({
+                    title: 'Service',
+                    content: err,
+                    type: 'danger'
+                }));
+            });  
+    }
+
+    editRate( rate: RateModel, value ) { 
+        let body = JSON.stringify({ action: 'edit', params: { itemID: rate.id, value: value } });
+
+        return this.http.post('http://dev.fitness-pro.ru/rates.php',
+            body,
+            { headers: this.headers })
+            .toPromise()
+            .then(res => {
+                return res.json();
+            },
+            err => {
+                this.messages.addMessage(new Message({
+                    title: 'Service',
+                    content: err,
+                    type: 'danger'
+                }));
+            });                 
+    }
+
+    deleteRate( rate ) { 
+        let body = JSON.stringify({ action: 'delete', params: { itemID: rate.id } });
+        return this.http.post('http://dev.fitness-pro.ru/rates.php',
             body,
             { headers: this.headers })
             .toPromise()
