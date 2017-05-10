@@ -1,3 +1,5 @@
+import { DisciplineModel } from './../../Models/discipline-model';
+import { ExamenModel } from './../../Models/examen-model';
 import {
   getDateString,
   uniqueFlatArray
@@ -35,6 +37,31 @@ export class StudentRatesComponent implements OnInit {
   }
 
 
+  groupRates() { 
+
+    let result = [];
+
+    for (let index = 0; index < this.rates.length; index++) {
+      let rate = this.rates[index]; 
+
+      console.log(rate.examenID);      
+
+      let i = this.dataManager.getExamenByID(rate.examenID);
+
+      console.log(i);
+      
+
+    }
+
+    return result;
+  }
+
+
+
+
+
+
+
   groupby() {
     let res = [];
 
@@ -47,6 +74,9 @@ export class StudentRatesComponent implements OnInit {
         }
       }
     }
+
+    console.log(disciplineIDs);
+    
 
 	if (disciplineIDs.length > 0) { 
 		disciplineIDs = this.unique(disciplineIDs);

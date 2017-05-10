@@ -1,3 +1,26 @@
 h4 {
   color: #888;
 }
+
+.student-info-block{
+  display: flex;
+}
+
+
+.student-info-block > .photo {
+  width: 30%;
+}
+
+.student-info-block>.cont {
+  width: 59%;
+}
+
+.clip {
+    height: 100px;
+    width: 100px;
+    border: solid 6px #933;
+    background: url(https://lh4.googleusercontent.com/-nurOaKwIl6I/AAAAAAAAAAI/AAAAAAAAA6M/kSCACRLpBKU/photo.jpg) 100% no-repeat;
+    background-size: 110%;
+    background-position: center center;
+    border-radius: 50%;
+}

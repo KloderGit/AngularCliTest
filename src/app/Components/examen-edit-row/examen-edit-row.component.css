@@ -34,15 +34,21 @@
 
 
 .app-panel-body {
-  display: flex;
+  /*display: flex;
   justify-content: flex-start;
-  flex-wrap: wrap;
+  flex-wrap: wrap;*/
+      border-top: 1px dotted #aaa;
+      margin: 0 2%;
 }
 
-.app-panel-body>.info,
-.app-panel-body>.comments,
-.app-panel-body>.action {
-  width: 28%;
+.student-wrapper{
+  display: flex;
+}
+
+
+.student-wrapper .student-info,
+.student-wrapper .student-action {
+  width: 49%;
   min-width: 210px;
   padding: 10px;
   margin: 1%;
@@ -65,4 +71,14 @@
   box-sizing: border-box;
   border: 3px solid #933;
   background-color: #f7fffa;
+}
+
+.student-fio{
+  margin-top: 10px;
+}
+
+.student-action{
+align-items: center;
+justify-content: center;
+display: flex;
 }

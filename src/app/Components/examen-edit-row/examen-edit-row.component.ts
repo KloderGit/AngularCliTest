@@ -22,6 +22,7 @@ export class ExamenEditRowComponent implements OnInit {
 	@Input() model: ExamenRowModel;
 	@Input() student: StudentModel;
 	@Input() rate: RateModel;
+	@Input() rates: RateModel[];
 
 	@Output() onAdd = new EventEmitter();
 	@Output() onUpdate = new EventEmitter();
@@ -34,29 +35,27 @@ export class ExamenEditRowComponent implements OnInit {
 	ngOnInit() {}
 
 	changeRateValue(value) { 
-
-		console.log(this.rate, value);
-		
-
-		if (!this.rate && value > 0) {
-			console.log('add');
-			
+		if (!this.rate && value > 0) {		
 			this.onAdd.emit(value);
 		}	
 
-		if (this.rate && value > 0) { 
-			console.log('edit');
-			
+		if (this.rate && value > 0) { 		
 			this.onUpdate.emit(value);
 		}		
 
 		if (this.rate && value == 0) { 
-			console.log('delete');
-			
 			this.onDelete.emit();
 		}
 	}
 
+	curentRate() { 
+		const index = this.rates.map(rt => rt.examenID ? rt.examenID : undefined).indexOf(this.model.parentExamen.id);
+		return this.rates[index];
+	}
+
+	historyRates() { 
+		return this.rates;
+	}
 
 	excludeStudent() {
 		// this.dataManagerStudents.excludeStudent(this.model.examen, this.model.student).then(result => {

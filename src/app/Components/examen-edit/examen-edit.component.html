@@ -19,6 +19,7 @@
             [model] = "item" 
             [student] = "selectStudent(item.studentID)"
             [rate] = "selectRate(item)"
+            [rates] ="selectRates(item)"
             (onAdd) = "addRate( item.parentExamen, selectStudent(item.studentID), $event)"
             (onUpdate) = "updeteRate(selectRate(item), $event)"
             (onDelete) = "deleteRate(selectRate(item))" >

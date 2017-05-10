@@ -104,6 +104,9 @@ export class ExamenEditComponent implements OnInit {
 		return ratesOfCurentStudent[index];
 	}	
 
+	selectRates(item) {
+		return this.ratesList.filter(rt => rt.studentID === item.studentID + '');
+	}		
 
 	addRate( examen: ExamenModel, student: StudentModel, rateValue ) { 
 		this.datamanagerRates.add(examen, student, rateValue).then(data => {

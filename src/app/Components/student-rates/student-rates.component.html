@@ -2,6 +2,19 @@
   <h4>Оценки студента</h4>
   <br/>
 
+<!--<div class="rate-wrapper">
+<div *ngFor="let group of groupRates()" class="rates-group">
+
+ {{group | json}}
+
+  </div>
+</div>-->
+
+
+{{groupRates() | json}}
+
+
+<!--
   <div *ngIf="groupby().length >0" class="rate-wrapper">
     <div *ngFor="let group of groupby()" class="rates-group">
       <p><strong>{{group.title}}</strong></p>
@@ -17,7 +30,7 @@
         </li>
       </ul>
     </div>
-  </div>
+  </div>-->
 
   <!--<ul *ngFor="let r of rates">
     <p *ngIf="r.examen"><strong>{{getDiscipline(r.examen.disciplineId).title}}</strong></p>

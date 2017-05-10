@@ -1,15 +1,14 @@
-<h4>Информация о студенте</h4>
-<br/>
-
-<div class="student-info">
-    <h1>{{student.name}}</h1>
+<div class="student-info-block">
+  <div class="photo">
+    <div class="clip"></div>
+  </div>
+  <div class="cont">
     <ul class="app-list-group">
-        <li class="app-list-group-item" *ngIf="student.phone">{{student.phone}}</li>
-        <li class="app-list-group-item" *ngIf="student.skype">{{student.skype}}</li>
-        <li class="app-list-group-item" *ngIf="student.email">{{student.email}}</li>
-        <!--<li class="app-list-group-item"
-                            *ngIf="model.student?.email">Отписать от экзамена</li>                            -->
+      <li class="app-list-group-item" *ngIf="student.phone">{{student.phone}}</li>
+      <li class="app-list-group-item" *ngIf="student.skype">{{student.skype}}</li>
+      <li class="app-list-group-item" *ngIf="student.email">{{student.email}}</li>
     </ul>
+  </div>
 </div>
 
 <br/>
