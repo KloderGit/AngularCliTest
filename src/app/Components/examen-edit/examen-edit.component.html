@@ -17,9 +17,11 @@
 <div class="center">
         <examen-edit-row *ngFor="let item of examensViewModel" 
             [model] = "item" 
-            [student] = "selectStudent(item.studentID)"
+            [student] = "selectStudent(item)"
             [rate] = "selectRate(item)"
             [rates] ="selectRates(item)"
+            [comments] = "selectComments(item)"
+            [examens] = "selectExamensForRate(item)"
             (onAdd) = "addRate( item.parentExamen, selectStudent(item.studentID), $event)"
             (onUpdate) = "updeteRate(selectRate(item), $event)"
             (onDelete) = "deleteRate(selectRate(item))" >

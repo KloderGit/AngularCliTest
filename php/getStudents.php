@@ -7,7 +7,9 @@ if (isset($_REQUEST)&&!empty($_REQUEST))
 {
     $filter = json_decode($_REQUEST["students"]);
 
-    $rsUsers = CUser::GetList(($by="ID"), ($order="asc"), array('ID' => implode('|', $filter)), array( "ID", "NAME", "LAST_NAME", "SECOND_NAME", "UF_SKYPE", "PERSONAL_PHONE", "EMAIL") );
+    // $rsUsers = CUser::GetList(($by="ID"), ($order="asc"), array('ID' => implode('|', $filter)), array( "ID", "NAME", "LAST_NAME", "SECOND_NAME", "UF_SKYPE", "PERSONAL_PHONE", "EMAIL") );
+    $rsUsers = CUser::GetList(($by="ID"), ($order="asc"), array('ID' => implode('|', $filter)), array("SELECT" => array("UF_*") ) );
+    
 
     while ($res = $rsUsers->Fetch()){
         $subjects[]= [ 

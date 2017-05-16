@@ -18,19 +18,16 @@
 
   <div *ngIf="student" class="app-panel-collapse collapse">
     <div class="app-panel-body">
-      <div class="student-fio">
-        <h1>{{student.name}}</h1>
-      </div>
-
         <div class="student-wrapper">
             <div class="student-info">
               <student-info [student]="student"></student-info>
             </div>
 
-            <div class="student-action">
-                      <button class="app-button app-button-info">Информация об обучении</button>&#8195;
-<br/>
-        <button class="app-button app-button-warning" (click) = "excludeStudent()">Отписать от экзамена</button>
+            <div class="student-action">      
+                            <p>{{this.rates | json}}</p>
+        
+              <p>{{this.comments | json}}</p>
+              <button class="app-button app-button-warning" (click) = "ddd()">rjv</button>
             </div>
         </div>
     </div>

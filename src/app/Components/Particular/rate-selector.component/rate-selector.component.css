@@ -1,3 +1,10 @@
-.rate-selector {
-
+.rate-selector > select {
+	border: 3px solid #777;;
+    border-radius: 5px;
+    width: 55px;
+    height: 30px;
+    text-align: center;
+    margin: 0 auto;
+    background: #ffffff;
+    line-height: 23px;
 }

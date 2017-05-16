@@ -1,6 +1,6 @@
 import { ExamenModel } from './examen-model';
 
-export class RateModel { 
+export class RateModel {
     id: string;
     examenID: string;
     examen: ExamenModel;

@@ -1,5 +1,5 @@
 <div class="student-info-block">
-  <div class="photo">
+  <div class="student-photo">
     <div class="clip"></div>
   </div>
   <div class="cont">
@@ -7,6 +7,7 @@
       <li class="app-list-group-item" *ngIf="student.phone">{{student.phone}}</li>
       <li class="app-list-group-item" *ngIf="student.skype">{{student.skype}}</li>
       <li class="app-list-group-item" *ngIf="student.email">{{student.email}}</li>
+      <a><li class="app-list-group-item" *ngIf="student">Отписать от экзамена</li></a>
     </ul>
   </div>
 </div>

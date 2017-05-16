@@ -1,3 +1,4 @@
+import { DataManagerStudentService } from './../../Services/data-manager-students.service';
 import { DataManagerRatesService } from './../../Services/data-manager-rates.service';
 import { ExamenRowModel } from './../../Models/examen-list-model';
 import { getDateString } from 'app/Shared/function';
@@ -10,7 +11,7 @@ import { DataManagerService } from './../../Services/data-manager.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DisciplineModel } from './../../Models/discipline-model';
 import { Component, OnInit } from '@angular/core';
-import { addFirstZero } from './../../Shared/function';
+import { addFirstZero, uniqueFlatArray } from './../../Shared/function';
 
 @Component({
 	selector: 'examen-edit',
@@ -19,6 +20,7 @@ import { addFirstZero } from './../../Shared/function';
 
 export class ExamenEditComponent implements OnInit {
 	dateToString = getDateString;
+	unique = uniqueFlatArray;
 
 	date: Date = new Date();
 	discipline: DisciplineModel;
@@ -27,10 +29,13 @@ export class ExamenEditComponent implements OnInit {
 	examensViewModel: ExamenRowModel[] = [];
 	studentsList: StudentModel[] = [];
 	ratesList: RateModel[] = [];
+	comments: CommentModel[] = [];
+	examensForRates: ExamenModel[] = [];
 
 	constructor(private route: ActivatedRoute,
 		private router: Router,
 		private dataManager: DataManagerService,
+		private dataManagerStudents: DataManagerStudentService,
 		private datamanagerRates: DataManagerRatesService) {
 		console.log('Создан компонент редактирования экзамена');
 	}
@@ -78,7 +83,7 @@ export class ExamenEditComponent implements OnInit {
 			.reduce(function (result, num) {
 				return result.concat(num);
 			}, []);
-				
+
 		this.dataManager.getStudents(studenstIDForRequest).then(data => {
 			this.studentsList = [];
 			for (let i = 0; i < data.length; i++) {
@@ -86,54 +91,72 @@ export class ExamenEditComponent implements OnInit {
 					this.studentsList.push(new StudentModel(data[i].id, data[i].name, data[i].phone, data[i].skype, data[i].email));
 				}
 			}
-		}).then(() => { 
-			this.datamanagerRates.getRates(studenstIDForRequest).then(rates => { 		
+		}).then(() => {
+			return this.datamanagerRates.getRates(studenstIDForRequest).then(rates => {
 				this.ratesList = rates;
+				return rates.map( rt => { if (rt.examenID) { return rt.examenID; } } );
+			});
+		}).then( examIDs => {
+			examIDs = this.unique(examIDs);
+			this.dataManager.loadExamensByIDs(examIDs).then( examens => {
+				this.examensForRates = examens;
+			});
+		}).then(() => {
+			this.dataManagerStudents.getComments(studenstIDForRequest).then(comments => {
+				this.comments = comments;
 			});
 		});
 	}
 
-	selectStudent(id) { 
-		const index = this.studentsList.map(st => st.id ? st.id : undefined).indexOf( id + '' );	
+	selectStudent(item) {
+		const id = item.studentID;
+		const index = this.studentsList.map(st => st.id ? st.id : undefined).indexOf( id + '' );
 		return this.studentsList[index];
 	}
 
 	selectRate(item) {
-		const ratesOfCurentStudent = this.ratesList.filter(rt => rt.studentID === item.studentID +'');	
+		const ratesOfCurentStudent = this.ratesList.filter(rt => rt.studentID === item.studentID + '');
 		const index = ratesOfCurentStudent.map(rt => rt.examenID ? rt.examenID : undefined).indexOf(item.parentExamen.id);
 		return ratesOfCurentStudent[index];
-	}	
+	}
 
 	selectRates(item) {
 		return this.ratesList.filter(rt => rt.studentID === item.studentID + '');
-	}		
+	}
 
-	addRate( examen: ExamenModel, student: StudentModel, rateValue ) { 
+	selectComments(item) {
+		const studentID = item.studentID;
+		return this.comments.filter(cm => cm.studentID == item.studentID);
+	}
+
+	selectExamensForRate(item){
+		const rates = this.selectRates(item);
+		const examensIDs = rates.map( rt => rt.examenID );
+		console.log(examensIDs);
+		
+		// const ex = this.examensForRates.filter( exam => {
+		// 	return examensIDs.indexOf(exam.id);
+		// });
+	}
+
+	addRate( examen: ExamenModel, student: StudentModel, rateValue ) {
 		this.datamanagerRates.add(examen, student, rateValue).then(data => {
 			this.ratesList.push(data);
-		});	
+		});
 	}
 
-	updeteRate( rate: RateModel, value ) { 
+	updeteRate( rate: RateModel, value ) {
 		this.datamanagerRates.edit( rate, value).then(data => {
 			rate.value = data.value;
-		});	
-	}	
-
-	vvv() { 
-		const r = this.ratesList.map(i => i.id);
-		const t = r.indexOf('13787');
-
-		console.log(this.ratesList[t]);
+		});
 	}
 
-	deleteRate( rate: RateModel ) { 
+	deleteRate( rate: RateModel ) {
 		this.datamanagerRates.delete(rate).then(data => {
-			if(data){
+			if (data) {
 				const index = this.ratesList.map(i => i.id ? i.id : undefined).indexOf(rate.id);
 				this.ratesList.splice(index, 1);
 			}
-		});			
+		});
 	}
-
 }

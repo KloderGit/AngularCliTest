@@ -1,3 +1,4 @@
+import { CommentModel } from './../Models/comments-model';
 import { StudentModel } from './../Models/student-model';
 import { ExamenModel } from './../Models/examen-model';
 import { Response } from '@angular/http';
@@ -20,6 +21,39 @@ export class DataManagerStudentService {
         private http: Http,
         private messages: MessagesService) {
         console.log('Создание DataManagerStudents');
+    }
+
+    getComments(array: any[]): Promise<CommentModel[]> {
+        return this.service.getStudentsComments(array.filter(i => i))
+            .then(data => {
+                const result = [];
+                for (let i = 0; i < data.length; i++) {
+                    const item = data[i];
+                    let comment = new CommentModel();
+
+                    comment = {
+                        id: item.id,
+                        studentID: item.studentID + '',
+                        examenID: item.examenID,
+                        disciplineID: item.disciplineID,
+                        date: item.date,
+                        isExamen: item.isExamen,
+                        isComsult: item.isComsult,
+                        comment: item.comment,
+                        excelent: item.excelent
+                    };
+
+                    result.push(comment);
+                }
+
+                return result;
+            }).catch(err => {
+                this.messages.addMessage(new Message({
+                    title: 'DataManager',
+                    content: err,
+                    type: 'danger'
+                }));
+            });
     }
 
 
