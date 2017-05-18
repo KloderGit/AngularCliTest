@@ -105,3 +105,36 @@ display: flex;
 .selectedBox select{
   border-color: brown;
 }
+
+
+.comments-block{
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.comments-block > div{
+  min-width: 250px;
+  width: 47%;
+}
+
+.app-examens-panel{
+  font-size: x-small;
+}
+
+.app-examens-panel .app-panel-heading{
+  padding: 10px;
+}
+
+.comment-text{
+  margin-top: 5px;
+}
+
+.grade-table{
+  width: 100%
+}
+
+.grade-table td{
+  width: 30%
+}
