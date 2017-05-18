@@ -96,9 +96,8 @@ export class ExamenEditComponent implements OnInit {
 				this.ratesList = rates;
 				return rates.map( rt => { if (rt.examenID) { return rt.examenID; } } );
 			});
-		}).then( examIDs => {
-			examIDs = this.unique(examIDs);
-			this.dataManager.loadExamensByIDs(examIDs).then( examens => {
+		}).then( () => {
+			this.dataManager.loadExamensByStudents(studenstIDForRequest).then( examens => {
 				this.examensForRates = examens;
 			});
 		}).then(() => {
@@ -130,13 +129,8 @@ export class ExamenEditComponent implements OnInit {
 	}
 
 	selectExamensForRate(item){
-		const rates = this.selectRates(item);
-		const examensIDs = rates.map( rt => rt.examenID );
-		console.log(examensIDs);
-		
-		// const ex = this.examensForRates.filter( exam => {
-		// 	return examensIDs.indexOf(exam.id);
-		// });
+		const studentID = item.studentID;
+		return this.examensForRates.filter(ex => ex.students.indexOf(studentID) < 0 ? false : true  );
 	}
 
 	addRate( examen: ExamenModel, student: StudentModel, rateValue ) {

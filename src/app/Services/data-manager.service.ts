@@ -158,6 +158,19 @@ export class DataManagerService {
       });
   }
 
+  loadExamensByStudents(array) {
+    return this.service.getExamensByStudents(array)
+      .then(data => {
+        let result = [];
+        if (data) {
+          for (var i = 0; i < data.length; i++) {
+            let ex = ExamenModel.map(data[i]);
+            result.push(ex);
+          }
+        }        
+        return result;
+      });
+  }  
 
   getExamensByDiscipline(disciplineId: string) {
     return this.examens.filter(item => item.disciplineId == disciplineId);
