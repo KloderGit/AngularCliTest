@@ -37,6 +37,7 @@
 .event-rate{
   width: 10%;
   min-width: 70px;
+  text-align: center;
 }
 
 
@@ -137,4 +138,8 @@ display: flex;
 
 .grade-table td{
   width: 30%
+}
+
+.examen-consult{
+  font-style: italic;
 }

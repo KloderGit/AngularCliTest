@@ -124,11 +124,9 @@ export class DayOfCalendarComponent implements OnInit{
 		$(this.selfElement.nativeElement).tooltip('show');
 		this.dataManager.changeExamensDate(this.examens, date)
 			.then( i =>{
-				console.log('sdsdsd');
 				$(this.selfElement.nativeElement).tooltip('hide');
 			} )
 			.catch( e => {
-				console.log('ddddddddddd');
 				$(this.selfElement.nativeElement).tooltip('hide');
 			} );
 	}

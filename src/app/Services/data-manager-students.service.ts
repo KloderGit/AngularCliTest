@@ -38,7 +38,7 @@ export class DataManagerStudentService {
                         disciplineID: item.disciplineID,
                         date: item.date,
                         isExamen: item.isExamen,
-                        isComsult: item.isComsult,
+                        isComsult: item.isConsult,
                         comment: item.comment,
                         excelent: item.excelent
                     };

@@ -8,9 +8,10 @@ import { ExamenModel } from './../../Models/examen-model';
 import { DataManagerService } from './../../Services/data-manager.service';
 import { RateModel } from './../../Models/rate-model';
 import { FormEditItem } from './../../Models/form-examen-edit-model';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { getHoursString, getDateString, uniqueFlatArray } from 'app/Shared/function';
 
+declare var $: any;
 
 @Component({
 	selector: 'examen-edit-row',
@@ -34,22 +35,35 @@ export class ExamenEditRowComponent implements OnInit {
 	@Output() onUpdate = new EventEmitter();
 	@Output() onDelete = new EventEmitter();
 
+	@ViewChild("selfElement") selfElement: ElementRef;
+
 	constructor(private dataManager: DataManagerService,
 		private dataManagerStudents: DataManagerStudentService,
 		private datamanagerRates: DataManagerRatesService) { }
 
-	ngOnInit() {}
+	ngOnInit() {
+		$(this.selfElement.nativeElement).tooltip(
+			{
+				title: 'Дождитесь окончания действия.',
+				trigger: 'manual',
+				placement: 'left'
+			}
+		);
+	}
 
 	changeRateValue(value) {
 		if (!this.rate && value > 0) {
+			$(this.selfElement.nativeElement).tooltip('show');
 			this.onAdd.emit(value);
 		}
 
 		if (this.rate && value > 0) {
+			$(this.selfElement.nativeElement).tooltip('show');
 			this.onUpdate.emit(value);
 		}
 
-		if (this.rate && value === 0) {
+		if (this.rate && value == 0) {
+			$(this.selfElement.nativeElement).tooltip('show');			
 			this.onDelete.emit();
 		}
 	}
@@ -82,12 +96,8 @@ export class ExamenEditRowComponent implements OnInit {
 	examenViewDiscipline() {
 		let map = this.history().map( di => di.discipline );
 		map = this.unique( map );
-
-const ind = map.indexOf( this.getDisciplineName() );
-// map = map.splice(ind, 1);
-
-console.log(map, ind);
-
+		const ind = map.indexOf( this.getDisciplineName() );
+		map.splice(ind, 1);
 		return map;
 	}
 
@@ -115,8 +125,20 @@ console.log(map, ind);
 		// });
 	}
 
+	gradeValue( grade ) { 
+		if (grade == 6) { return 'Зачет' }
+		if (grade == 7) { return 'Незачет' }
+		return grade;
+	}
+
+	collapseExamensBlock(element) { 		
+		$(element).toggle();
+	}
+
 	ddd() {
-		console.log(this.history());
+		console.log(this.selfElement);
+		
+		$('div').tooltip('hide');
 	}
 
 }

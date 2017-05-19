@@ -13,6 +13,8 @@ import { DisciplineModel } from './../../Models/discipline-model';
 import { Component, OnInit } from '@angular/core';
 import { addFirstZero, uniqueFlatArray } from './../../Shared/function';
 
+declare var $: any;
+
 @Component({
 	selector: 'examen-edit',
 	templateUrl: 'examen-edit.component.html'
@@ -136,12 +138,14 @@ export class ExamenEditComponent implements OnInit {
 	addRate( examen: ExamenModel, student: StudentModel, rateValue ) {
 		this.datamanagerRates.add(examen, student, rateValue).then(data => {
 			this.ratesList.push(data);
+			$('.event-rate').tooltip('hide');			
 		});
 	}
 
 	updeteRate( rate: RateModel, value ) {
 		this.datamanagerRates.edit( rate, value).then(data => {
 			rate.value = data.value;
+			$('.event-rate').tooltip('hide');
 		});
 	}
 
@@ -151,6 +155,7 @@ export class ExamenEditComponent implements OnInit {
 				const index = this.ratesList.map(i => i.id ? i.id : undefined).indexOf(rate.id);
 				this.ratesList.splice(index, 1);
 			}
-		});
+			$('.event-rate').tooltip('hide');
+		});	
 	}
 }

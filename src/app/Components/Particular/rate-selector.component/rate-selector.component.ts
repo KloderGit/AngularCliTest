@@ -15,7 +15,7 @@ export class RateSelectorComponent implements OnInit {
 
 	ngOnInit() { }
 
-	selectedRate( grade ){
+	selectedRate(grade) {	
 		if (this.rate) { 
 			return grade === this.rate.value ? true : false;
 		}
@@ -25,7 +25,9 @@ export class RateSelectorComponent implements OnInit {
 		return false;
 	}
 
-	changeRate( grade ) { 
+	changeRate(grade) { 
+		console.log(grade);
+		
 		this.onChange.emit( grade );
 	}
 }
