@@ -19,8 +19,8 @@ h4 {
     height: 100px;
     width: 100px;
     border: solid 6px #933;
-    background: url(https://lh4.googleusercontent.com/-nurOaKwIl6I/AAAAAAAAAAI/AAAAAAAAA6M/kSCACRLpBKU/photo.jpg) 100% no-repeat;
     background-size: 110%;
     background-position: center center;
+    background-repeat: no-repeat;
     border-radius: 50%;
 }

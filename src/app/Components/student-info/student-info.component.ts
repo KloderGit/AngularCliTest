@@ -12,4 +12,8 @@ export class StudentInfoComponent implements OnInit {
 	@Input() student: StudentModel;
 
 	ngOnInit() { }
+
+	studentPhoto() {
+		return 'url(' + this.student.photo + ')';
+	}
 }

@@ -17,7 +17,8 @@ if (isset($_REQUEST)&&!empty($_REQUEST))
             "name" => $res["LAST_NAME"] . ' ' . $res["NAME"] . ' ' . $res["SECOND_NAME"],
             "skype" => $res["UF_SKYPE"],
             "phone" => $res["PERSONAL_PHONE"],
-            "email" => $res["EMAIL"]
+            "email" => $res["EMAIL"],
+            "photo" => $res['PERSONAL_PHOTO'] ? 'http://' . $_SERVER['HTTP_HOST'] . CFile::GetPath($res['PERSONAL_PHOTO']) : 'http://data.ht/images/no-avatar.png'
         ];
     }
     echo json_encode($subjects);    

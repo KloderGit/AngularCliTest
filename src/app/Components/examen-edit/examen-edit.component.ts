@@ -90,7 +90,7 @@ export class ExamenEditComponent implements OnInit {
 			this.studentsList = [];
 			for (let i = 0; i < data.length; i++) {
 				if (data[i]) {
-					this.studentsList.push(new StudentModel(data[i].id, data[i].name, data[i].phone, data[i].skype, data[i].email));
+					this.studentsList.push(new StudentModel(data[i].id, data[i].name, data[i].phone, data[i].skype, data[i].email, data[i].photo));
 				}
 			}
 		}).then(() => {
@@ -156,6 +156,10 @@ export class ExamenEditComponent implements OnInit {
 				this.ratesList.splice(index, 1);
 			}
 			$('.event-rate').tooltip('hide');
-		});	
+		});
+	}
+
+	divs(){
+		return ['8:30', '9:00', '10:00', 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 	}
 }

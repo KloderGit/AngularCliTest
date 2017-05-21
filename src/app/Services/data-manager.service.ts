@@ -1,4 +1,3 @@
-import { StudentModel } from './../Models/student-model';
 import { examenAddDTO } from './../DTO/exaxmensAddDTO';
 import { Response } from '@angular/http';
 import {
