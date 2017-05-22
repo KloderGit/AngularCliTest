@@ -104,7 +104,6 @@ export class ExamenEditRowComponent implements OnInit {
 
 	historyOrder(discipline) {
 		function sortByDate( a , b ) { return (+b.date) - (+a.date); }
-
 		return this.history().filter( vw => vw.discipline === discipline).sort(sortByDate);
 	}
 
@@ -114,6 +113,11 @@ export class ExamenEditRowComponent implements OnInit {
 
 	historyAnotherDiscipline( discip ){
 		return discip == this.getDisciplineName() ? [] : this.historyOrder( discip );
+	}
+
+	selectCurrentComment() { 
+		const i = this.historyCurrentDiscipline().map(obj => obj.currentDay).indexOf(true);
+		return i >= 0 ? this.historyCurrentDiscipline()[i].comment : undefined;
 	}
 
 	getDisciplineName(){
@@ -139,10 +143,8 @@ export class ExamenEditRowComponent implements OnInit {
 		$(element).toggle();
 	}
 
-	ddd() {
-		console.log(this.selfElement);
-		
-		$('div').tooltip('hide');
+	addEditComment(value: CommentModel | string) { 
+		console.log(value );
 	}
 
 }

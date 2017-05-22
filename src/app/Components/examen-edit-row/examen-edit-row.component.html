@@ -25,7 +25,7 @@
         </div>
 
         <div class="student-action">
-<button class="app-button app-button-warning" (click)="ddd()">Добавить комментарий</button>
+          <add-comment (onSave) = "addEditComment($event)" [comment] = "selectCurrentComment()"></add-comment>
         </div>
       </div>
 

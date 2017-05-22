@@ -1,3 +1,4 @@
+import { AddCommentComponent } from './Components/Particular/add-comment.component/add-comment.component';
 import { RateSelectorComponent } from './Components/Particular/rate-selector.component/rate-selector.component';
 import { StudentRatesComponent } from './Components/student-rates/student-rates.component';
 import { ExamenEditRowComponent } from './Components/examen-edit-row/examen-edit-row.component';
@@ -14,7 +15,7 @@ export const routerConfig = [{
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(routerConfig)],
-    declarations: [ExamenEditComponent, StudentRatesComponent, RateSelectorComponent,
+    declarations: [ExamenEditComponent, StudentRatesComponent, RateSelectorComponent, AddCommentComponent,
         AccordionItemDirective, StudentInfoComponent, ExamenEditRowComponent ]
 })
 export default class ExamensAddModule { }
