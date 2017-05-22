@@ -36,6 +36,7 @@ export class ExamenEditRowComponent implements OnInit {
 	@Output() onDelete = new EventEmitter();
 
 	@ViewChild("selfElement") selfElement: ElementRef;
+	@ViewChild("rootElement") rootElement: ElementRef;
 
 	constructor(private dataManager: DataManagerService,
 		private dataManagerStudents: DataManagerStudentService,
@@ -120,9 +121,12 @@ export class ExamenEditRowComponent implements OnInit {
 	}
 
 	excludeStudent() {
-		// this.dataManagerStudents.excludeStudent(this.model.examen, this.model.student).then(result => {
-		// 	if (result) { this.model.studentID = undefined; this.model.student = undefined; }
-		// });
+		const el = this.rootElement.nativeElement;
+		
+		this.dataManagerStudents.excludeStudent(this.model.parentExamen, this.student).then(result => {
+			if (result) { this.model.studentID = undefined; this.student = undefined; }
+			$(el).removeClass('selectedBox');		
+		});
 	}
 
 	gradeValue( grade ) { 

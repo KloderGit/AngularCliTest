@@ -51,16 +51,32 @@
 
 .student-wrapper{
   display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
 }
 
 
 .student-wrapper .student-info,
 .student-wrapper .student-action {
-  width: 49%;
-  min-width: 210px;
+  width: 47%;
+  min-width: 350px;
   padding: 10px;
-  margin: 1%;
+  /*margin: 1%;*/
 }
+
+.student-action {
+  /*align-items: center;*/
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.exclude-student {
+  font-size: x-small;
+}
+
 
 .app-panel-body .comments textarea {
   padding: 10px;
@@ -87,12 +103,6 @@
   margin-top: 10px;
 }
 
-.student-action{
-align-items: center;
-justify-content: center;
-display: flex;
-}
-
 .selectedBox .event-student > p{
     color: brown;
     font-size: large;
@@ -116,7 +126,7 @@ display: flex;
 }
 
 .comments-block > div{
-  min-width: 250px;
+  min-width: 350px;
   width: 47%;
 }
 

@@ -9,6 +9,7 @@ h4 {
 
 .student-info-block > .student-photo {
   width: 30%;
+  margin-right: 7px;  
 }
 
 .student-info-block>.cont {

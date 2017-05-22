@@ -1,7 +1,7 @@
 <div class="rate-selector">
     <!--{{rate | json}}-->
     <select  name="select" (change) = "changeRate($event.target.value)">
-            <option [selected] = "selectedRate(0)" value="0">Нет оценки</option>
+            <option [selected] = "selectedRate(0)" value="0">&nbsp;</option>
         <optgroup label="Для экзамена">
             <option *ngFor="let grade of [5,4,3,2]" 
                     value="{{grade}}" 

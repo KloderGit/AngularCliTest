@@ -37,6 +37,12 @@
   border-color: #2e6da4;
 }
 
+.app-button-danger {
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
+
 
 .app-input-select{
       width: 204px;

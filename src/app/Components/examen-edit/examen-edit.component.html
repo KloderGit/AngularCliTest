@@ -20,7 +20,7 @@
             [rates] ="selectRates(item)"
             [comments] = "selectComments(item)"
             [examens] = "selectExamensForRate(item)"
-            (onAdd) = "addRate( item.parentExamen, selectStudent(item.studentID), $event)"
+            (onAdd) = "addRate( item.parentExamen, selectStudent(item), $event)"
             (onUpdate) = "updeteRate(selectRate(item), $event)"
             (onDelete) = "deleteRate(selectRate(item))" >
         </examen-edit-row>
