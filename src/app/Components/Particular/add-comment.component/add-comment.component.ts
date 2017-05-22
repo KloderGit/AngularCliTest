@@ -10,7 +10,7 @@ declare var $: any;
 
 export class AddCommentComponent implements OnInit {
 
-	@Input() comment;
+	@Input() comment: string;
 
 	@ViewChild('toggleButton') toggleButton: ElementRef;
 	@ViewChild('toogleContent') toogleContent: ElementRef;
@@ -39,13 +39,15 @@ export class AddCommentComponent implements OnInit {
 		$(c).toggle();
 	}	
 
-	change( value ) { 
+	change(value) { 
 		this.comment = value;
+		console.log(this.comment);
+		
 	}
 
 	saveActive() { 
-		return true;
-		// return this.comment.replace(/\s+/g, '').length > 0 ? true: false;		
+		const res = this.comment + ' ';
+		return res.replace(/\s+/g, '').length > 0 ? true: false;
 	}
 
 	saveComment() { 
@@ -60,7 +62,7 @@ export class AddCommentComponent implements OnInit {
 	}
 
 	commentFormText() { 
-		return this.comment ? this.comment.comment ? this.comment.comment : '' : undefined;
+		return this.comment ? this.comment : '';
 	}
 	
 }

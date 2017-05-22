@@ -115,9 +115,15 @@ export class ExamenEditRowComponent implements OnInit {
 		return discip == this.getDisciplineName() ? [] : this.historyOrder( discip );
 	}
 
-	selectCurrentComment() { 
-		const i = this.historyCurrentDiscipline().map(obj => obj.currentDay).indexOf(true);
-		return i >= 0 ? this.historyCurrentDiscipline()[i].comment : undefined;
+	selectCurrentComment() {
+		const i = this.historyCurrentDiscipline().map(obj => obj.currentDay ? obj.currentDay : undefined).indexOf(true);
+		return i >= 0 ? this.historyCurrentDiscipline()[i] : undefined;
+	}
+
+	selectCurrentCommentValue() { 
+		return this.selectCurrentComment() ?
+			this.selectCurrentComment().comment ? this.selectCurrentComment().comment.comment : ''
+			: '';
 	}
 
 	getDisciplineName(){
@@ -143,7 +149,7 @@ export class ExamenEditRowComponent implements OnInit {
 		$(element).toggle();
 	}
 
-	addEditComment(value: CommentModel | string) { 
+	addEditComment(value) { 
 		console.log(value );
 	}
 
