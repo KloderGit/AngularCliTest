@@ -26,6 +26,7 @@ export class DataManagerStudentService {
     getComments(array: any[]): Promise<CommentModel[]> {
         return this.service.getStudentsComments(array.filter(i => i))
             .then(data => {
+                if (!data) { return []; }
                 const result = [];
                 for (let i = 0; i < data.length; i++) {
                     const item = data[i];

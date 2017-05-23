@@ -53,6 +53,7 @@ export class ExamenEditRowComponent implements OnInit {
 	}
 
 	changeRateValue(value) {
+
 		if (!this.rate && value > 0) {
 			$(this.selfElement.nativeElement).tooltip('show');
 			this.onAdd.emit(value);
@@ -149,8 +150,21 @@ export class ExamenEditRowComponent implements OnInit {
 		$(element).toggle();
 	}
 
-	addEditComment(value) { 
-		console.log(value );
+	changeComment(value) {
+		this.selectCurrentComment() ? this.editComment( value ) : this.addComment( value );
 	}
+
+	editComment(value) { 
+		// let param: { comment: string, isConsult: boolean, exelent: boolean };
+		// param.comment = value;
+
+		// const comment = this.selectCurrentComment();
+
+		// this.dataManager.editComment()
+	}
+	addComment( value ) {
+		console.log('Создаем комментарий');
+	}
+
 
 }

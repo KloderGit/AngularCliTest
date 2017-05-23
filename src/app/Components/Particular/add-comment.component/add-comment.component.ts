@@ -64,5 +64,7 @@ export class AddCommentComponent implements OnInit {
 	commentFormText() { 
 		return this.comment ? this.comment : '';
 	}
+
+	
 	
 }

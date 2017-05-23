@@ -406,29 +406,12 @@ export class DataManagerService {
   } 
 
 
-  // excludeStudent(examen: ExamenModel, student: StudentModel) {
-  //   return this.service.excludeStudent(examen.id, student.id)
-  //     .then(data => {
-  //       if (data == 'succes') { examen.students }
-        
-  //       }
-  //       this.messages.addMessage(new Message({
-  //         title: 'DataManager',
-  //         content: 'Студент отписан от экзамена.',
-  //         type: 'success'
-  //       }));
-  //       return true;
-  //     }
-  //     )
-  //     .catch(err => {
-  //       this.messages.addMessage(new Message({
-  //         title: 'DataManager',
-  //         content: err,
-  //         type: 'danger'
-  //       }));
-  //       return false;
-  //     });
-  // }
+  editComment() { 
+    return this.service.editComment()
+      .then(data => { 
+        return data;
+      });
+  }
 
 
 

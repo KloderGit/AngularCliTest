@@ -293,6 +293,25 @@ export class ServiceJsonService {
             );
     }
 
+    editComment( commentID, value ) {
+        let body = JSON.stringify({ action: 'edit', params: { itemID: commentID, value: value } });
+
+        return this.http.post('http://dev.fitness-pro.ru/comments.php',
+            body,
+            { headers: this.headers })
+            .toPromise()
+            .then(res => {
+                return res.json();
+            },
+            err => {
+                this.messages.addMessage(new Message({
+                    title: 'Service',
+                    content: err,
+                    type: 'danger'
+                }));
+            });
+    }    
+
 }
 
 

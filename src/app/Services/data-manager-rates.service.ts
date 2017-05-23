@@ -28,6 +28,7 @@ export class DataManagerRatesService {
     getRates(array: any[]): Promise<RateModel[]> {
         return this.service.getRates(array.filter(i => i))
             .then(data => {
+                if (!data) { return []; }
                 const result = [];
                 for (let i = 0; i < data.length; i++) {
                     const rate = new RateModel(data[i].id, data[i].examenID, data[i].studentID, data[i].rate);
