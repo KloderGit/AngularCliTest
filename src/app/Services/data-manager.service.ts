@@ -1,3 +1,4 @@
+import { CommentModel } from './../Models/comments-model';
 import { examenAddDTO } from './../DTO/exaxmensAddDTO';
 import { Response } from '@angular/http';
 import {
@@ -406,11 +407,40 @@ export class DataManagerService {
   } 
 
 
-  editComment() { 
-    return this.service.editComment()
-      .then(data => { 
-        return data;
-      });
+  editComment( itemID, param ) { 
+    return this.service.editComment(itemID, param)
+      .then(data => {
+
+        if (!data) { throw new SyntaxError("Объект не найден");  }
+
+        let comment = new CommentModel();
+
+        for (let i = 0; i < data.length; i++) {
+          const item = data[i];
+          comment = {
+            id: item.id,
+            studentID: item.studentID + '',
+            examenID: item.examenID,
+            disciplineID: item.disciplineID,
+            date: item.date,
+            isExamen: item.isExamen,
+            isConsult: item.isConsult,
+            comment: item.comment,
+            excelent: item.excelent
+          };
+        }
+
+        return comment;
+      })
+      .catch(
+        err => {
+          this.messages.addMessage(new Message({
+            title: 'Service',
+            content: err,
+            type: 'danger'
+          }));
+        }
+      );
   }
 
 

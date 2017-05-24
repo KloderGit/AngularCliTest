@@ -6,7 +6,7 @@ export class CommentModel {
     examenID: string;
     date: any;
     isExamen: any;
-    isComsult: any;
+    isConsult: any;
     comment: string;
     excelent: any;
 }

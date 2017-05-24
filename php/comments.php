@@ -69,8 +69,20 @@ class Comment
 
         $arField = [];
         if ($comment) { $arField["EVENT_COMMENT"] = $comment; }
-        if ($isConsult) { $arField["EVENT_IS_KONSULT"] = 1; }
-        if ($exelent) { $arField["EVENT_IS_EXCELLENT_GRADE"] = 1; }
+
+        if ($isConsult == 'true' ) { $arField["EVENT_IS_KONSULT"] = 1; }
+        if ($isConsult == 'false' ) { $arField["EVENT_IS_KONSULT"] = 0; }        
+
+        if ($exelent == 'true' ) { $arField["EVENT_IS_EXCELLENT_GRADE"] = 1; }
+        if ($exelent == 'false' ) { $arField["EVENT_IS_EXCELLENT_GRADE"] = 0; }
+
+        // echo $comment.'коммент - '.'<br/>';
+        // echo $isConsult.'консулт - '.'<br/>';
+        // echo $exelent.'экселент - '.'<br/><br/><br/>';
+
+        // echo $arField["EVENT_COMMENT"].'арр-комент - '.'<br/>';
+        // echo $arField["EVENT_IS_KONSULT"].'арр-консулт - '.'<br/>';
+        // echo $arField["EVENT_IS_EXCELLENT_GRADE"].'арр-экселент - '.'<br/>';
 
         $res = CIBlockElement::GetByID( $this->id );
         if($ar_res = $res->GetNext()){

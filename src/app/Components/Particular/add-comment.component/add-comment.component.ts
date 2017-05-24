@@ -41,8 +41,6 @@ export class AddCommentComponent implements OnInit {
 
 	change(value) { 
 		this.comment = value;
-		console.log(this.comment);
-		
 	}
 
 	saveActive() { 

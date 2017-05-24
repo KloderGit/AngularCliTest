@@ -25,10 +25,23 @@
         </div>
 
         <div class="student-action">
-          <add-comment (onSave) = "changeComment($event)" [comment] = "selectCurrentCommentValue()"></add-comment>
+          <label>
+            <input  type="checkbox"
+                    [checked] = "isConsult()"
+                    (change) = "changeCommentConsult($event.target.checked)" />
+                    Консультация
+          </label>
 
-<button (click)="ddd()">Rjvtyn</button>
+          <label>
+            <input  type="checkbox"
+                    [checked] = "isExcelent()"
+                    (change) = "changeCommentExcelent($event.target.checked)" />
+                    Отличник
+          </label>
 
+          <add-comment  (onSave) = "changeCommentText($event)" 
+                        [comment] = "selectCurrentCommentValue()">
+          </add-comment>
         </div>
       </div>
 

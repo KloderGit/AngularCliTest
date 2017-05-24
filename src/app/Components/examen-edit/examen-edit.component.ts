@@ -162,4 +162,18 @@ export class ExamenEditComponent implements OnInit {
 	divs(){
 		return ['8:30', '9:00', '10:00', 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 	}
+
+	updateComment( obj ) { 
+
+		const ItemID = obj.ItemID;
+		const param = obj.param;		
+		
+		this.dataManager.editComment(ItemID, param)
+			.then(data => {
+				const indx = this.comments.map(cm => cm ? cm.id : undefined).indexOf(ItemID);
+				if (data) {
+					this.comments.splice(indx, 1, data);
+				}
+			});
+	}
 }

@@ -24,6 +24,8 @@ export class ExamenEditRowComponent implements OnInit {
 	dateToString = getDateString;
 	unique = uniqueFlatArray;
 
+	isACtive: boolean = false;
+
 	@Input() model: ExamenRowModel;
 	@Input() student: StudentModel;
 	@Input() rate: RateModel;
@@ -34,6 +36,7 @@ export class ExamenEditRowComponent implements OnInit {
 	@Output() onAdd = new EventEmitter();
 	@Output() onUpdate = new EventEmitter();
 	@Output() onDelete = new EventEmitter();
+	@Output() onCommentChange = new EventEmitter();
 
 	@ViewChild("selfElement") selfElement: ElementRef;
 	@ViewChild("rootElement") rootElement: ElementRef;
@@ -150,21 +153,59 @@ export class ExamenEditRowComponent implements OnInit {
 		$(element).toggle();
 	}
 
-	changeComment(value) {
-		this.selectCurrentComment() ? this.editComment( value ) : this.addComment( value );
+
+	isConsult() {
+		let res = false;
+		if (this.selectCurrentComment()) {
+			const historyObject = this.selectCurrentComment();
+			res = historyObject.comment ? historyObject.comment.isConsult ? true : false
+			: false;
+		}
+		return res;
 	}
 
-	editComment(value) { 
-		// let param: { comment: string, isConsult: boolean, exelent: boolean };
-		// param.comment = value;
+	isExcelent() {
+		let res = false;
+		if (this.selectCurrentComment()) {
+			const historyObject = this.selectCurrentComment();
+			res = historyObject.comment ? historyObject.comment.excelent ? true : false
+				: false;
+		}
+		return res;
+	}	
 
-		// const comment = this.selectCurrentComment();
-
-		// this.dataManager.editComment()
+	changeCommentText(value) { 
+		let param: { comment: string } = { comment: undefined };
+		param.comment = value;
+		this.changeComment(param);
 	}
+
+	changeCommentConsult(value) { 
+		let param: { isConsult: string } = { isConsult: undefined };
+		param.isConsult = value ? 'true' : 'false';
+		this.changeComment(param);
+	}
+
+	changeCommentExcelent(value) { 
+		let param: { exelent: string } = { exelent: undefined };
+		param.exelent = value ? 'true' : 'false';
+		this.changeComment(param);
+	}
+
+	changeComment(param) {
+		if( this.selectCurrentComment() ) {
+			this.selectCurrentComment().comment ? this.editComment(param) : this.addComment(param);
+		}
+	}
+
+	editComment(param) { 
+		const historyObject = this.selectCurrentComment();
+		this.onCommentChange.emit({ ItemID: historyObject.comment.id, param: param })
+	}
+
+
 	addComment( value ) {
 		console.log('Создаем комментарий');
 	}
-
 
 }
