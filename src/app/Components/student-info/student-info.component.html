@@ -6,9 +6,18 @@
     <ul class="app-list-group">
       <li class="app-list-group-item" *ngIf="student.phone">{{student.phone}}</li>
       <li class="app-list-group-item" *ngIf="student.skype">{{student.skype}}</li>
-      <li class="app-list-group-item" *ngIf="student.email">{{student.email}}</li>
+      <li class="app-list-group-item" *ngIf="student.email">{{student.email}}</li>    
+      <li class="app-list-group-item">
+          <label><input  type="checkbox"
+                    [checked] = "excelent"
+                    (change) = "changeExcelent($event.target.checked)" />
+                    Отличник
+          </label>
+      </li>
+      
     </ul>
 
   </div>
 </div>
 <br/>
+

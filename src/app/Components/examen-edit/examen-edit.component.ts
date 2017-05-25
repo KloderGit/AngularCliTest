@@ -10,14 +10,15 @@ import { ExamenModel } from './../../Models/examen-model';
 import { DataManagerService } from './../../Services/data-manager.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DisciplineModel } from './../../Models/discipline-model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { addFirstZero, uniqueFlatArray } from './../../Shared/function';
 
 declare var $: any;
 
 @Component({
 	selector: 'examen-edit',
-	templateUrl: 'examen-edit.component.html'
+	templateUrl: 'examen-edit.component.html',
+	styleUrls: [ 'examen-edit.component.css' ]
 })
 
 export class ExamenEditComponent implements OnInit {
@@ -33,6 +34,8 @@ export class ExamenEditComponent implements OnInit {
 	ratesList: RateModel[] = [];
 	comments: CommentModel[] = [];
 	examensForRates: ExamenModel[] = [];
+
+	@ViewChild('pieChart') pieChart: ElementRef;
 
 	constructor(private route: ActivatedRoute,
 		private router: Router,
@@ -58,6 +61,14 @@ export class ExamenEditComponent implements OnInit {
 			this.formViewModelInit();
 			this.loadData();
 		}
+
+		this.pieChart.nativeElement.innerHTML = '5,0,9,6,5';	
+
+		$(this.pieChart.nativeElement).peity("pie", {
+			innerRadius: 40,
+			radius: 70,
+			fill: ["#f77526", "#f7b826", "#d5f726", "#1cd2a1", "#dad5d2"]
+		});		
 	}
 
 	formViewModelInit() {
@@ -176,4 +187,24 @@ export class ExamenEditComponent implements OnInit {
 				}
 			});
 	}
+
+	addComment(objt) { 		
+		this.dataManager.addComment(objt)
+			.then(data => {
+				if (data) {
+					this.comments.push(data);
+				}
+			});		
+	}
+
+	percentage(x, y) {
+		return Math.floor(100 / (y / x));
+	}
+
+	count(x) { 
+		const countExams = this.examensViewModel;
+		const countRate = countExams.map( item => item.parentExamen.id );
+	}
+
+
 }

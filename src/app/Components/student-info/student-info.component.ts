@@ -1,5 +1,5 @@
 import { StudentModel } from './../../Models/student-model';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
 	selector: 'student-info',
@@ -10,10 +10,16 @@ import { Component, OnInit, Input } from '@angular/core';
 export class StudentInfoComponent implements OnInit {
 
 	@Input() student: StudentModel;
+	@Input() excelent: StudentModel;	
+	@Output() onChangeExcelent = new EventEmitter();
 
 	ngOnInit() { }
 
 	studentPhoto() {
 		return 'url(' + this.student.photo + ')';
+	}
+
+	changeExcelent(value) { 
+		this.onChangeExcelent.emit(value);
 	}
 }

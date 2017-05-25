@@ -2,3 +2,16 @@
     background-color: #c77171;
 
 }
+
+.legend_round{
+    height: 15px;
+    width: 15px;
+    /*background-color: bisque;*/
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.legend_row{
+    padding: 2px;
+    vertical-align: middle;
+}

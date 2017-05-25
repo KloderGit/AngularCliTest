@@ -435,7 +435,7 @@ export class DataManagerService {
       .catch(
         err => {
           this.messages.addMessage(new Message({
-            title: 'Service',
+            title: 'DataManager',
             content: err,
             type: 'danger'
           }));
@@ -443,6 +443,41 @@ export class DataManagerService {
       );
   }
 
+  addComment(obj) {
+    return this.service.addComment(obj)
+      .then(data => {
+
+        if (!data) { throw new SyntaxError("Объект не найден"); }
+
+        let comment = new CommentModel();
+
+        for (let i = 0; i < data.length; i++) {
+          const item = data[i];
+          comment = {
+            id: item.id,
+            studentID: item.studentID + '',
+            examenID: item.examenID,
+            disciplineID: item.disciplineID,
+            date: item.date,
+            isExamen: item.isExamen,
+            isConsult: item.isConsult,
+            comment: item.comment,
+            excelent: item.excelent
+          };
+        }
+
+        return comment;
+      })
+      .catch(
+      err => {
+        this.messages.addMessage(new Message({
+          title: 'DataManager',
+          content: err,
+          type: 'danger'
+        }));
+      }
+      );
+  }  
 
 
 }

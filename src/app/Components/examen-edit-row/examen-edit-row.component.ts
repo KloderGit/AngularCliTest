@@ -37,6 +37,7 @@ export class ExamenEditRowComponent implements OnInit {
 	@Output() onUpdate = new EventEmitter();
 	@Output() onDelete = new EventEmitter();
 	@Output() onCommentChange = new EventEmitter();
+	@Output() onCommentAdd = new EventEmitter();
 
 	@ViewChild("selfElement") selfElement: ElementRef;
 	@ViewChild("rootElement") rootElement: ElementRef;
@@ -57,6 +58,16 @@ export class ExamenEditRowComponent implements OnInit {
 
 	changeRateValue(value) {
 
+		if (value >= 0 && value <= 7) { 
+			this.setGrade(value);
+		}
+
+		if (value == 8) { 
+			this.setConsult();
+		}
+	}
+
+	setGrade(value) { 
 		if (!this.rate && value > 0) {
 			$(this.selfElement.nativeElement).tooltip('show');
 			this.onAdd.emit(value);
@@ -68,10 +79,14 @@ export class ExamenEditRowComponent implements OnInit {
 		}
 
 		if (this.rate && value == 0) {
-			$(this.selfElement.nativeElement).tooltip('show');			
+			$(this.selfElement.nativeElement).tooltip('show');
 			this.onDelete.emit();
 		}
 	}
+
+	setConsult() { 
+		this.changeCommentConsult(true);
+	};	
 
 	curentRate() {
 		const index = this.rates.map(rt => rt.examenID ? rt.examenID : undefined).indexOf(this.model.parentExamen.id);
@@ -187,8 +202,8 @@ export class ExamenEditRowComponent implements OnInit {
 	}
 
 	changeCommentExcelent(value) { 
-		let param: { exelent: string } = { exelent: undefined };
-		param.exelent = value ? 'true' : 'false';
+		let param: { excelent: string } = { excelent: undefined };
+		param.excelent = value ? 'true' : 'false';
 		this.changeComment(param);
 	}
 
@@ -204,8 +219,24 @@ export class ExamenEditRowComponent implements OnInit {
 	}
 
 
-	addComment( value ) {
-		console.log('Создаем комментарий');
+	addComment(value) {
+		
+		const comment = new CommentModel();
+
+		comment.date = this.model.parentExamen.startTime;
+		comment.disciplineID = this.model.parentExamen.disciplineId;
+		comment.examenID = this.model.parentExamen.id;
+		comment.studentID = this.model.studentID;
+
+		comment.comment = '';		
+		comment.excelent = 'false';
+		comment.isConsult = 'false';
+
+		for (var key in value) {
+			comment[key] = value[key];
+		}		
+
+		this.onCommentAdd.emit(comment);
 	}
 
 }

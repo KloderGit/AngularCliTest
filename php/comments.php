@@ -3,24 +3,16 @@
 
 $query = json_decode(file_get_contents('php://input'), true);
 
-        // echo '<pre>';
-        //     print_r($query);
-        // echo '<pre>';
-
-
-
-
-
 switch ($query['action']) {
     case 'add':         // { action: 'add', params: { object: {} }}
-        $rate = new Comment();            
+        $rate = new Comment(); 
         echo json_encode( $rate->add($query['params']['object']) );
         break;
     case 'edit':        // { action: 'edit', params: { itemID: any; value: { comment, isConsult, exelent } }}
         $elementID = intval( $query['params']['itemID'] );
         $elementComment = $query['params']['value']['comment'];
         $elementIsConsult = $query['params']['value']['isConsult'];
-        $elementExelent = $query['params']['value']['exelent'];     
+        $elementExelent = $query['params']['value']['excelent'];     
 
         $rate = new Comment();
         $rate->id = $elementID;
@@ -42,30 +34,39 @@ class Comment
 
         $el = new CIBlockElement;
         $PROP = array();
-        $PROP[301] = $object['examen'];
-        $PROP[302] = $object['predmet'];
-        $PROP[304] = $object['date'];
-        $PROP[373] = $object['excelent'];
-        $PROP[295] = $object['student'];
-        $PROP[297] = $object['isConsult'];
+        $PROP[301] = intval( $object['examenID'] );
+        $PROP[302] = intval( $object['disciplineID'] );
+        $PROP[304] = ConvertTimeStamp( strtotime($object['date']), '"SHORT"');
+
+        if ($object['isConsult'] == 'true' ) { $PROP[297] = 1; }
+        if ($object['isConsult'] == 'false' ) { $PROP[297] = 0; }        
+
+        if ($object['excelent'] == 'true' ) { $PROP[373] = 1; }
+        if ($object['excelent'] == 'false' ) { $PROP[373] = 0; }
+
+        $PROP[295] = intval( $object['studentID'] );
         $PROP[294] = $object['comment'];       
 
            $arLoadProductArray = Array( 
              "IBLOCK_ID"      => 28,
              "PROPERTY_VALUES"=> $PROP,
-             "NAME"           => 'Комментарий',
+             "NAME"           => 'Комментарий' . ' ' . $object['examenID'] . ' ' . $object['studentID'],
              "ACTIVE"         => "Y"
            );
+
+        // echo '<pre>';
+        //     print_r($arLoadProductArray);
+        // echo '<pre>';           
 
            $result = $el->Add($arLoadProductArray);
 
            if ($result){
                $this->id = $result;
                return $this->getSelfElement();
-           }
+           }        
     }
 
-    public function edit( $comment, $isConsult, $exelent ) {
+    public function edit( $comment, $isConsult, $excelent ) {
 
         $arField = [];
         if ($comment) { $arField["EVENT_COMMENT"] = $comment; }
@@ -73,16 +74,8 @@ class Comment
         if ($isConsult == 'true' ) { $arField["EVENT_IS_KONSULT"] = 1; }
         if ($isConsult == 'false' ) { $arField["EVENT_IS_KONSULT"] = 0; }        
 
-        if ($exelent == 'true' ) { $arField["EVENT_IS_EXCELLENT_GRADE"] = 1; }
-        if ($exelent == 'false' ) { $arField["EVENT_IS_EXCELLENT_GRADE"] = 0; }
-
-        // echo $comment.'коммент - '.'<br/>';
-        // echo $isConsult.'консулт - '.'<br/>';
-        // echo $exelent.'экселент - '.'<br/><br/><br/>';
-
-        // echo $arField["EVENT_COMMENT"].'арр-комент - '.'<br/>';
-        // echo $arField["EVENT_IS_KONSULT"].'арр-консулт - '.'<br/>';
-        // echo $arField["EVENT_IS_EXCELLENT_GRADE"].'арр-экселент - '.'<br/>';
+        if ($excelent == 'true' ) { $arField["EVENT_IS_EXCELLENT_GRADE"] = 1; }
+        if ($excelent == 'false' ) { $arField["EVENT_IS_EXCELLENT_GRADE"] = 0; }
 
         $res = CIBlockElement::GetByID( $this->id );
         if($ar_res = $res->GetNext()){

@@ -310,7 +310,27 @@ export class ServiceJsonService {
                     type: 'danger'
                 }));
             });
-    }    
+    }
+
+    addComment(value) {
+        let body = JSON.stringify({ action: 'add', params: { object: value } });
+        console.log(body);
+
+        return this.http.post('http://dev.fitness-pro.ru/comments.php',
+            body,
+            { headers: this.headers })
+            .toPromise()
+            .then(res => {
+                return res.json();
+            },
+            err => {
+                this.messages.addMessage(new Message({
+                    title: 'Service',
+                    content: err,
+                    type: 'danger'
+                }));
+            });
+    }       
 
 }
 
