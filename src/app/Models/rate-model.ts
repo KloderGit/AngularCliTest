@@ -12,5 +12,6 @@ export class RateModel {
         this.examenID = examenID;
         this.studentID = studentID + ''; // ToString
         this.value = rate ? parseInt(rate) : undefined;
+        this.value == 1 ? this.value = 2 : this.value;
     }
 }

@@ -68,6 +68,8 @@
                   </table>
                   <hr/>
                   <p class="comment-text" *ngIf="item.comment"><span *ngIf="item.comment.comment">{{item.comment.comment}}</span></p>
+                                   {{item | json}}
+
                 </li>
               </ul>
             </div>

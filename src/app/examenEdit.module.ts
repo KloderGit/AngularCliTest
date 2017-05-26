@@ -1,3 +1,4 @@
+import { DayChartComponent } from './Components/Particular/day-chart.component/day-chart.component';
 import { AddCommentComponent } from './Components/Particular/add-comment.component/add-comment.component';
 import { RateSelectorComponent } from './Components/Particular/rate-selector.component/rate-selector.component';
 import { StudentRatesComponent } from './Components/student-rates/student-rates.component';
@@ -15,7 +16,7 @@ export const routerConfig = [{
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(routerConfig)],
-    declarations: [ExamenEditComponent, StudentRatesComponent, RateSelectorComponent, AddCommentComponent,
+    declarations: [ExamenEditComponent, StudentRatesComponent, RateSelectorComponent, AddCommentComponent, DayChartComponent,
         AccordionItemDirective, StudentInfoComponent, ExamenEditRowComponent ]
 })
 export default class ExamensAddModule { }

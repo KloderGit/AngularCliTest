@@ -5,21 +5,8 @@
     </div>
 </div>
 
-<div style="width: 80%; margin: 15px auto; height: 150px" class="center">
-    <div style="width: 30%; float: left;">
-        <span #pieChart class="pie-colours-2"></span>
-    </div>
-    <div style="width: 68%; float: left;">
-        <h4>Результаты:</h4>
-        <p class = "legend_row"><span style="background-color:#f77526" class="legend_round" ></span> — Двоек - 3%</p>
-        <p class = "legend_row"><span style="background-color:#f7b826" class="legend_round" ></span> — Троек - 6%</p>
-        <p class = "legend_row"><span style="background-color:#d5f726" class="legend_round" ></span> — Четверок - 9%</p>
-        <p class = "legend_row"><span style="background-color:#1cd2a1" class="legend_round" ></span> — Пятерок - 4%</p>
-        <p class = "legend_row"><span style="background-color:#dad5d2" class="legend_round" ></span> — Неоценено - 7%</p>
-    </div>
-
-
-    <!--<p style="width:7%; background-color:bisque; display: inline-block" *ngFor="let item of divs()">{{item}}</p>-->
+<div class="center">
+    <day-chart [examens] = "examensViewModel" [rates]= "ratesList"></day-chart>
 </div>
 
 <div class="center">

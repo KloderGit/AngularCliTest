@@ -8,8 +8,8 @@
                     [selected] = "selectedRate(grade)" >{{grade}}</option> 
         </optgroup>
         <optgroup label="Для зачета">
-            <option value="6">Зачет</option>
-            <option value="7">Незачет</option>
+            <option value="6" [selected] = "selectedRate(6)">Зачет</option>
+            <option value="7" [selected] = "selectedRate(7)">Незачет</option>
         </optgroup>
         <!--<hr/>
         <optgroup label="Другое">

@@ -1,7 +1,7 @@
 import { DataManagerStudentService } from './../../Services/data-manager-students.service';
 import { DataManagerRatesService } from './../../Services/data-manager-rates.service';
 import { ExamenRowModel } from './../../Models/examen-list-model';
-import { getDateString } from 'app/Shared/function';
+import { addFirstZero, getDateString, uniqueFlatArray } from 'app/Shared/function';
 import { FormEditItem } from './../../Models/form-examen-edit-model';
 import { CommentModel } from './../../Models/comments-model';
 import { RateModel } from './../../Models/rate-model';
@@ -11,7 +11,6 @@ import { DataManagerService } from './../../Services/data-manager.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DisciplineModel } from './../../Models/discipline-model';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { addFirstZero, uniqueFlatArray } from './../../Shared/function';
 
 declare var $: any;
 
@@ -34,8 +33,6 @@ export class ExamenEditComponent implements OnInit {
 	ratesList: RateModel[] = [];
 	comments: CommentModel[] = [];
 	examensForRates: ExamenModel[] = [];
-
-	@ViewChild('pieChart') pieChart: ElementRef;
 
 	constructor(private route: ActivatedRoute,
 		private router: Router,
@@ -60,15 +57,7 @@ export class ExamenEditComponent implements OnInit {
 
 			this.formViewModelInit();
 			this.loadData();
-		}
-
-		this.pieChart.nativeElement.innerHTML = '5,0,9,6,5';	
-
-		$(this.pieChart.nativeElement).peity("pie", {
-			innerRadius: 40,
-			radius: 70,
-			fill: ["#f77526", "#f7b826", "#d5f726", "#1cd2a1", "#dad5d2"]
-		});		
+		}		
 	}
 
 	formViewModelInit() {
@@ -196,15 +185,5 @@ export class ExamenEditComponent implements OnInit {
 				}
 			});		
 	}
-
-	percentage(x, y) {
-		return Math.floor(100 / (y / x));
-	}
-
-	count(x) { 
-		const countExams = this.examensViewModel;
-		const countRate = countExams.map( item => item.parentExamen.id );
-	}
-
 
 }
