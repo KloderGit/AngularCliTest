@@ -1,0 +1,105 @@
+<div class="app-panel app-panel-default" #rootElement>
+  <div class="app-panel-heading">
+    <div class="event-time">
+      <p class="badge">{{timeToString(model.parentExamen.startTime)}}</p>
+    </div>
+
+    <div class="event-student">
+      <p accordion-item *ngIf="student">{{student.name}}</p>
+      <p *ngIf="!student" style="font-style: italic; font-size: small; font-family: serif; color: #888">записать студента</p>
+    </div>
+
+    <div #selfElement class="event-rate">
+      <!--<p *ngIf="model.rate" class="label label-primary">{{model.rate.value}}</p>-->
+      <rate-selector *ngIf="student" [rate]="rate" (onChange)='changeRateValue($event)'></rate-selector>
+    </div>
+
+  </div>
+
+  <div *ngIf="student" class="app-panel-collapse collapse">
+    <div class="app-panel-body">
+      <div class="student-wrapper">
+        <div class="student-info">
+          <student-info [student]="student" [excelent] = "isExcelent()" (onChangeExcelent) = "changeCommentExcelent($event)" ></student-info>
+          <button class="app-button app-button-danger exclude-student" (click)="excludeStudent()">Отписать от экзамена</button>
+        </div>
+
+        <div class="student-action">
+          <div style="text-align:right">
+          <label style="padding-left: 10px;  border-left: 3px solid #993333;">
+            <input  type="checkbox"
+                    [checked] = "isConsult()"
+                    (change) = "changeCommentConsult($event.target.checked)" />
+                    Проведена <br/>Консультация
+          </label>
+        </div>
+        <div>
+          <add-comment  (onSave) = "changeCommentText($event)" 
+                        [comment] = "selectCurrentCommentValue()">
+          </add-comment>
+        </div>
+        </div>
+      </div>
+
+      <div *ngIf="history().length > 0" style="width: 100%; height: 30px; text-align: center;">
+          <a (click) = "collapseExamensBlock(examensBlock)" style="text-decoration: none;
+                        border-bottom: 1px dashed #777;display: inline-block; cursor: pointer">
+                        ИСТОРИЯ ЭКЗАМЕНОВ
+          </a>
+      </div>
+
+<div #examensBlock style="display: none">
+      <div class="comments-block">
+        <div class="comments-current-examens">
+          <p style="margin: 7px; text-align: center;">История по текущему предмету</p>
+          <div class="app-examens-panel app-panel">
+            <div class="app-panel-heading">
+              <h4 class="card-title">{{getDisciplineName()}}</h4>
+            </div>
+            <div class="app-panel-body">
+              <ul class="app-list-group">
+                <li class="app-list-group-item" *ngFor="let item of historyCurrentDiscipline()">
+                  <table class="grade-table">
+                    <tr>
+                      <td><span class="badge" [style.background-color]="item.currentDay ? 'brown' : 'gray'">{{dateToString(item.date)}}</span></td>
+                      <td><p *ngIf="item.grade">оценка - <span class="badge">{{gradeValue(item.grade)}}</span></p></td>
+                      <td><p *ngIf="item.comment" class="examen-consult"><span *ngIf="item.comment.isConsult">Консультация</span></p></td>
+                    </tr>
+                  </table>
+                  <hr/>
+                  <p class="comment-text" *ngIf="item.comment"><span *ngIf="item.comment.comment">{{item.comment.comment}}</span></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="comments-another-examens">
+          <p style="margin: 7px; text-align: center;">История по прочим предметам</p>          
+          <div class="app-examens-panel app-panel" *ngFor="let discipline of examenViewDiscipline()">
+            <div class="app-panel-heading">
+              <h4 class="card-title">{{discipline}}</h4>
+            </div>
+            <div class="app-panel-body">
+              <ul class="app-list-group">
+                <li class="app-list-group-item" *ngFor="let item of historyAnotherDiscipline(discipline)">
+                  <table class="grade-table">
+                    <tr>
+                      <td><span class="badge" [style.background-color]="item.currentDay ? 'brown' : 'gray'">{{dateToString(item.date)}}</span></td>
+                      <td><p *ngIf="item.grade">оценка - <span class="badge">{{gradeValue(item.grade)}}</span></p></td>
+                      <td><p *ngIf="item.comment" class="examen-consult"><span *ngIf="item.comment.isComsult">Консультация</span></p></td>
+                    </tr>
+                  </table>
+                  <hr/>
+                  <p class="comment-text" *ngIf="item.comment"><span *ngIf="item.comment.comment">{{item.comment.comment}}</span></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+</div>
+    </div>
+  </div>

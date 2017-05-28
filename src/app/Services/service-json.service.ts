@@ -1,3 +1,4 @@
+import { RateModel } from './../Models/rate-model';
 import { ExamenModel } from './../Models/examen-model';
 import { TeacherModel } from './../Models/teacher-model';
 import { DisciplineModel } from './../Models/discipline-model';
@@ -56,8 +57,32 @@ export class ServiceJsonService {
                console.log('Service: Сервис получил экзамены'); 
                return array;
             }
-        );        
+        );
     }
+
+    getExamensByIDs(array) { 
+        let body = JSON.stringify(array);
+        return this.http.get('http://dev.fitness-pro.ru/getExamensByIds.php?ids=' + body)
+            .toPromise()
+            .then((res) => {
+                let array = res.json();
+                console.log('Service: Сервис получил экзамены');
+                return array;
+            }
+            );
+    }
+
+    getExamensByStudents(array) {
+        let body = JSON.stringify(array);
+        return this.http.get('http://dev.fitness-pro.ru/getExamensByStudent.php?ids=' + body)
+            .toPromise()
+            .then((res) => {
+                    let array = res.json();
+                    console.log('Service: Сервис получил экзамены');
+                    return array;
+                }
+            );
+    }       
 
     addExamens( array: ExamenModel[] ){
         let body = JSON.stringify(array);
@@ -154,7 +179,7 @@ export class ServiceJsonService {
                     type: 'danger'
                 }));
             }
-            );          
+            );
     }
 
     getRates(array: number[]) {
@@ -173,7 +198,140 @@ export class ServiceJsonService {
                 }));
             }
             );
-    }    
+    }
+
+    excludeStudent(examen: string, student: string) { 
+        let body = JSON.stringify({ id: examen, student: student});
+
+        return this.http.post('http://dev.fitness-pro.ru/leaveExamen.php',
+            body,
+            { headers: this.headers })
+            .toPromise()
+            .then(res => {
+                return res.json();
+            },
+            err => {
+                this.messages.addMessage(new Message({
+                    title: 'Service',
+                    content: err,
+                    type: 'danger'
+                }));
+            }); 
+    }
+
+    addRate( examen, student, rateValue ) { 
+        let body = JSON.stringify({ action: 'add', params: { examenID: examen.id, studentID: student.id, value: rateValue } });
+
+        return this.http.post('http://dev.fitness-pro.ru/rates.php',
+            body,
+            { headers: this.headers })
+            .toPromise()
+            .then(res => {
+                return res.json();
+            },
+            err => {
+                this.messages.addMessage(new Message({
+                    title: 'Service',
+                    content: err,
+                    type: 'danger'
+                }));
+            });  
+    }
+
+    editRate( rate: RateModel, value ) { 
+        let body = JSON.stringify({ action: 'edit', params: { itemID: rate.id, value: value } });
+
+        return this.http.post('http://dev.fitness-pro.ru/rates.php',
+            body,
+            { headers: this.headers })
+            .toPromise()
+            .then(res => {
+                return res.json();
+            },
+            err => {
+                this.messages.addMessage(new Message({
+                    title: 'Service',
+                    content: err,
+                    type: 'danger'
+                }));
+            });                 
+    }
+
+    deleteRate( rate ) { 
+        let body = JSON.stringify({ action: 'delete', params: { itemID: rate.id } });
+        return this.http.post('http://dev.fitness-pro.ru/rates.php',
+            body,
+            { headers: this.headers })
+            .toPromise()
+            .then(res => {
+                return res.json();
+            },
+            err => {
+                this.messages.addMessage(new Message({
+                    title: 'Service',
+                    content: err,
+                    type: 'danger'
+                }));
+            }); 
+    }
+
+    getStudentsComments(array: number[]) {
+        let body = JSON.stringify(array);
+
+        return this.http.get('http://dev.fitness-pro.ru/getComments.php?id=' + body)
+            .toPromise()
+            .then(res => {
+                return res.json();
+            },
+            err => {
+                this.messages.addMessage(new Message({
+                    title: 'Service',
+                    content: err,
+                    type: 'danger'
+                }));
+            }
+            );
+    }
+
+    editComment( commentID, value ) {
+        let body = JSON.stringify({ action: 'edit', params: { itemID: commentID, value: value } });
+
+        return this.http.post('http://dev.fitness-pro.ru/comments.php',
+            body,
+            { headers: this.headers })
+            .toPromise()
+            .then(res => {
+                return res.json();
+            },
+            err => {
+                this.messages.addMessage(new Message({
+                    title: 'Service',
+                    content: err,
+                    type: 'danger'
+                }));
+            });
+    }
+
+    addComment(value) {
+        let body = JSON.stringify({ action: 'add', params: { object: value } });
+        console.log(body);
+
+        return this.http.post('http://dev.fitness-pro.ru/comments.php',
+            body,
+            { headers: this.headers })
+            .toPromise()
+            .then(res => {
+                return res.json();
+            },
+            err => {
+                this.messages.addMessage(new Message({
+                    title: 'Service',
+                    content: err,
+                    type: 'danger'
+                }));
+            });
+    }       
+
 }
 
 

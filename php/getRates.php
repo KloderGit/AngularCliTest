@@ -6,8 +6,12 @@
    {
         $arrayID = json_decode($_REQUEST["id"]);
 
+        // echo '<pre>';
+        //     print_r($arrayID);
+        // echo '<pre>';
+
         $filter = array(    "IBLOCK_ID" => 29, 
-                            "PROPERTY_EXAM" => $arrayID );
+                            "PROPERTY_STUDENT" => $arrayID );
 
         $selectFields = array(  "ID",
                                 "PROPERTY_EXAM",

@@ -1,14 +1,17 @@
+import { ExamenModel } from './examen-model';
 
-export class RateModel { 
-    id: number;
-    examenID: number;
-    studentID: number;
+export class RateModel {
+    id: string;
+    examenID: string;
+    examen: ExamenModel;
+    studentID: string;
     value: number;
 
-    constructor(id: number, examenID: number, studentID: number, rate?) { 
+    constructor(id: string, examenID: string, studentID: string, rate?) {
         this.id = id;
         this.examenID = examenID;
-        this.studentID = studentID;
-        this.value = parseInt(rate);
+        this.studentID = studentID + ''; // ToString
+        this.value = rate ? parseInt(rate) : undefined;
+        this.value == 1 ? this.value = 2 : this.value;
     }
 }

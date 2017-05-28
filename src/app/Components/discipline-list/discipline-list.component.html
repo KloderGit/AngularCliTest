@@ -5,7 +5,7 @@
   <div>
     <label>
       <input type="checkbox" 
-              checked = "isACtive" 
+              [checked] = "isACtive" 
               (change) = "filterActiveChange($event.target.checked)">
       Только активные
     </label></div>
@@ -26,10 +26,10 @@
       <h3 class="card-title">{{discipine.title}}</h3>      
     </div>
     <div class="app-panel-body">
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item" *ngIf="getTeacher(discipine.teacherId)">Преподаватель:<br/>{{getTeacher(discipine.teacherId).name}}</li>
-        <li class="list-group-item">Форма обучения: {{discipine.format}}</li>
-        <li class="list-group-item">Активность: {{discipine.active}}</li>
+      <ul class="app-list-group">
+        <li class="app-list-group-item" *ngIf="getTeacher(discipine.teacherId)">Преподаватель:<br/>{{getTeacher(discipine.teacherId).name}}</li>
+        <li class="app-list-group-item">Форма обучения: {{discipine.format}}</li>
+        <li class="app-list-group-item">Активность: {{discipine.active}}</li>
       </ul>
       <div class="card-block">
         <a routerLink="/discipline/{{discipine.id}}" class="app-button app-button-info">Планирование</a>

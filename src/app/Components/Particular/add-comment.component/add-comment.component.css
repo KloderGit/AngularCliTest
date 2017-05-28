@@ -1,0 +1,22 @@
+.add-comment {
+    width: 100%;
+}
+
+textarea {
+  overflow: hidden;
+  word-wrap: break-word;
+  border: 1px solid rgb(187, 187, 187);
+  margin: 10px 0;
+  width: 100%;
+}
+
+.add_textareya_button{
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+}
+
+.add_textareya_button > button {
+    margin-right: 7px;
+}

@@ -1,4 +1,4 @@
-export class ExamenModel{    
+export class ExamenModel {
     id: string = undefined;
     active: boolean = undefined;
     disciplineId: string = undefined;
@@ -8,7 +8,7 @@ export class ExamenModel{
     isShared: boolean = undefined;
     limit: number = undefined;
 
-    students: Array<string> = [];
+    students: string[] = [];
 
     public set setStartTime(value) {
         this.startTime = new Date(value);
@@ -26,24 +26,28 @@ export class ExamenModel{
         endTime?,
         isShared?,
         limit?,
-        students?
-        }) { 
+        students?: string[]
+        }) {
 
-        let ex = new ExamenModel();
+
+
+        const ex = new ExamenModel();
 
         ex.id = object.id || undefined;
         ex.disciplineId = object.disciplineId || undefined;
 
-        if (object.active && typeof object.active == 'string'){ ex.active = object.active == "Y"? true: false; }
-        if (object.active && typeof object.active == 'boolean'){ ex.active = object.active; }
+        if (object.active && typeof object.active === 'string') { ex.active = object.active === 'Y' ? true : false; }
+        if (object.active && typeof object.active === 'boolean') { ex.active = object.active; }
 
-        if (object.isShared && typeof object.isShared == 'string') { (object.isShared == 'Y' || object.isShared == 'Да') ? true : false; }    
-        if (object.isShared && typeof object.isShared == 'boolean') { ex.isShared = object.isShared; }    
+        // tslint:disable-next-line:max-line-length
+        // tslint:disable-next-line:no-unused-expression
+        if (object.isShared && typeof object.isShared === 'string') { (object.isShared === 'Y' || object.isShared === 'Да') ? true : false; }
+        if (object.isShared && typeof object.isShared === 'boolean') { ex.isShared = object.isShared; }
 
-        ex.limit = object.limit? parseInt(object.limit) : undefined;
+        ex.limit = object.limit ? parseInt(object.limit) : undefined;
 
-        ex.students = object.students;
-        
+        ex.students = object.students || undefined;
+
         ex.startTime = new Date(object.startTime);
         ex.endTime = new Date(object.endTime);
 

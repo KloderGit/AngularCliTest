@@ -19,18 +19,19 @@
       "mobile": false,
       "styles": [
         "styles.css",
-        "../node_modules/air-datepicker/dist/css/datepicker.min.css"
+        "../node_modules/air-datepicker/dist/css/datepicker.min.css",
+        "../src/assets/js/jQuery-Wizard-Plugin-master/dist/jquery.wizard.min.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
-        "../node_modules/bootstrap3/dist/js/bootstrap.min.js"
+        "../node_modules/bootstrap3/dist/js/bootstrap.min.js",
+        "../src/assets/js/jQuery-Wizard-Plugin-master/dist/jquery.wizard.min.js"
       ],
       "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
       }
-
     }
   ],
   "e2e": {

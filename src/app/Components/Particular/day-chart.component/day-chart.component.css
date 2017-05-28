@@ -1,0 +1,19 @@
+.day-chart {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.day-chart > div {
+  width: 30%;
+  min-width: 200px;
+  padding: 10px;
+}
+
+
+.legend_row {
+  padding: 2px;
+  vertical-align: middle;
+}
+

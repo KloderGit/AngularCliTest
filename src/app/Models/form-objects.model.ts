@@ -132,7 +132,7 @@ export class FormPersonal implements IFormState{
 			let mt = new Date( this.startTime );
 			mt.setMinutes(index+this.range);
 
-			this.examensObject.push( new FormExamenViewModel(tm, mt, 1) );
+			this.examensObject.push( new FormExamenViewModel(tm, mt, undefined) );
 
 			index += this.range;
 		}

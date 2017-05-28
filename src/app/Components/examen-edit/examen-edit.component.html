@@ -1,18 +1,26 @@
-<div class="jumbotron text-center">
-    <div class="row">
-        <div class="col-sm-7">
-            <h2>{{discipline?.title}}</h2>
-            <p>Редактирование экзамена</p>
-        </div>
-        <div class="col-sm-5">
-            <p>Дата проведения:<br/>
-            {{ date }}</p>
-        </div>
+<div class="app-page-header center">
+    <div class="app-page-title">
+        <h1>{{discipline?.title}}</h1>
+        <p>Редактирование экзамена. <strong>Дата планирования: {{dateToString(date)}}</strong></p>
     </div>
 </div>
 
-<div class="col-xs-12">
-    <div class="row">
-        <examen-edit-item-model *ngFor="let item of formModel; let count = index" [model] = "item" [iterator] = "count+1"></examen-edit-item-model>
-    </div>
+<div class="center">
+    <day-chart [examens] = "examensViewModel" [rates]= "ratesList" [changeTriger] = "changeTrigerForChart"></day-chart>
+</div>
+
+<div class="center">
+        <examen-edit-row *ngFor="let item of examensViewModel" 
+            [model] = "item" 
+            [student] = "selectStudent(item)"
+            [rate] = "selectRate(item)"
+            [rates] ="selectRates(item)"
+            [comments] = "selectComments(item)"
+            [examens] = "selectExamensForRate(item)"
+            (onAdd) = "addRate( item.parentExamen, selectStudent(item), $event)"
+            (onUpdate) = "updeteRate(selectRate(item), $event)"
+            (onDelete) = "deleteRate(selectRate(item))" 
+            (onCommentChange) = "updateComment($event)"
+            (onCommentAdd) = "addComment($event)">
+        </examen-edit-row>
 </div>

@@ -1,3 +1,4 @@
+import { CommentModel } from './../Models/comments-model';
 import { examenAddDTO } from './../DTO/exaxmensAddDTO';
 import { Response } from '@angular/http';
 import {
@@ -143,6 +144,34 @@ export class DataManagerService {
     });
   }
 
+  loadExamensByIDs( array ) {
+    return this.service.getExamensByIDs( array )
+      .then(data => {
+        let result = [];
+        if (data) {
+          for (var i = 0; i < data.length; i++) {
+            let ex = ExamenModel.map(data[i]);
+            result.push(ex);
+          }
+        }
+        return result;
+      });
+  }
+
+  loadExamensByStudents(array) {
+    return this.service.getExamensByStudents(array)
+      .then(data => {
+        let result = [];
+        if (data) {
+          for (var i = 0; i < data.length; i++) {
+            let ex = ExamenModel.map(data[i]);
+            result.push(ex);
+          }
+        }        
+        return result;
+      });
+  }  
+
   getExamensByDiscipline(disciplineId: string) {
     return this.examens.filter(item => item.disciplineId == disciplineId);
   }
@@ -153,6 +182,12 @@ export class DataManagerService {
       .filter(item => item.startTime.getMonth() == date.getMonth())
       .filter(item => item.startTime.getDate() == date.getDate());    
   }  
+
+  getExamenByID(id: string) { 
+    let r = this.examens.map(item => item.id).indexOf(id);
+    let m = this.examens[r];
+    return m;
+  }
 
   addExamen(inObject: any) {
     for (let i = 0; i < inObject.length; i++) {
@@ -349,30 +384,100 @@ export class DataManagerService {
     });
   }
 
-  getStudents( array: any[] ) { 
-    let result = [];
 
-    for (let i = 0; i < array.length; i++) { 
-      result.push( parseInt(array[i]) );
-    }
-
-    return this.service.getStudents(result)
-      .then(data => { 
-        return data;
-      });
-  }
-
-  getRates(array: any[]) {
+  getStudents(array: any[]) {
     let result = [];
 
     for (let i = 0; i < array.length; i++) {
       result.push(parseInt(array[i]));
     }
 
-    return this.service.getRates(result)
+    return this.service.getStudents(result)
+      .then(data => {
+        return data;
+      });
+  }  
+
+
+  getRates(array: any[]) {
+    return this.service.getRates(array.filter(i=>i))
       .then(data => {
         return data;
       });
   } 
+
+
+  editComment( itemID, param ) { 
+    return this.service.editComment(itemID, param)
+      .then(data => {
+
+        if (!data) { throw new SyntaxError("Объект не найден");  }
+
+        let comment = new CommentModel();
+
+        for (let i = 0; i < data.length; i++) {
+          const item = data[i];
+          comment = {
+            id: item.id,
+            studentID: item.studentID + '',
+            examenID: item.examenID,
+            disciplineID: item.disciplineID,
+            date: item.date,
+            isExamen: item.isExamen,
+            isConsult: item.isConsult,
+            comment: item.comment,
+            excelent: item.excelent
+          };
+        }
+
+        return comment;
+      })
+      .catch(
+        err => {
+          this.messages.addMessage(new Message({
+            title: 'DataManager',
+            content: err,
+            type: 'danger'
+          }));
+        }
+      );
+  }
+
+  addComment(obj) {
+    return this.service.addComment(obj)
+      .then(data => {
+
+        if (!data) { throw new SyntaxError("Объект не найден"); }
+
+        let comment = new CommentModel();
+
+        for (let i = 0; i < data.length; i++) {
+          const item = data[i];
+          comment = {
+            id: item.id,
+            studentID: item.studentID + '',
+            examenID: item.examenID,
+            disciplineID: item.disciplineID,
+            date: item.date,
+            isExamen: item.isExamen,
+            isConsult: item.isConsult,
+            comment: item.comment,
+            excelent: item.excelent
+          };
+        }
+
+        return comment;
+      })
+      .catch(
+      err => {
+        this.messages.addMessage(new Message({
+          title: 'DataManager',
+          content: err,
+          type: 'danger'
+        }));
+      }
+      );
+  }  
+
 
 }

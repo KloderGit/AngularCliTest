@@ -1,0 +1,20 @@
+<div class="buttonAdd" #toggleButton>
+    <button class="app-button app-button-warning"
+            (click)="tooglePanel()">Комментарий экзамена</button>
+</div>
+
+<div class="add-comment" #toogleContent style="display: none">
+        <textarea   class="event_comment" #input
+                    name="event_comment"
+                    rows="5"
+                    placeholder="Текст комментария"
+                    (input) = "change(input.value)">{{commentFormText()}}</textarea>
+
+        <div class="add_textareya_button">
+            <button #buttonSave class="app-button app-button-success small-font"
+                    (click)="saveComment()"
+                    [style.display]="saveActive() ? 'block' : 'none'">Сохранить</button>
+            <button class="app-button app-button-warning small-font"
+                    (click)="cancelComment(); input.value = comment">Отменить</button>
+        </div>
+</div>

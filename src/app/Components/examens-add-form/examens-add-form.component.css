@@ -1,0 +1,28 @@
+
+.thumbnail_active{
+  border-color: #c33;
+}
+
+.wizard-top-menu li {
+  position: none;
+  padding: 0;
+  line-height: 50px;
+}
+
+.navigation-button{
+  display: flex;
+  justify-content: center;
+  direction: rtl;
+}
+
+.navigation-button 
+.app-button {
+  background-color: #993333;
+  border-color: #993333;
+  margin-right: 20px;
+}
+
+.navigation-button .app-button:hover {
+  background-color: #c33;
+}
+

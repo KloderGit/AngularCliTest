@@ -1,0 +1,33 @@
+.rate-wrapper {
+    max-height: 300px;
+    overflow: auto;
+}
+
+.rates-group{
+    margin-bottom: 12px;
+    padding: 5px;
+    border: 1px dotted #aaa;
+    border-radius: 4px;
+}
+
+.rates-group > p {
+    text-transform: uppercase;
+    margin-bottom: 9px;
+}
+
+.rates-group > ul {
+    font-size: 12px;
+}
+
+badge {
+    font-weight: 200;
+}
+
+.rates-group>ul li {
+  margin-bottom: 2px;
+}
+
+h4 {
+  color: #888;
+}
+

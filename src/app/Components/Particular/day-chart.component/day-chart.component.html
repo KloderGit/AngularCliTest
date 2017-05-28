@@ -1,0 +1,20 @@
+<div class="day-chart">
+    <div class="chart">
+        <span #pieChart class="pie-colours-2"></span>
+    </div>
+    <div class="legend">
+        <h4>Результаты:</h4>
+        <p class="legend_row" *ngFor = "let color of typeRates()">
+            <span class="badge" [style.background-color] = "selectColor(color)">{{countRatePercentage(color)}}%</span> — {{selectName(color)}}
+        </p>
+        <p *ngIf = "examenCountWithOutRate().length > 0" class="legend_row">
+            <span class="badge" [style.background-color]="selectColor(0)">{{countRatePercentage(0)}}%</span> — Неоценено
+        </p>
+    </div>
+
+    <div class="info">
+        <p class="legend_row">Всего экзаменов — {{examens.length}}</p>
+        <p class="legend_row">Записано — {{examsForDayListIDs().length}} студент(а/ов)</p>
+        <p class="legend_row">Экзаменов без оценки — {{examenCountWithOutRate().length}}</p>
+    </div>
+</div>
