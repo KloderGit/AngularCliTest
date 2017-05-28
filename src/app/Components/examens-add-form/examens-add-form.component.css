@@ -26,3 +26,12 @@
   background-color: #c33;
 }
 
+.horizontal{
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  align-content: stretch;
+  flex-wrap: wrap;
+
+  text-align: center;
+}

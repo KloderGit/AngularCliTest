@@ -1,3 +1,4 @@
+import { FormStep1Component } from './Components/examens-add-form/Step1/form-step1.component/form-step1.component/form-step1.component';
 import { WizardFormDirective } from './Directives/wizard-form.directive';
 import { ExamensAddFormComponent } from './Components/examens-add-form/examens-add-form.component';
 import { TimepickerComponent } from './Components/timepicker/timepicker.component';
@@ -12,6 +13,6 @@ export const routerConfig = [{
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(routerConfig)],
-    declarations: [ExamensAddFormComponent, SliderComponent, TimepickerComponent, WizardFormDirective ]
+    declarations: [ExamensAddFormComponent, SliderComponent, TimepickerComponent, WizardFormDirective, FormStep1Component ]
 })
 export default class ExamensAddModule {}
