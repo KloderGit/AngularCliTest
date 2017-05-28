@@ -15,6 +15,9 @@ export class DayChartComponent implements OnInit {
 	jqueryChart: any;
 	@Input() examens: ExamenRowModel[];
 	@Input() rates: RateModel[];
+
+	@Input() changeTriger;
+
 	@ViewChild('pieChart') pieChart: ElementRef;
 
 	ngOnInit() {
@@ -25,7 +28,11 @@ export class DayChartComponent implements OnInit {
 		this.jqueryChart.peity("pie", {
 			innerRadius: 40,
 			radius: 70,
-			fill: function (_, i, all) {
+			// fill: fillColorsChart
+			fill: ['#f77526', '#f7b826', '#d5f726', '#1cd2a1', '#ea4288', '#59cde0' ,'#dad5d2' ]
+		});
+
+		function fillColorsChart(_, i, all)  {
 				console.log(_, i, all, context.typeRates());
 
 				let ind = context.typeRates()[i];
@@ -36,41 +43,26 @@ export class DayChartComponent implements OnInit {
 
 				return val;
 			}
+	}
 
-			// fill: fillColorsChart()	
-			// fill: ["#f77526", "#f7b826", "#d5f726", "#1cd2a1", '#ea4288', '#59cde0' ,"#dad5d2" ]
+	ngOnChanges(changes) {
+		let stringForChartData1: string = '';
+
+		let options: string[] = Object.keys(chartDayColors);
+		options = options.slice(options.length / 2);
+		options.forEach( v => {
+			stringForChartData1 += this.countRatePercentage(chartDayColors[v]);
+			if (chartDayColors[v] !== 0) { stringForChartData1 += ','; }
+						console.log(v, chartDayColors[v]);
 		});
 
-		function fillColorsChart() { 
-			let colors = [];
+		console.log( stringForChartData1, 'res&');
+		
 
-			for (let i = 0; i < context.typeRates().length; i++) {
-				let item = context.typeRates()[i];
-				colors.push(context.selectColor(item));
-			}
-
-			if (context.examenCountWithOutRate().length > 0) { colors.push(context.selectColor(0)); }
-		}		
-	}
-	
-	ngOnChanges(changes) {
-
-		let stringForChartData1: string ='';
-
-		for (let i = 0; i < this.typeRates().length; i++) { 
-			let item = this.typeRates()[i];			
-			stringForChartData1 += this.countRatePercentage(item);
-			if (i != this.typeRates().length - 1) { stringForChartData1 += ','; }
-		}
-
-		if (this.examenCountWithOutRate().length > 0) { stringForChartData1 += ','; stringForChartData1 += this.countRatePercentage(0); }	
-
-		if (this.jqueryChart) { 
+		if (this.jqueryChart) {
 			this.jqueryChart.text(stringForChartData1).change();
-		}		
+		}
 	}
-
-
 
 	percentage(x, y) {
 		return Math.floor(100 / (y / x));
@@ -91,31 +83,27 @@ export class DayChartComponent implements OnInit {
 	countRatePercentage(x) {
 		let count;
 
-		if (x == 0) {
+		if (x === 0) {
 			count = this.examenCountWithOutRate();
 		} else {
-			count = this.ratesForDayList().filter(rt => rt.value == x);
+			count = this.ratesForDayList().filter(rt => rt.value === x);
 		}
 
 		return this.percentage(count.length, this.examsForDayListIDs().length);
-	}	
+	}
 
-	typeRates() { 
+	typeRates() {
 		let types = this.ratesForDayList().filter(rt => rt.value ? true : false).map(rt => rt.value);
-		types = uniqueFlatArray(types).map(t => parseInt(t)).sort();		
+		types = uniqueFlatArray(types).map(t => parseInt(t)).sort();
 		return types;
 	}
 
 	selectColor(x) {
 		return chartDayColors[x];
-	}	
+	}
 	selectName(x) {
 		return chartRateNames[x];
 	}
 
-
-	ddd() { 
-		console.log(this.typeRates());		
-	}
 
 }

@@ -34,6 +34,8 @@ export class ExamenEditComponent implements OnInit {
 	comments: CommentModel[] = [];
 	examensForRates: ExamenModel[] = [];
 
+	changeTrigerForChart = 1;
+
 	constructor(private route: ActivatedRoute,
 		private router: Router,
 		private dataManager: DataManagerService,
@@ -138,7 +140,8 @@ export class ExamenEditComponent implements OnInit {
 	addRate( examen: ExamenModel, student: StudentModel, rateValue ) {
 		this.datamanagerRates.add(examen, student, rateValue).then(data => {
 			this.ratesList.push(data);
-			$('.event-rate').tooltip('hide');			
+			$('.event-rate').tooltip('hide');
+			this.changeTrigerForChart ++;
 		});
 	}
 
@@ -146,6 +149,7 @@ export class ExamenEditComponent implements OnInit {
 		this.datamanagerRates.edit( rate, value).then(data => {
 			rate.value = data.value;
 			$('.event-rate').tooltip('hide');
+			this.changeTrigerForChart ++;
 		});
 	}
 
@@ -154,6 +158,7 @@ export class ExamenEditComponent implements OnInit {
 			if (data) {
 				const index = this.ratesList.map(i => i.id ? i.id : undefined).indexOf(rate.id);
 				this.ratesList.splice(index, 1);
+				this.changeTrigerForChart ++;
 			}
 			$('.event-rate').tooltip('hide');
 		});
