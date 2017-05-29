@@ -1,0 +1,12 @@
+<div class="add-range">
+    <timepicker #startPicker [defaultHour]='17' [defaultMinute]='10' [onlyHours]="true" ></timepicker>
+    <timepicker #endPicker [defaultHour]='22' [defaultMinute]='30'></timepicker>
+
+
+    <p *ngFor="let t of value">
+        {{t | json}} <span (click) = "deleteRange(t)">X</span>
+    </p>
+
+
+        <button (click) = "addRange(startPicker.value, endPicker.value)"> Add</button>
+</div>

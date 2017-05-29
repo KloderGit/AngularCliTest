@@ -1,9 +1,12 @@
+import { TimeRange } from './time-range.model';
 import { diffTime } from './../Shared/function'
 
 export interface IFormState{
 	type: string;
 	startTime: Date;
 	endTime: Date;
+
+	rangeList: TimeRange[];
 
 	examensObject: FormExamenViewModel | FormExamenViewModel[];
 
@@ -23,6 +26,8 @@ export class FormCollective implements IFormState{
 	type: string = 'collective';
 	startTime: Date;
 	endTime: Date;
+
+	rangeList: TimeRange[];
 
 	examensObject: FormExamenViewModel;
 
@@ -67,6 +72,8 @@ export class FormPersonal implements IFormState{
 
 	range: number;
 	surplus: boolean = false;
+
+	rangeList: TimeRange[];
 
 	examensObject: FormExamenViewModel[];
 

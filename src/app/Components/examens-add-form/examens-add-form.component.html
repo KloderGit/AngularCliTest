@@ -4,7 +4,7 @@
   </div>
 
   <div class="horizontal">
-    <div wizard-form [titlesTag]="'h2'">
+    <div wizard-form [titlesTag]="'h2'" style="width: 60%">
       <ul class="wizard-top-menu">
         <li>Тип экзамена</li>
         <li>Время проведения</li>
@@ -45,22 +45,10 @@
               </div>
             </div>
           </div>
-          <div>
-            <div class="app-panel">
-              <div class="app-panel-heading">Планирование</div>
-              <div style="font-size: small" class="app-panel-body" *ngIf="formObj">
-                <p><strong>Тип экзамена/ов: </strong>{{formObj.type}}</p>
-                <p><strong>Время: </strong> {{formObj.startTime.getHours()}}:{{formatTimeDigit(formObj.startTime.getMinutes())}}
-                  - {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
-                </p>
-                <p *ngIf="formObj.range"><strong>Продолжительность: </strong>{{formObj.range}} мин.</p>
-                <p *ngIf="formObj.getFormResult().length > 0">
-                  <strong>Будет принято: </strong> {{ formObj.type == 'personal'? formObj.getFormResult().length : formObj.examensObject.count}}
-                  студент/ов
-                </p>
-              </div>
-            </div>
-          </div>
+
+
+<add-range [date] = "date" (onChange) = "ddd($event)"></add-range>
+
         </div>
 
         <div class="wizard-content" *ngIf="formObj && formObj.type == 'collective'">
@@ -133,25 +121,6 @@
               </div>
             </div>
           </div>
-          <div>
-            <div class="app-panel">
-              <div class="app-panel-heading">Планирование</div>
-              <div style="font-size: small" class="app-panel-body" *ngIf="formObj">
-                <p><strong>Тип экзамена/ов: </strong>{{formObj.type}}</p>
-                <p><strong>Время: </strong> {{formObj.startTime.getHours()}}:{{formatTimeDigit(formObj.startTime.getMinutes())}}
-                  - {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
-                </p>
-                <p *ngIf="formObj.range"><strong>Продолжительность: </strong>{{formObj.range}} мин.</p>
-                <p *ngIf="formObj.getFormResult().length > 0">
-                  <strong>Будет принято: </strong> {{formObj.getFormResult().length}} студент/ов
-                </p>
-                <button [style.display]="formObj.getFormResult().length > 0 ? 'block':'none'" [disabled]="formObj.getFormResult().length <= 0"
-                  type="button" style="margin: 0 auto;" class="app-button app-button-info" (click)="saveExamens();">Сохранить</button>
-
-
-              </div>
-            </div>
-          </div>
         </div>
 
         <div *ngIf="formObj && formObj.type == 'personal'">
@@ -169,7 +138,7 @@
                         <strong>{{item.start.getHours()}}:{{formatTimeDigit(item.start.getMinutes())}}</strong> - {{item.end.getHours()}}:{{formatTimeDigit(item.end.getMinutes())}}
                       </li>
                       <li class="app-list-group-item">
-                        <input type="checkbox" checked="item.isSelected" (change)="item.isSelected = !item.isSelected" /> Активность
+                        <input type="checkbox" checked="item.isSelected" (change)="item.isSelected = !item.isSelected" />                        Активность
                       </li>
                     </ul>
                   </div>
@@ -226,9 +195,11 @@
     </div>
 
 
-    <div class="app-panel app-panel-info" *ngIf="formObj">
+    <div class="app-panel app-panel-info" style="width: 35%">
+
       <div class="app-panel-heading">Планирование экзаменов</div>
-      <div style="font-size: small" class="app-panel-body horizontal">
+      <div style="font-size: small" *ngIf="formObj" class="app-panel-body horizontal">
+
 
         <div class="info-date">
           <p><strong>Дата проведения:</strong></p>
@@ -243,7 +214,7 @@
         <div class="info-time">
           <p><strong>Время:</strong></p>
           <p> {{formObj.startTime.getHours()}}:{{formatTimeDigit(formObj.startTime.getMinutes())}} - {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
-            </p>
+          </p>
         </div>
 
         <div class="info-range">
@@ -260,6 +231,12 @@
 
       </div>
     </div>
+
+<div class="navigation-button" [style.display]="formObj ? 'flex' : 'none'">
+  <button class="app-button app-button-warning" data-wizard-forward>Forward</button>
+</div>
+
+
   </div>
 
 
