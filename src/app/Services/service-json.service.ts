@@ -12,6 +12,8 @@ export class ServiceJsonService {
 
     headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
 
+    rootURL = '/lichnyy-kabinet/examinations/assets/php/';
+
     constructor(private http: Http, private messages: MessagesService) {
         
         // this.getPredmetsFromPhp();
@@ -31,7 +33,7 @@ export class ServiceJsonService {
     // }  
 
     getDisciplinesAll(){
-        return this.http.get('http://dev.fitness-pro.ru/getPredmets.php')
+        return this.http.get(this.rootURL + 'getPredmets.php')
         .toPromise()
         .then( ( res ) => { 
             console.log('Service: Сервис получил дисциплины'); 
@@ -40,7 +42,7 @@ export class ServiceJsonService {
     }
 
     getTeachersAll(){
-        return this.http.get('http://dev.fitness-pro.ru/getTeachers.php')
+        return this.http.get(this.rootURL + 'getTeachers.php')
         .toPromise()
         .then( ( res ) => { 
                let temp = res.json() as TeacherModel[]; 
@@ -50,7 +52,7 @@ export class ServiceJsonService {
     }     
 
     getExamensForDiscipline( disciplineId: string, year: number, month: number ){
-        return this.http.get('http://dev.fitness-pro.ru/getExamens.php?disciplineId=' + disciplineId + '&year=' + year + '&month=' + month)
+        return this.http.get(this.rootURL + 'getExamens.php?disciplineId=' + disciplineId + '&year=' + year + '&month=' + month)
         .toPromise()
         .then( ( res ) => {
                let array = res.json();
@@ -62,7 +64,7 @@ export class ServiceJsonService {
 
     getExamensByIDs(array) { 
         let body = JSON.stringify(array);
-        return this.http.get('http://dev.fitness-pro.ru/getExamensByIds.php?ids=' + body)
+        return this.http.get(this.rootURL + 'getExamensByIds.php?ids=' + body)
             .toPromise()
             .then((res) => {
                 let array = res.json();
@@ -74,7 +76,7 @@ export class ServiceJsonService {
 
     getExamensByStudents(array) {
         let body = JSON.stringify(array);
-        return this.http.get('http://dev.fitness-pro.ru/getExamensByStudent.php?ids=' + body)
+        return this.http.get(this.rootURL + 'getExamensByStudent.php?ids=' + body)
             .toPromise()
             .then((res) => {
                     let array = res.json();
@@ -87,7 +89,7 @@ export class ServiceJsonService {
     addExamens( array: ExamenModel[] ){
         let body = JSON.stringify(array);
 
-        return this.http.post('http://dev.fitness-pro.ru/addExamens.php', body, { headers: this.headers })
+        return this.http.post(this.rootURL + 'addExamens.php', body, { headers: this.headers })
         .toPromise()
         .then( res => {
             let array = res.json();
@@ -108,7 +110,7 @@ export class ServiceJsonService {
     copyExamens( array: ExamenModel[] ){
         let body = JSON.stringify(array);
 
-        return this.http.post('http://dev.fitness-pro.ru/addExamens.php', body, { headers: this.headers })
+        return this.http.post(this.rootURL + 'addExamens.php', body, { headers: this.headers })
         .toPromise()
         .then( res => {
             let array = res.json();
@@ -127,7 +129,7 @@ export class ServiceJsonService {
     changeExamens( array: ExamenModel[] ){
         let body = JSON.stringify(array);
 
-        return this.http.post('http://dev.fitness-pro.ru/perenosExamens.php', body, { headers: this.headers })
+        return this.http.post(this.rootURL + 'perenosExamens.php', body, { headers: this.headers })
         .toPromise()
         .then( res => {
             let array = res.json();
@@ -146,7 +148,7 @@ export class ServiceJsonService {
     deleteExamens( array: ExamenModel[] ){
         let body = JSON.stringify(array.map( item => item.id ));
 
-        return this.http.post(  'http://dev.fitness-pro.ru/deleteExamens.php', 
+        return this.http.post(  this.rootURL + 'deleteExamens.php', 
                                 body,
                                 { headers: this.headers })
             .toPromise()
@@ -167,7 +169,7 @@ export class ServiceJsonService {
     getStudents(array: number[]) { 
         let body = JSON.stringify(array);
 
-        return this.http.get('http://dev.fitness-pro.ru/getStudents.php?students=' + body)
+        return this.http.get(this.rootURL + 'getStudents.php?students=' + body)
             .toPromise()
             .then(res => {
                 return res.json();
@@ -185,7 +187,7 @@ export class ServiceJsonService {
     getRates(array: number[]) {
         let body = JSON.stringify(array);
 
-        return this.http.get('http://dev.fitness-pro.ru/getRates.php?id=' + body)
+        return this.http.get(this.rootURL + 'getRates.php?id=' + body)
             .toPromise()
             .then(res => {
                 return res.json();
@@ -203,7 +205,7 @@ export class ServiceJsonService {
     excludeStudent(examen: string, student: string) { 
         let body = JSON.stringify({ id: examen, student: student});
 
-        return this.http.post('http://dev.fitness-pro.ru/leaveExamen.php',
+        return this.http.post(this.rootURL + 'leaveExamen.php',
             body,
             { headers: this.headers })
             .toPromise()
@@ -222,7 +224,7 @@ export class ServiceJsonService {
     addRate( examen, student, rateValue ) { 
         let body = JSON.stringify({ action: 'add', params: { examenID: examen.id, studentID: student.id, value: rateValue } });
 
-        return this.http.post('http://dev.fitness-pro.ru/rates.php',
+        return this.http.post(this.rootURL + 'rates.php',
             body,
             { headers: this.headers })
             .toPromise()
@@ -241,7 +243,7 @@ export class ServiceJsonService {
     editRate( rate: RateModel, value ) { 
         let body = JSON.stringify({ action: 'edit', params: { itemID: rate.id, value: value } });
 
-        return this.http.post('http://dev.fitness-pro.ru/rates.php',
+        return this.http.post(this.rootURL + 'rates.php',
             body,
             { headers: this.headers })
             .toPromise()
@@ -259,7 +261,7 @@ export class ServiceJsonService {
 
     deleteRate( rate ) { 
         let body = JSON.stringify({ action: 'delete', params: { itemID: rate.id } });
-        return this.http.post('http://dev.fitness-pro.ru/rates.php',
+        return this.http.post(this.rootURL + 'rates.php',
             body,
             { headers: this.headers })
             .toPromise()
@@ -278,7 +280,7 @@ export class ServiceJsonService {
     getStudentsComments(array: number[]) {
         let body = JSON.stringify(array);
 
-        return this.http.get('http://dev.fitness-pro.ru/getComments.php?id=' + body)
+        return this.http.get(this.rootURL + 'getComments.php?id=' + body)
             .toPromise()
             .then(res => {
                 return res.json();
@@ -296,7 +298,7 @@ export class ServiceJsonService {
     editComment( commentID, value ) {
         let body = JSON.stringify({ action: 'edit', params: { itemID: commentID, value: value } });
 
-        return this.http.post('http://dev.fitness-pro.ru/comments.php',
+        return this.http.post(this.rootURL + 'comments.php',
             body,
             { headers: this.headers })
             .toPromise()
@@ -316,7 +318,7 @@ export class ServiceJsonService {
         let body = JSON.stringify({ action: 'add', params: { object: value } });
         console.log(body);
 
-        return this.http.post('http://dev.fitness-pro.ru/comments.php',
+        return this.http.post(this.rootURL + 'comments.php',
             body,
             { headers: this.headers })
             .toPromise()
