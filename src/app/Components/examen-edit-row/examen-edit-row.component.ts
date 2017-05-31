@@ -239,4 +239,9 @@ export class ExamenEditRowComponent implements OnInit {
 		this.onCommentAdd.emit(comment);
 	}
 
+
+	isCollapse() { 
+		return $(this.rootElement.nativeElement).hasClass("selectedBox");
+	}
+
 }

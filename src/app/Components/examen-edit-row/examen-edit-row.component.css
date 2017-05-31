@@ -95,7 +95,7 @@
   box-sizing: border-box;
   border: 3px solid #933;
   /*background-color: #f7fffa;*/
-      transform: scale(1.1);
+      transform: scale(1.05);
     transition-duration: .3s;
 }
 
