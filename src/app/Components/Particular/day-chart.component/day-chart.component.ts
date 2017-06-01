@@ -53,11 +53,7 @@ export class DayChartComponent implements OnInit {
 		options.forEach( v => {
 			stringForChartData1 += this.countRatePercentage(chartDayColors[v]);
 			if (chartDayColors[v] !== 0) { stringForChartData1 += ','; }
-						console.log(v, chartDayColors[v]);
-		});
-
-		console.log( stringForChartData1, 'res&');
-		
+		});	
 
 		if (this.jqueryChart) {
 			this.jqueryChart.text(stringForChartData1).change();
@@ -72,19 +68,32 @@ export class DayChartComponent implements OnInit {
 		return this.examens.filter(vm => vm.studentID).map(vm => vm.parentExamen.id);
 	}
 
+	examsForDayList() {
+		return this.examens.filter(vm => vm.studentID);
+	}
+
 	ratesForDayList() {
 		return this.rates.filter(rt => this.examsForDayListIDs().indexOf(rt.examenID) >= 0);
 	}
 
-	examenCountWithOutRate() {
-		return this.examsForDayListIDs().filter(ex => this.ratesForDayList().map(r => r.examenID ? r.examenID : undefined).indexOf(ex) < 0);
+	// examenCountWithOutRate() {	
+	// 	return this.examsForDayListIDs().filter(ex => this.ratesForDayList().map(r => r.examenID ? r.examenID : undefined).indexOf(ex) < 0);
+	// }
+
+	examenWithOutRate() {		
+		return this.examsForDayList().filter(
+			ex => { 			
+				const ratesForEx = this.ratesForDayList().filter(rt => rt.examenID == ex.parentExamen.id && parseInt( rt.studentID ) == ex.studentID);			
+				return ratesForEx.length > 0 ? false : true ;
+			} 
+		);
 	}
 
 	countRatePercentage(x) {
 		let count;
 
 		if (x === 0) {
-			count = this.examenCountWithOutRate();
+			count = this.examenWithOutRate().map( ex => ex.parentExamen.id );
 		} else {
 			count = this.ratesForDayList().filter(rt => rt.value === x);
 		}
