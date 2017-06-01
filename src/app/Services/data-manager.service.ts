@@ -112,10 +112,10 @@ export class DataManagerService {
   }
 
   addLoadedMonth(obj: {
-    disciplineID: string,
-    year: number,
-    month: number
-  }) {
+      disciplineID: string,
+      year: number,
+      month: number
+    }) {
     this.monthLoadedTabel.push(obj);
   }
 
@@ -123,6 +123,21 @@ export class DataManagerService {
   //  Экзамены 
 
   loadExamensFromService(disciplineId: string, year: number, month: number) {
+
+    let test = this.getLoadedMonth(disciplineId).filter(yr => yr.year == year)
+      .filter(mn => mn.month == month);
+    
+    if (test.length > 0) { 
+      this.messages.addMessage(new Message({
+        title: 'DataManager',
+        content: 'Данные за: год - ' + year + ', месяц - ' + month + ' уже загруженны',
+        type: 'success'
+      }));
+      
+      return;
+    }
+
+
     this.service.getExamensForDiscipline(disciplineId, year, month)
       .then(data => {
         if (data) {
@@ -135,13 +150,14 @@ export class DataManagerService {
             content: 'Загружены данные: год - ' + year + ', месяц - ' + month,
             type: 'success'
           }));
+
+          this.addLoadedMonth({
+            disciplineID: disciplineId,
+            year: year,
+            month: month
+          });
         }  
       });
-    this.addLoadedMonth({
-      disciplineID: disciplineId,
-      year: year,
-      month: month
-    });
   }
 
   loadExamensByIDs( array ) {
