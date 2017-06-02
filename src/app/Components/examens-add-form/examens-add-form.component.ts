@@ -1,3 +1,4 @@
+import { TimeRange } from './../../Models/time-range.model';
 import { DataManagerService } from './../../Services/data-manager.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFormState, FormPersonal, FormCollective } from './../../Models/form-objects.model';
@@ -20,6 +21,8 @@ export class ExamensAddFormComponent implements OnInit {
 	monthName = getMonthName;
 
 	formObj: IFormState;
+
+	changeTrigerForChart = 0;
 
 	constructor(private route: ActivatedRoute,
 		private router: Router,
@@ -58,6 +61,24 @@ export class ExamensAddFormComponent implements OnInit {
 		}
 	}
 
+	changeRange(ranges: TimeRange[]) { 
+		this.formObj.changeRanges(ranges);
+		this.changeTrigerForChart++;
+	}
+
+	changeDivideResult(value) { 	
+		this.formObj.examensObject = [];
+		for (let index = 0; index < value.length; index++) {
+			let element = value[index];
+			
+			this.formObj.examensObject.push(element);
+		}
+
+		// this.formObj.examensObject = value;
+		console.log(this.formObj.examensObject);
+	}
+
+
 	formatTimeDigit(n) {
 		return addFirstZero(n);
 	}
@@ -88,10 +109,4 @@ export class ExamensAddFormComponent implements OnInit {
 		return this.date.getDate() + '-' + this.date.getMonth() + '-' + this.date.getFullYear();
 	}
 
-	ddd(x) { 	
-		this.formObj.rangeList = x;
-
-		console.log(this.formObj.rangeList);
-		
-	}
 }

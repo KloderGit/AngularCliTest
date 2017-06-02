@@ -14,7 +14,9 @@ export interface IFormState{
 
 	getFormResult();
 
-	changeTime( start: Date, end: Date);
+	changeTime(start: Date, end: Date);
+	
+	changeRanges(ranges: TimeRange[]);
 
 	changeParams( value: boolean | number);
 
@@ -51,6 +53,10 @@ export class FormCollective implements IFormState{
 
 		this.examensObject.start = this.startTime;
 		this.examensObject.end = this.endTime;
+	}
+	
+	changeRanges( ranges: TimeRange[] ) { 
+		this.rangeList = ranges;
 	}
 
 	getFormResult(){
@@ -100,6 +106,10 @@ export class FormPersonal implements IFormState{
 
 		this.examensObject = new Array();
 	}
+
+	changeRanges(ranges: TimeRange[]) {
+		this.rangeList = ranges;
+	}	
 
 
 	changeParams( value: number ): void;

@@ -1,3 +1,40 @@
 .add-range {
-
+  /*width: 100%;*/
 }
+
+.add-range > div {
+  width: 30%;
+}
+
+.horizontal{
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  align-content: stretch;
+  flex-wrap: wrap;
+
+  text-align: center;
+}
+
+.range{
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 7px;    
+}
+
+.range-time{
+  display: inline-block; 
+}
+
+.delete-button{
+    display: block;
+    float: right;
+    width: 15px;
+    height: 15px;
+    background-color: brown;
+    color: white;
+    padding: 1px;
+    line-height: 15px;
+}
+

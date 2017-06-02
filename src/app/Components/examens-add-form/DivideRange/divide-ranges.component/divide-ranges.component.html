@@ -1,0 +1,12 @@
+<div class="divide-ranges">
+    <button (click) = "ddd()">dddddddddddddd</button>
+    <h4>Выбранные диапазоны времени:</h4>
+    <div class="range" *ngFor = "let item of rangeModel">
+        <span class="time">
+            {{item.range.startTime.getHours()}}:{{item.range.startTime.getMinutes()}} — {{item.range.endTime.getHours()}}:{{item.range.endTime.getMinutes()}}
+        </span>
+        <div class="wraper">
+            <divide-time-selector [range] ="item.range" (onChange) = "divideOneRange(item, $event)"></divide-time-selector>
+        </div>
+    </div>
+</div>

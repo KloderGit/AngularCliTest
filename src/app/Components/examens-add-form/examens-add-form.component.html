@@ -4,7 +4,7 @@
   </div>
 
   <div class="horizontal">
-    <div wizard-form [titlesTag]="'h2'" style="width: 60%">
+    <div wizard-form [titlesTag]="'h2'" style="width: 70%">
       <ul class="wizard-top-menu">
         <li>Тип экзамена</li>
         <li>Время проведения</li>
@@ -26,29 +26,7 @@
         <h2 class="wizard-content-title">Шаг второй 2. Укажите время проведения.</h2>
 
         <div class="wizard-content" *ngIf="formObj && formObj.type == 'personal'">
-          <div>
-            <p><strong>Начало экзаменов:</strong></p>
-            <div class="thumbnail">
-              <div class="caption">
-                <timepicker [defaultHour]='17' [defaultMinute]='0' [onlyHours]="true" (onChangeTimePicker)="changeTime($event, null)">
-                </timepicker>
-              </div>
-            </div>
-          </div>
-          <div>
-            <p><strong>Окончание экзаменов</strong></p>
-            <div class="thumbnail">
-              <div class="caption">
-                <timepicker #endTimePicker [defaultHour]='22' [defaultMinute]='0' [onlyHours]="true" [hourMinLimit]='formObj.startTime.getHours()'
-                  (onChangeTimePicker)="changeTime(null, $event)">
-                </timepicker>
-              </div>
-            </div>
-          </div>
-
-
-<!--<add-range [date] = "date" (onChange) = "ddd($event)"></add-range>-->
-
+          <add-range [date] = "date" (onChange) = "changeRange($event)"></add-range>
         </div>
 
         <div class="wizard-content" *ngIf="formObj && formObj.type == 'collective'">
@@ -100,28 +78,9 @@
         <h2 class="wizard-content-title" *ngIf="formObj && formObj.type == 'collective'">Шаг третий. Укажите количество студентов в аудитории.</h2>
 
         <div class="wizard-content" *ngIf="formObj && formObj.type == 'personal'">
-          <div style="width: 60%">
-            <p><strong>Определен промежуток в {{ formObj.diffTime() / 60 }} ч. Разбить на: </strong></p><br/>
-            <div class="thumbnail">
-              <div class="caption">
-                <div class="group-row">
-                  <div class="app-button-group">
-                    <button type="button" class="app-button app-button-info" (click)="formObj.changeParams(10); hours.value=''">10 мин.</button>
-                    <button type="button" class="app-button app-button-info" (click)="formObj.changeParams(15); hours.value=''">15 мин.</button>
-                    <button type="button" class="app-button app-button-info" (click)="formObj.changeParams(20); hours.value=''">20 мин.</button>
-                    <button type="button" class="app-button app-button-info" (click)="formObj.changeParams(30); hours.value=''">30 мин.</button>
-                    <input #hours type="text" class="app-input-select" placeholder="Свой интервал" (input)="formObj.changeParams($event.target.value)">
-                    <span class="input-group-addon" style="display: flex; margin: auto 10px;">
-                        <input #hvostik title="Добавлять выходящий за пределы последний экзамен" 
-                              type="checkbox" 
-                              (change) = "formObj.changeParams(hvostik.checked)">
-                      </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <divide-ranges [ranges] = "this.formObj.rangeList" [changeTriger] = "changeTrigerForChart" (onChange) = "changeDivideResult($event)"></divide-ranges>
         </div>
+
 
         <div *ngIf="formObj && formObj.type == 'personal'">
           <div *ngIf="formObj.examensObject.length > 0">
@@ -135,7 +94,8 @@
                     <ul class="app-list-group">
                       <li class="app-list-group-item">
                         <span class="glyphicon glyphicon glyphicon-time" aria-hidden="true"></span>
-                        <strong>{{item.start.getHours()}}:{{formatTimeDigit(item.start.getMinutes())}}</strong> - {{item.end.getHours()}}:{{formatTimeDigit(item.end.getMinutes())}}
+                        {{item | json}}
+                        <!--<strong>{{item.start.getHours()}}:{{formatTimeDigit(item.start.getMinutes())}}</strong> - {{item.end.getHours()}}:{{formatTimeDigit(item.end.getMinutes())}}-->
                       </li>
                       <li class="app-list-group-item">
                         <input type="checkbox" checked="item.isSelected" (change)="item.isSelected = !item.isSelected" />                        Активность
@@ -195,7 +155,7 @@
     </div>
 
 
-    <div class="app-panel app-panel-info" style="width: 35%">
+    <div class="app-panel app-panel-info" style="width: 25%">
 
       <div class="app-panel-heading">Планирование экзаменов</div>
       <div style="font-size: small" *ngIf="formObj" class="app-panel-body horizontal">

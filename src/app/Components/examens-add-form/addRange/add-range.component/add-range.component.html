@@ -1,12 +1,17 @@
-<div class="add-range">
-    <timepicker #startPicker [defaultHour]='17' [defaultMinute]='10' [onlyHours]="true" ></timepicker>
-    <timepicker #endPicker [defaultHour]='22' [defaultMinute]='30'></timepicker>
+<div class="add-range horizontal">
+    <div>
+        <timepicker #startPicker [defaultHour]='17' [defaultMinute]='10'></timepicker>
+    </div>
+    <div>
+        <timepicker #endPicker [defaultHour]='22' [defaultMinute]='30'></timepicker>
+    </div>
+    <div>
+        <div *ngFor="let range of value" class="range">
+                <p class="range-time">{{range.startTime.getHours()}}:{{range.startTime.getMinutes()}} — {{range.endTime.getHours()}}:{{range.endTime.getMinutes()}}</p>
+                <span class="delete-button" (click)="deleteRange(range)">X</span>
+        </div>
 
+        <button (click)="addRange(startPicker.value, endPicker.value)"> Add</button>
+    </div>
 
-    <p *ngFor="let t of value">
-        {{t | json}} <span (click) = "deleteRange(t)">X</span>
-    </p>
-
-
-        <button (click) = "addRange(startPicker.value, endPicker.value)"> Add</button>
 </div>

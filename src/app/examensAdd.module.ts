@@ -1,3 +1,5 @@
+import { DivideTimeSelectorComponent } from './Components/examens-add-form/DivideRange/DivideSelector/divide-time-selector.component/divide-time-selector.component';
+import { DivideRangesComponent } from './Components/examens-add-form/DivideRange/divide-ranges.component/divide-ranges.component';
 import { AddRangeComponent } from './Components/examens-add-form/addRange/add-range.component/add-range.component';
 import { FormStep1Component } from './Components/examens-add-form/Step1/form-step1.component/form-step1.component/form-step1.component';
 import { WizardFormDirective } from './Directives/wizard-form.directive';
@@ -14,6 +16,7 @@ export const routerConfig = [{
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(routerConfig)],
-    declarations: [ExamensAddFormComponent, SliderComponent, TimepickerComponent, WizardFormDirective, FormStep1Component, AddRangeComponent ]
+    declarations: [ExamensAddFormComponent, SliderComponent, TimepickerComponent, DivideTimeSelectorComponent, 
+    WizardFormDirective, FormStep1Component, AddRangeComponent, DivideRangesComponent]
 })
 export default class ExamensAddModule {}
