@@ -36,5 +36,8 @@
     color: white;
     padding: 1px;
     line-height: 15px;
+  font-size: x-small;
+    border-radius: 50%;    
+    cursor: pointer;
 }
 

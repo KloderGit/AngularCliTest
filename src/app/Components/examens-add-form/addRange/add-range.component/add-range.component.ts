@@ -14,23 +14,28 @@ export class AddRangeComponent implements OnInit {
 	@Input() date: Date;
 	@Output() onChange = new EventEmitter();
 
-	ngOnInit() { 
+	ngOnInit() {
 		this.value = [];
 	}
 
-	addRange(x, y) { 
+	addRange(x, y) {
 		const range = new TimeRange( this.date );
 		range.changeTime(x, y);
 		this.value.push(range);
 
+		this.value.sort(sortByDate);
+
+		this.onChange.emit(this.value);
+
+		function sortByDate( a , b ) { return (+a.startTime) - (+b.startTime); }
+	}
+
+	deleteRange( x ) {
+		const ind = this.value.indexOf(x);
+		this.value.splice(ind, 1);
+
 		this.onChange.emit(this.value);
 	}
 
-	deleteRange( x ) { 
-		let ind = this.value.indexOf(x);
-		this.value.splice(ind, 1);
-
-		this.onChange.emit(this.value);		
-	}
 }
 

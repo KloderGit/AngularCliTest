@@ -42,7 +42,7 @@ export class DataManagerRatesService {
                     type: 'danger'
                 }));
             });
-    } 
+    }
 
     add( examen, student, rateValue ) {
         return this.service.addRate(examen, student, rateValue ).then(data => {
@@ -53,9 +53,9 @@ export class DataManagerRatesService {
         });
     }
 
-    edit( rate: RateModel, value: string | number ) { 
-        return this.service.editRate(rate, value).then(data => { 
-            if (!data) { 
+    edit( rate: RateModel, value: string | number ) {
+        return this.service.editRate(rate, value).then(data => {
+            if (!data) {
                 return;
             }
             return new RateModel(data.id, data.examenID, data.studentID, data.rate);

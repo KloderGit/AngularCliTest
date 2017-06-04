@@ -1,12 +1,26 @@
 <div class="divide-ranges">
     <button (click) = "ddd()">dddddddddddddd</button>
     <h4>Выбранные диапазоны времени:</h4>
-    <div class="range" *ngFor = "let item of rangeModel">
+    <div class="range" *ngFor = "let item of rangeModel" [style.background-color] = "item.examenBlankVM && item.examenBlankVM.length > 0 ? '#f0fff9' : 'aliceblue'">
         <span class="time">
             {{item.range.startTime.getHours()}}:{{item.range.startTime.getMinutes()}} — {{item.range.endTime.getHours()}}:{{item.range.endTime.getMinutes()}}
         </span>
         <div class="wraper">
             <divide-time-selector [range] ="item.range" (onChange) = "divideOneRange(item, $event)"></divide-time-selector>
+
+            <div class="divided-blocks" *ngIf = "item.examenBlankVM && item.examenBlankVM.length > 0">
+
+            <p style="margin-bottom: 7px "><strong>Результат:</strong> Будет принято — {{item.examenBlankVM.length}} студентов.</p>
+
+                <p *ngFor = "let time of item.examenBlankVM" class="times" [style.background-color] = "time.isSelected ? 'white' : '#f0fff9'">
+                    {{time.start.getHours()}}:{{time.start.getMinutes()}}
+                    <label class="delete-button" [style.background-color] = "time.isSelected ? '#ef8c8c' : 'darkgray'">
+                        <span *ngIf="time.isSelected">—</span>
+                        <span *ngIf="!time.isSelected">+</span>
+                        <input type="checkbox" checked="time.isSelected" (change)="time.isSelected = !time.isSelected" style="display: none;">
+                    </label>
+                </p>
+            </div>
         </div>
     </div>
 </div>

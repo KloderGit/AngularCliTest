@@ -28,12 +28,12 @@ export class ExamensAddFormComponent implements OnInit {
 		private router: Router,
 		private dataManager: DataManagerService,
 		private cdr: ChangeDetectorRef) {
-		console.log("Создан компонент создания экзаменов");
+		console.log('Создан компонент создания экзаменов');
 	}
 
 	ngOnInit() {
 
-		let date = this.route.snapshot.params['date'];
+		const date = this.route.snapshot.params['date'];
 		this.disciplineId = this.route.snapshot.params['discipline'];
 
 		this.date.setTime(date);
@@ -42,40 +42,40 @@ export class ExamensAddFormComponent implements OnInit {
 	}
 
 	changeExamenType(type: string) {
-		if (type == 'personal') { this.formObj = new FormPersonal(new Date(this.date), new Date(this.date)); }
-		if (type == 'collective') { this.formObj = new FormCollective(new Date(this.date), new Date(this.date)); }
+		if (type === 'personal') { this.formObj = new FormPersonal(new Date(this.date), new Date(this.date)); }
+		if (type === 'collective') { this.formObj = new FormCollective(new Date(this.date), new Date(this.date)); }
 		this.cdr.detectChanges();
 		console.log('Смена типа экзамена', this.formObj);
 	}
 
 	changeTime(start?, end?) {
 		if (start) {
-			let time = new Date(this.formObj.startTime);
+			const time = new Date(this.formObj.startTime);
 			time.setHours(start.hours, start.minutes);
 			this.formObj.changeTime(time, null);
 		}
 		if (end) {
-			let time = new Date(this.formObj.endTime);
+			const time = new Date(this.formObj.endTime);
 			time.setHours(end.hours, end.minutes);
 			this.formObj.changeTime(null, time);
 		}
 	}
 
-	changeRange(ranges: TimeRange[]) { 
+	changeRange(ranges: TimeRange[]) {
 		this.formObj.changeRanges(ranges);
 		this.changeTrigerForChart++;
 	}
 
-	changeDivideResult(value) { 	
+	changeDivideResult(value) {
 		this.formObj.examensObject = [];
 		for (let index = 0; index < value.length; index++) {
-			let element = value[index];
-			
+			const element = value[index];
+
 			this.formObj.examensObject.push(element);
 		}
 
 		// this.formObj.examensObject = value;
-		console.log(this.formObj.examensObject);
+		// console.log(this.formObj.examensObject);
 	}
 
 
@@ -89,7 +89,7 @@ export class ExamensAddFormComponent implements OnInit {
 	}
 
 	saveExamens() {
-		let ttt = this.formObj.getFormResult();
+		const ttt = this.formObj.getFormResult();
 
 		console.log('Сохраняем экзамен');
 
@@ -102,10 +102,10 @@ export class ExamensAddFormComponent implements OnInit {
 					console.log(i);
 					return;
 				}
-			})
+			});
 	}
 
-	getDateString() { 
+	getDateString() {
 		return this.date.getDate() + '-' + this.date.getMonth() + '-' + this.date.getFullYear();
 	}
 

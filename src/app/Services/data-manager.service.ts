@@ -60,31 +60,31 @@ export class DataManagerService {
     // this.loadDisciplines();
   }
 
-  init() { 
+  init() {
     this.service.getTeachersAll()
       .then(tchr => {
-        for (var i = 0; i < tchr.length; i++) {
-          let thr = new TeacherModel();
+        for (let i = 0; i < tchr.length; i++) {
+          const thr = new TeacherModel();
           thr.id = tchr[i].id;
           thr.name = tchr[i].name;
           this.teachers.push(thr);
         }
       })
-      .then( tchrs => { 
+      .then( tchrs => {
         this.service.getDisciplinesAll()
           .then(data => {
-            for (var i = 0; i < data.length; i++) {
-              let dscp = new DisciplineModel();
+            for (let i = 0; i < data.length; i++) {
+              const dscp = new DisciplineModel();
               dscp.id = data[i].id;
               dscp.title = data[i].title;
               dscp.teacherId = data[i].teacherId;
-              dscp.active = data[i].active == 'Y' ? true : false;
+              dscp.active = data[i].active === 'Y' ? true : false;
               dscp.format = data[i].format;
               this.disciplines.push(dscp);
             }
-          })
+          });
       });
-  }  
+  }
 
   //  Дисциплины
   getDisciplinesAll() {
@@ -92,7 +92,7 @@ export class DataManagerService {
   }
 
   getDisciplineByID(id: string) {
-    let index = this.disciplines.map(x => x.id).indexOf(id);
+    const index = this.disciplines.map(x => x.id).indexOf(id);
     return this.disciplines[index];
   }
 
@@ -108,7 +108,7 @@ export class DataManagerService {
   //  Реестр загруженных месяцев
 
   getLoadedMonth(disciplineID: string) {
-    return this.monthLoadedTabel.filter(obj => obj.disciplineID == disciplineID);
+    return this.monthLoadedTabel.filter(obj => obj.disciplineID === disciplineID);
   }
 
   addLoadedMonth(obj: {
@@ -120,20 +120,20 @@ export class DataManagerService {
   }
 
 
-  //  Экзамены 
+  //  Экзамены
 
   loadExamensFromService(disciplineId: string, year: number, month: number) {
 
-    let test = this.getLoadedMonth(disciplineId).filter(yr => yr.year == year)
-      .filter(mn => mn.month == month);
-    
-    if (test.length > 0) { 
+    const test = this.getLoadedMonth(disciplineId).filter(yr => yr.year === year)
+      .filter(mn => mn.month === month);
+
+    if (test.length > 0) {
       this.messages.addMessage(new Message({
         title: 'DataManager',
         content: 'Данные за: год - ' + year + ', месяц - ' + month + ' уже загруженны',
         type: 'success'
       }));
-      
+
       return;
     }
 
@@ -141,8 +141,8 @@ export class DataManagerService {
     this.service.getExamensForDiscipline(disciplineId, year, month)
       .then(data => {
         if (data) {
-          for (var i = 0; i < data.length; i++) {
-            let ex = ExamenModel.map(data[i]);
+          for (let i = 0; i < data.length; i++) {
+            const ex = ExamenModel.map(data[i]);
             this.examens.push(ex);
           }
           this.messages.addMessage(new Message({
@@ -150,23 +150,22 @@ export class DataManagerService {
             content: 'Загружены данные: год - ' + year + ', месяц - ' + month,
             type: 'success'
           }));
-
+        }
           this.addLoadedMonth({
             disciplineID: disciplineId,
             year: year,
             month: month
           });
-        }  
       });
   }
 
   loadExamensByIDs( array ) {
     return this.service.getExamensByIDs( array )
       .then(data => {
-        let result = [];
+        const result = [];
         if (data) {
-          for (var i = 0; i < data.length; i++) {
-            let ex = ExamenModel.map(data[i]);
+          for (let i = 0; i < data.length; i++) {
+            const ex = ExamenModel.map(data[i]);
             result.push(ex);
           }
         }
@@ -177,44 +176,44 @@ export class DataManagerService {
   loadExamensByStudents(array) {
     return this.service.getExamensByStudents(array)
       .then(data => {
-        let result = [];
+        const result = [];
         if (data) {
-          for (var i = 0; i < data.length; i++) {
-            let ex = ExamenModel.map(data[i]);
+          for (let i = 0; i < data.length; i++) {
+            const ex = ExamenModel.map(data[i]);
             result.push(ex);
           }
-        }        
+        }
         return result;
       });
-  }  
+  }
 
   getExamensByDiscipline(disciplineId: string) {
-    return this.examens.filter(item => item.disciplineId == disciplineId);
+    return this.examens.filter(item => item.disciplineId === disciplineId);
   }
 
   getExamensByDate(disciplineId: string, date: Date) {
-    return this.examens.filter(item => item.disciplineId == disciplineId)
-      .filter(item => item.startTime.getFullYear() == date.getFullYear())
-      .filter(item => item.startTime.getMonth() == date.getMonth())
-      .filter(item => item.startTime.getDate() == date.getDate());    
-  }  
+    return this.examens.filter(item => item.disciplineId === disciplineId)
+      .filter(item => item.startTime.getFullYear() === date.getFullYear())
+      .filter(item => item.startTime.getMonth() === date.getMonth())
+      .filter(item => item.startTime.getDate() === date.getDate());
+  }
 
-  getExamenByID(id: string) { 
-    let r = this.examens.map(item => item.id).indexOf(id);
-    let m = this.examens[r];
+  getExamenByID(id: string) {
+    const r = this.examens.map(item => item.id).indexOf(id);
+    const m = this.examens[r];
     return m;
   }
 
   addExamen(inObject: any) {
     for (let i = 0; i < inObject.length; i++) {
 
-      let ex = new ExamenModel();
-      ex.id = "new";
+      const ex = new ExamenModel();
+      ex.id = 'new';
       ex.disciplineId = inObject[i].disciplineId;
       ex.startTime = inObject[i].startTime;
       ex.endTime = inObject[i].endTime;
-      ex.isShared = inObject[i].countPlace != 1 ? true : false;
-      ex.limit = inObject[i].countPlace != 1 ? inObject[i].countPlace : 1;
+      ex.isShared = inObject[i].countPlace !== 1 ? true : false;
+      ex.limit = inObject[i].countPlace !== 1 ? inObject[i].countPlace : 1;
       ex.students = [];
 
       this.examens.push(ex);
@@ -223,14 +222,14 @@ export class DataManagerService {
 
   addExamens(objects: FormExamenViewModel[], type: string, discplineID: string) {
 
-    let prefExamens = [];
-    
+    const prefExamens = [];
+
     for (let i = 0; i < objects.length; i++) {
-      let ex = new ExamenModel();
+      const ex = new ExamenModel();
       ex.disciplineId = discplineID;
       ex.startTime = objects[i].start;
-      ex.endTime = objects[i].end;      
-      ex.isShared = type == 'collective' ? true : false;
+      ex.endTime = objects[i].end;
+      ex.isShared = type === 'collective' ? true : false;
       ex.limit = objects[i].count;
 
       prefExamens.push(ex);
@@ -239,8 +238,8 @@ export class DataManagerService {
     return this.service.addExamens( prefExamens )
       .then( data => {
         if (data) {
-          for (var i = 0; i < data.length; i++) {
-            let ex = ExamenModel.map(data[i]);
+          for (let i = 0; i < data.length; i++) {
+            const ex = ExamenModel.map(data[i]);
             this.examens.push(ex);
           }
           this.messages.addMessage(new Message({
@@ -248,7 +247,7 @@ export class DataManagerService {
             content: 'Успешно добавлено - ' + data.length + ' экзамен/ов.',
             type: 'success'
           }));
-        } 
+        }
         // else {
         //   throw new Error("Новых экзаменов не добавлено.");
         // }
@@ -261,17 +260,17 @@ export class DataManagerService {
           content: err,
           type: 'danger'
         }));
-        return false; 
+        return false;
     });
   }
 
 
-  copyExamens(array: ExamenModel[], date: Date) {  
+  copyExamens(array: ExamenModel[], date: Date) {
 
-    let dateIsLoaded: boolean = this.getLoadedMonth(array[0].disciplineId).filter(item => item.year == date.getFullYear())
-      .filter(item => item.month == date.getMonth()).length > 0;
-    
-    if (!dateIsLoaded) { 
+    const dateIsLoaded: boolean = this.getLoadedMonth(array[0].disciplineId).filter(item => item.year === date.getFullYear())
+      .filter(item => item.month === date.getMonth()).length > 0;
+
+    if (!dateIsLoaded) {
       this.messages.addMessage(new Message({
         title: 'DataManager',
         content: 'Месяц для копирования не загружен. Перед копированием загрузите целевой месяц.',
@@ -280,10 +279,10 @@ export class DataManagerService {
       return;
     }
 
-    let newExamens: ExamenModel[] = [];
+    const newExamens: ExamenModel[] = [];
 
     for (let i = 0; i < array.length; i++) {
-      let ex = ExamenModel.map(array[i]);
+      const ex = ExamenModel.map(array[i]);
       ex.startTime.setFullYear(date.getFullYear());
       ex.startTime.setMonth(date.getMonth());
       ex.startTime.setDate(date.getDate());
@@ -298,8 +297,8 @@ export class DataManagerService {
     return this.service.copyExamens(newExamens)
       .then( data => {
         if (data) {
-          for (var i = 0; i < data.length; i++) {
-            let ex = ExamenModel.map(data[i]);
+          for (let i = 0; i < data.length; i++) {
+            const ex = ExamenModel.map(data[i]);
             this.examens.push(ex);
           }
         }
@@ -317,7 +316,7 @@ export class DataManagerService {
           content: err,
           type: 'danger'
         }));
-        return false; 
+        return false;
     });
 
   }
@@ -329,18 +328,18 @@ export class DataManagerService {
         // let data = res.json();
         let cnt = 0;
         for (let i = 0; i < data.length; i++) {
-          let indx = this.examens.map( item => item.id).indexOf(data[i]);
-          if (indx != -1) {
+          const indx = this.examens.map( item => item.id).indexOf(data[i]);
+          if (indx !== -1) {
             this.examens.splice(indx, 1);
             cnt += 1;
           }
-        }        
+        }
         this.messages.addMessage(new Message({
           title: 'DataManager',
           content: 'Удалено ' + cnt + ' экзаменов.',
           type: 'success'
         }));
-        return true;      
+        return true;
       }
     )
     .catch( err => {
@@ -349,16 +348,16 @@ export class DataManagerService {
           content: err,
           type: 'danger'
         }));
-        return false; 
+        return false;
     });
   }
 
   changeExamensDate(array: ExamenModel[], date) {
 
-    let newExamens: ExamenModel[] = [];
+    const newExamens: ExamenModel[] = [];
 
     for (let i = 0; i < array.length; i++) {
-      let ex = ExamenModel.map(array[i]);
+      const ex = ExamenModel.map(array[i]);
       ex.startTime.setFullYear(date.getFullYear());
       ex.startTime.setMonth(date.getMonth());
       ex.startTime.setDate(date.getDate());
@@ -367,13 +366,13 @@ export class DataManagerService {
       ex.endTime.setDate(date.getDate());
 
       newExamens.push(ex);
-    }   
+    }
 
     return this.service.changeExamens(newExamens)
       .then( data => {
-        for(let i = 0; i < data.length; i++ ){
-          let indxObj = array.map( item => item.id ).indexOf( data[i] );
-          let exObj = array[indxObj];
+        for (let i = 0; i < data.length; i++ ) {
+          const indxObj = array.map( item => item.id ).indexOf( data[i] );
+          const exObj = array[indxObj];
           exObj.startTime.setFullYear(date.getFullYear());
           exObj.endTime.setFullYear(date.getFullYear());
           exObj.startTime.setMonth(date.getMonth());
@@ -381,13 +380,13 @@ export class DataManagerService {
           exObj.startTime.setDate(date.getDate());
           exObj.endTime.setDate(date.getDate());
         }
-       
+
         this.messages.addMessage(new Message({
           title: 'DataManager',
           content: 'Перенесено ' + data.length + ' экзамен\ов.',
           type: 'success'
-        }));        
-        return true;      
+        }));
+        return true;
       }
     )
     .catch( err => {
@@ -396,13 +395,13 @@ export class DataManagerService {
           content: err,
           type: 'danger'
         }));
-        return false; 
+        return false;
     });
   }
 
 
   getStudents(array: any[]) {
-    let result = [];
+    const result = [];
 
     for (let i = 0; i < array.length; i++) {
       result.push(parseInt(array[i]));
@@ -412,22 +411,22 @@ export class DataManagerService {
       .then(data => {
         return data;
       });
-  }  
+  }
 
 
   getRates(array: any[]) {
-    return this.service.getRates(array.filter(i=>i))
+    return this.service.getRates(array.filter( i => i ))
       .then(data => {
         return data;
       });
-  } 
+  }
 
 
-  editComment( itemID, param ) { 
+  editComment( itemID, param ) {
     return this.service.editComment(itemID, param)
       .then(data => {
 
-        if (!data) { throw new SyntaxError("Объект не найден");  }
+        if (!data) { throw new SyntaxError('Объект не найден');  }
 
         let comment = new CommentModel();
 
@@ -463,7 +462,7 @@ export class DataManagerService {
     return this.service.addComment(obj)
       .then(data => {
 
-        if (!data) { throw new SyntaxError("Объект не найден"); }
+        if (!data) { throw new SyntaxError('Объект не найден'); }
 
         let comment = new CommentModel();
 
@@ -493,7 +492,7 @@ export class DataManagerService {
         }));
       }
       );
-  }  
+  }
 
 
 }

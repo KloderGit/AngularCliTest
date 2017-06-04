@@ -21,7 +21,7 @@ export class DivideTimeSelectorComponent implements OnInit {
 
 	ngOnInit() { }
 
-	divide() { 
+	divide() {
 		console.log(this.range);
 	}
 
@@ -32,7 +32,7 @@ export class DivideTimeSelectorComponent implements OnInit {
 		if (typeof value == 'number') {
 			if (value && value < 5) { return; }
 			this.blockSize = value || this.blockSize;
-		}		
+		}
 		if (typeof value == 'string') {
 			this.blockSize = parseInt(value);
 		}

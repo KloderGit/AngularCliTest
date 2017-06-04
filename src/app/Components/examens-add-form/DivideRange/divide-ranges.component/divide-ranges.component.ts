@@ -1,7 +1,7 @@
 import { element } from 'protractor';
 import { FormExamenViewModel } from './../../../../Models/form-objects.model';
 import { TimeRange } from './../../../../Models/time-range.model';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 
 @Component({
 	selector: 'divide-ranges',
@@ -9,7 +9,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 	styleUrls: [ 'divide-ranges.component.css' ]
 })
 
-export class DivideRangesComponent implements OnInit {
+export class DivideRangesComponent implements OnInit, OnChanges {
 
 	@Input() ranges: TimeRange[] = [];
 	@Input() changeTriger = 0;
@@ -22,12 +22,12 @@ export class DivideRangesComponent implements OnInit {
 
 	ngOnChanges(changes) {
 
-		if (!this.ranges) { return; } 
+		if (!this.ranges) { return; }
 
-		this.rangeModel = []
+		this.rangeModel = [];
 
 		for (let index = 0; index < this.ranges.length; index++) {
-			let element = this.ranges[index];
+			const element = this.ranges[index];
 
 			this.rangeModel.push(
 				{
@@ -41,20 +41,17 @@ export class DivideRangesComponent implements OnInit {
 	divideOneRange(element, value) {
 		element.examenBlankVM = value;
 
-		let t = this.rangeModel.filter(rm => !rm.examenBlankVM);
+		const t = this.rangeModel.filter(rm => !rm.examenBlankVM);
 
-		if (t.length <= 0) { 
+		if (t.length <= 0) {
 
-			const y = this.rangeModel.filter(rm => rm.examenBlankVM)
-				.map(item => item.examenBlankVM.length > 0)
+			const res = this.rangeModel.filter(rm => rm.examenBlankVM)
+				.map(item => item.examenBlankVM.length > 0 ? item.examenBlankVM : [])
 				.reduce(function (result, num) {
 					return result.concat(num);
-				}, []);	
-			
-			console.log(y,'000000000000000000000000');
-			
-			
-			this.onChange.emit(y);
+				}, []);
+
+			this.onChange.emit(res);
 		}
 	}
 
