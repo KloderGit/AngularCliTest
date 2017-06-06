@@ -8,7 +8,7 @@
     <div class="wraper">
       <divide-time-selector *ngIf="mainObject && mainObject.type == 'personal'" [range]="item.range" (onChange)="divideOneRange(item, $event)"></divide-time-selector>
 
-      <divide-count-selector *ngIf="mainObject && mainObject.type == 'collective'" (onChange)="divideCollective(item, $event)"></divide-count-selector>
+      <divide-count-selector *ngIf="mainObject && mainObject.type == 'collective'" [range]="item.range" (onChange)="divideOneRange(item, $event)"></divide-count-selector>
 
       <div class="divided-blocks" *ngIf="blockResultIsVisible(item) && mainObject.type == 'personal'">
         <p style="margin-bottom: 7px "><strong>Результат:</strong> Будет принято — {{studentsCount(item)}} студентов.</p>

@@ -1,5 +1,6 @@
+import { FormExamenViewModel } from './../../../../../Models/form-objects.model';
 import { TimeRange } from './../../../../../Models/time-range.model';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
 	selector: 'divide-count-selector',
@@ -9,6 +10,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 export class DivideCountSelectorComponent implements OnInit {
 
+	@Input() range: TimeRange;	
 	@Output() onChange = new EventEmitter();
 
 	currentValue;
@@ -20,6 +22,12 @@ export class DivideCountSelectorComponent implements OnInit {
 	}
 
 	addStudents() { 
-		this.onChange.emit(this.currentValue);
-	}	
+		const res: FormExamenViewModel[] = [];
+
+		const tm = new Date(this.range.startTime);
+		const mt = new Date(this.range.endTime);
+
+		res.push(new FormExamenViewModel(tm, mt, this.currentValue));
+		this.onChange.emit(res);
+	}
 }

@@ -44,12 +44,10 @@
         <h2 class="wizard-content-title" *ngIf="formObj && formObj.type == 'personal'">Шаг третий. Разбить период на экзамены.</h2>
         <h2 class="wizard-content-title" *ngIf="formObj && formObj.type == 'collective'">Шаг третий. Укажите количество студентов в аудитории.</h2>
 
-        <div class="wizard-content" *ngIf="formObj && formObj.type == 'personal'">
-          <divide-ranges [mainObject] = "this.formObj" [ranges] = "this.formObj.rangeList" [changeTriger] = "changeTrigerForChart" (onChange) = "changeDivideResult($event)"></divide-ranges>
-        </div>
-
-        <div *ngIf="formObj && formObj.type == 'collective'">
-          <divide-ranges [mainObject] = "this.formObj" [ranges]="this.formObj.rangeList" [changeTriger]="changeTrigerForChart" (onChange)="changeDivideCollectiveResult($event)"></divide-ranges>
+        <div class="wizard-content" *ngIf="formObj">
+          <divide-ranges  [mainObject] = "this.formObj" 
+                          [changeTriger] = "changeTrigerForChart"
+                          (onChange) = "changeDivideResult($event)"></divide-ranges>
         </div>
 
         <div class="navigation-button">

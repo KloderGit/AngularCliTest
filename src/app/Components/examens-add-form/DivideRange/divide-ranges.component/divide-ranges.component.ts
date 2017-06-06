@@ -1,6 +1,6 @@
+import { TimeRange } from './../../../../Models/time-range.model';
 import { element } from 'protractor';
 import { FormExamenViewModel } from './../../../../Models/form-objects.model';
-import { TimeRange } from './../../../../Models/time-range.model';
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { isArray } from "app/Shared/function";
 
@@ -13,7 +13,6 @@ import { isArray } from "app/Shared/function";
 export class DivideRangesComponent implements OnInit, OnChanges {
 
 	@Input() mainObject;
-	@Input() ranges: TimeRange[] = [];
 	@Input() changeTriger = 0;
 
 	@Output() onChange = new EventEmitter();
@@ -29,7 +28,7 @@ export class DivideRangesComponent implements OnInit, OnChanges {
 		this.rangeModel = [];
 
 		for (let index = 0; index < this.mainObject.rangeList.length; index++) {
-			const element = this.ranges[index];
+			const element = this.mainObject.rangeList[index];
 
 			this.rangeModel.push(
 				{
@@ -41,7 +40,7 @@ export class DivideRangesComponent implements OnInit, OnChanges {
 	}
 
 	divideOneRange(element, value) {
-		element.result = value;
+		element.result = value;	
 
 		const t = this.rangeModel.filter(rm => !rm.result);
 
@@ -51,24 +50,8 @@ export class DivideRangesComponent implements OnInit, OnChanges {
 				.map(item => item.result.length > 0 ? item.result : [])
 				.reduce(function (result, num) {
 					return result.concat(num);
-				}, []);
+				}, []);				
 
-			this.onChange.emit(res);
-		}
-	}
-
-	divideCollective(element, value) { 
-		element.result = value;
-
-		const t = this.rangeModel.filter(rm => !rm.result);
-
-		if (t.length <= 0) {
-			const res = this.rangeModel.filter(rm => rm.result)
-				.map(item => item.result > 0 ? item.result : 0)
-				.reduce(function (result, num) {
-					return result + num;
-				}, 0);
-			
 			this.onChange.emit(res);
 		}
 	}
@@ -80,12 +63,16 @@ export class DivideRangesComponent implements OnInit, OnChanges {
 	}
 
 	studentsCount(item) { 
-		const t = isArray(item);
-		if (t) {
+		if (this.mainObject.type == 'personal') {
 			return item.result.length;
 		} else { 
-			return item.result;
+			return item.result.map(rm => rm.count).concat();
 		}
+	}
+
+	ddd() { 
+		console.log(this.rangeModel);
+		
 	}
 
 }

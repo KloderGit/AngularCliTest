@@ -32,33 +32,21 @@ export class ExamensAddFormComponent implements OnInit {
 	}
 
 	ngOnInit() {
-
 		const date = this.route.snapshot.params['date'];
 		this.disciplineId = this.route.snapshot.params['discipline'];
 
 		this.date.setTime(date);
 		this.date.setHours(0, 0, 0);
-
 	}
 
 	changeExamenType(type: string) {
 		if (type === 'personal') { this.formObj = new FormPersonal(new Date(this.date), new Date(this.date)); }
 		if (type === 'collective') { this.formObj = new FormCollective(new Date(this.date), new Date(this.date)); }
 		this.cdr.detectChanges();
-		console.log('Смена типа экзамена', this.formObj);
-	}
+		this.formObj.rangeList = [];
+		this.changeTrigerForChart++;
 
-	changeTime(start?, end?) {
-		if (start) {
-			const time = new Date(this.formObj.startTime);
-			time.setHours(start.hours, start.minutes);
-			this.formObj.changeTime(time, null);
-		}
-		if (end) {
-			const time = new Date(this.formObj.endTime);
-			time.setHours(end.hours, end.minutes);
-			this.formObj.changeTime(null, time);
-		}
+		console.log('Смена типа экзамена');
 	}
 
 	changeRange(ranges: TimeRange[]) {
@@ -72,20 +60,8 @@ export class ExamensAddFormComponent implements OnInit {
 			const element = value[index];
 
 			this.formObj.examensObject.push(element);
-		}
-
-		// this.formObj.examensObject = value;
-		// console.log(this.formObj.examensObject);
+		}		
 	}
-
-	changeDivideCollectiveResult(value) { 
-		
-		this.formObj.changeParams(value);
-
-		console.log(value);
-		
-	}	
-
 
 	formatTimeDigit(n) {
 		return addFirstZero(n);
