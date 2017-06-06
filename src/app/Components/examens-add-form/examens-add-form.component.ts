@@ -78,6 +78,14 @@ export class ExamensAddFormComponent implements OnInit {
 		// console.log(this.formObj.examensObject);
 	}
 
+	changeDivideCollectiveResult(value) { 
+		
+		this.formObj.changeParams(value);
+
+		console.log(value);
+		
+	}	
+
 
 	formatTimeDigit(n) {
 		return addFirstZero(n);

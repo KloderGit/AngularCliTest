@@ -30,45 +30,12 @@
         </div>
 
         <div class="wizard-content" *ngIf="formObj && formObj.type == 'collective'">
-          <div>
-            <p>Начало экзамена:</p>
-            <div class="thumbnail">
-              <div class="caption">
-                <timepicker [defaultHour]='17' [defaultMinute]='0' [onlyHours]="false" (onChangeTimePicker)="changeTime($event, null)"></timepicker>
-              </div>
-            </div>
-          </div>
-          <div>
-            <p>Окончание экзамена</p>
-            <div class="thumbnail">
-              <div class="caption">
-                <timepicker [defaultHour]='19' [defaultMinute]='0' [onlyHours]="false" [hourMinLimit]='formObj.startTime.getHours()' (onChangeTimePicker)="changeTime(null, $event)"></timepicker>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="app-panel">
-              <div class="app-panel-heading">Планирование</div>
-              <div style="font-size: small" class="app-panel-body" *ngIf="formObj">
-                <p><strong>Тип экзамена/ов: </strong>{{formObj.type}}</p>
-                <p><strong>Время: </strong> {{formObj.startTime.getHours()}}:{{formatTimeDigit(formObj.startTime.getMinutes())}}
-                  - {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
-                </p>
-                <p *ngIf="formObj.range"><strong>Продолжительность: </strong>{{formObj.diffTime()}} мин.</p>
-                <p *ngIf="formObj.getFormResult().length > 0">
-                  <strong>Будет принято: </strong> {{formObj.examensObject.count}} студент/ов
-                </p>
-              </div>
-            </div>
-          </div>
+          <add-range [date]="date" (onChange)="changeRange($event)"></add-range>
         </div>
 
         <div class="navigation-button">
-
           <button class="app-button app-button-warning" data-wizard-forward>Forward</button>
           <button class="app-button app-button-warning" data-wizard-back>Back</button>
-
-
         </div>
       </div>
 
@@ -78,47 +45,15 @@
         <h2 class="wizard-content-title" *ngIf="formObj && formObj.type == 'collective'">Шаг третий. Укажите количество студентов в аудитории.</h2>
 
         <div class="wizard-content" *ngIf="formObj && formObj.type == 'personal'">
-          <divide-ranges [ranges] = "this.formObj.rangeList" [changeTriger] = "changeTrigerForChart" (onChange) = "changeDivideResult($event)"></divide-ranges>
+          <divide-ranges [mainObject] = "this.formObj" [ranges] = "this.formObj.rangeList" [changeTriger] = "changeTrigerForChart" (onChange) = "changeDivideResult($event)"></divide-ranges>
         </div>
 
         <div *ngIf="formObj && formObj.type == 'collective'">
-          <div class="wizard-content" style="text-align: center">
-
-            <div style="width: 60%">
-              <p>Будет принято: {{formObj.getCountPlace()}} студентов</p>
-              <div class="thumbnail">
-                <div class="caption">
-                  <slider [min]="1" [max]="100" [value]="90" (onChangeSlider)="formObj.changeParams($event)"></slider>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="app-panel">
-                <div class="app-panel-heading">Планирование</div>
-                <div style="font-size: small" class="app-panel-body" *ngIf="formObj">
-                  <p><strong>Тип экзамена/ов: </strong>{{formObj.type}}</p>
-                  <p><strong>Время: </strong> {{formObj.startTime.getHours()}}:{{formatTimeDigit(formObj.startTime.getMinutes())}}
-                    - {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
-                  </p>
-                  <p *ngIf="formObj.range"><strong>Продолжительность: </strong>{{formObj.range}} мин.</p>
-                  <p *ngIf="formObj.getFormResult().length > 0">
-                    <strong>Будет принято: </strong> {{ formObj.type == 'personal'? formObj.getFormResult().length : formObj.examensObject.count}}
-                    студент/ов
-                  </p>
-                  <button [disabled]="formObj.getFormResult().length <= 0" type="button" style="margin: 0 auto;" class="app-button app-button-info"
-                    (click)="saveExamens();">Сохранить</button>
-
-
-                </div>
-              </div>
-            </div>
-          </div>
+          <divide-ranges [mainObject] = "this.formObj" [ranges]="this.formObj.rangeList" [changeTriger]="changeTrigerForChart" (onChange)="changeDivideCollectiveResult($event)"></divide-ranges>
         </div>
 
         <div class="navigation-button">
-
           <button class="app-button app-button-warning" data-wizard-back>Back</button>
-
         </div>
 
       </div>

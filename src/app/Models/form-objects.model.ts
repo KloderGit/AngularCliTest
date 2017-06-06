@@ -55,7 +55,7 @@ export class FormCollective implements IFormState{
 		this.examensObject.end = this.endTime;
 	}
 	
-	changeRanges( ranges: TimeRange[] ) { 
+	changeRanges( ranges: TimeRange[] ) {
 		this.rangeList = ranges;
 	}
 
