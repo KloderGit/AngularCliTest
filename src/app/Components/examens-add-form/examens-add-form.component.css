@@ -43,3 +43,7 @@ add-range{
 divide-ranges{
   width: 100%;
 }
+
+.wizard-content{
+  min-height: 200px;
+}

@@ -211,6 +211,8 @@
   display: flex;
   /*min-height: 300px;*/
   justify-content: space-between;
+  align-items: center;
+
   /*align-content: stretch;*/
 }
 
@@ -223,7 +225,7 @@
 }
 .wizard-content-title{
   margin: 22px 0;
-  font: normal 28px/20px 'PT Sans Narrow',
+  font: normal 22px/20px 'PT Sans Narrow',
   sans-serif;
 }
 

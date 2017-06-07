@@ -18,7 +18,7 @@
         </div>
 
         <div class="navigation-button" [style.display]="formObj ? 'flex' : 'none'">
-          <button class="app-button app-button-warning" data-wizard-forward>Forward</button>
+          <button class="app-button app-button-warning" data-wizard-forward>Можно продолжить</button>
         </div>
       </div>
 
@@ -34,8 +34,8 @@
         </div>
 
         <div class="navigation-button">
-          <button class="app-button app-button-warning" data-wizard-forward>Forward</button>
-          <button class="app-button app-button-warning" data-wizard-back>Back</button>
+          <button class="app-button app-button-warning" data-wizard-forward>Можно продолжить</button>
+          <button class="app-button app-button-warning" data-wizard-back>Вернуться к выбору типа</button>
         </div>
       </div>
 
@@ -51,7 +51,7 @@
         </div>
 
         <div class="navigation-button">
-          <button class="app-button app-button-warning" data-wizard-back>Back</button>
+          <button class="app-button app-button-warning" data-wizard-back>Вернуться к выбору времени</button>
         </div>
 
       </div>
@@ -62,7 +62,7 @@
     <div class="app-panel app-panel-info" style="width: 25%; min-width: 250px;">
 
       <div class="app-panel-heading">Планирование экзаменов</div>
-      <div style="font-size: small" *ngIf="formObj" class="app-panel-body horizontal">
+      <div style="font-size: small" *ngIf="formObj" class="app-panel-body">
 
 
         <div class="info-date">
@@ -75,34 +75,40 @@
           <p>{{formObj.type}}</p>
         </div>
 
-        <div class="info-time">
-          <p><strong>Время:</strong></p>
-          <p> {{formObj.startTime.getHours()}}:{{formatTimeDigit(formObj.startTime.getMinutes())}} - {{formObj.endTime.getHours()}}:{{formatTimeDigit(formObj.endTime.getMinutes())}}
-          </p>
-        </div>
+          <div class="info-time" *ngIf="formObj.rangeList && formObj.rangeList.length > 0">
 
-        <div class="info-range">
-          <p><strong>Продолжительность:</strong></p>
-          <p *ngIf="formObj.range">{{formObj.range}} мин.</p>
+          <p><strong>Время:</strong></p>
+          <p>
+            {{getMinHoursInfoPanel().getHours()}}:{{formatTimeDigit(getMinHoursInfoPanel().getMinutes())}} —
+            {{getMaxHoursInfoPanel().getHours()}}:{{formatTimeDigit(getMaxHoursInfoPanel().getMinutes())}}
+          </p>
         </div>
 
         <div class="info-seats">
           <p><strong>Количество студентов:</strong></p>
-          <p *ngIf="formObj.getFormResult().length > 0">
-            {{ formObj.type == 'personal'? formObj.getFormResult().length : formObj.examensObject.count}} студент/ов
+          <p *ngIf="formObj.getFormResult()">
+            {{ formObj.type == 'personal'? formObj.getFormResult().length : formObj.getCountPlace()}} студент/ов
           </p>
 
-          <button [disabled]="formObj.getFormResult().length <= 0" type="button"
-                  style="margin: 0 auto;" class="app-button app-button-info"
-                  (click)="saveExamens();">Сохранить</button>
         </div>
 
       </div>
+
+        <div #saveButton style="display: inline-block;">
+          <button *ngIf = "formObj"
+                   [style.display]="formObj.getFormResult().length > 0 ? 'block': 'none' " 
+                   type="button" 
+                   style="margin: 0 auto;" 
+                   class="app-button app-button-info"
+                   (click)="saveExamens();">Сохранить</button>
+          <br/>
+        </div>
+
     </div>
 
-<div class="navigation-button" [style.display]="formObj ? 'flex' : 'none'">
+<!--<div class="navigation-button" [style.display]="formObj ? 'flex' : 'none'">
   <button class="app-button app-button-warning" data-wizard-forward>Forward</button>
-</div>
+</div>-->
 
 
   </div>

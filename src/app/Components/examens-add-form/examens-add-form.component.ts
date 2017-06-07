@@ -2,7 +2,7 @@ import { TimeRange } from './../../Models/time-range.model';
 import { DataManagerService } from './../../Services/data-manager.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFormState, FormPersonal, FormCollective } from './../../Models/form-objects.model';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { addFirstZero, getMonthName, diffTime } from './../../Shared/function';
 
 
@@ -14,7 +14,7 @@ declare var $: any;
 	styleUrls: [ './examens-add-form.component.css' ]
 })
 
-export class ExamensAddFormComponent implements OnInit {
+export class ExamensAddFormComponent implements OnInit, AfterViewInit {
 
 	date: Date = new Date();
 	disciplineId: string;
@@ -23,6 +23,8 @@ export class ExamensAddFormComponent implements OnInit {
 	formObj: IFormState;
 
 	changeTrigerForChart = 0;
+
+	@ViewChild('saveButton') saveButton: ElementRef;
 
 	constructor(private route: ActivatedRoute,
 		private router: Router,
@@ -37,6 +39,16 @@ export class ExamensAddFormComponent implements OnInit {
 
 		this.date.setTime(date);
 		this.date.setHours(0, 0, 0);
+	}
+
+	ngAfterViewInit() { 
+		$(this.saveButton.nativeElement).tooltip(
+			{
+				title: 'Дождитесь окончания действия.',
+				trigger: 'manual',
+				placement: 'left'
+			}
+		);
 	}
 
 	changeExamenType(type: string) {
@@ -77,6 +89,8 @@ export class ExamensAddFormComponent implements OnInit {
 
 		console.log('Сохраняем экзамен');
 
+		$(this.saveButton.nativeElement).tooltip('show');	
+
 		this.dataManager.addExamens(this.formObj.getFormResult(), this.formObj.type, this.disciplineId)
 			.then(i => {
 				if (i) {
@@ -86,11 +100,34 @@ export class ExamensAddFormComponent implements OnInit {
 					console.log(i);
 					return;
 				}
+				$(this.saveButton.nativeElement).tooltip('hide');
+			}).catch(e => { 
+				console.log(e);				
+				$(this.saveButton.nativeElement).tooltip('hide');
 			});
 	}
 
 	getDateString() {
 		return this.date.getDate() + '-' + this.date.getMonth() + '-' + this.date.getFullYear();
+	}
+
+	getMinHoursInfoPanel() { 
+
+		if (!this.formObj.rangeList) { return; }
+
+		let t = Math.min.apply(null, this.formObj.rangeList.map(rl => rl.startTime));
+		t = new Date(t);
+
+		return t;
+	}
+
+	getMaxHoursInfoPanel() {
+
+		if (!this.formObj.rangeList) { return; }
+
+		let t = Math.max.apply(null, this.formObj.rangeList.map(rl => rl.endTime));
+		t = new Date(t);
+		return t;
 	}
 
 }

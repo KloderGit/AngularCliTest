@@ -34,7 +34,12 @@ export class FormCollective implements IFormState{
 	}
 
 	getCountPlace(): number {
-		return this.getFormResult().length;
+		let t = this.getFormResult().map(el => el.count);
+		let res = 0;
+		for (let i = 0; i < t.length; i++) { 
+			res = res + t[i];
+		}
+		return res;
 	}
 
 	getFormResult() {
