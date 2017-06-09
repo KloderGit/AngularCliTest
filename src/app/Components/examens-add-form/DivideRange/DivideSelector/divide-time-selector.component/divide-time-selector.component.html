@@ -1,0 +1,22 @@
+<div class="divide-time-selector"> 
+            <p>Разбить диапазон на:</p>
+
+            <div class="thumbnail">
+                <div class="caption">
+                    <div class="group-row">
+                        <div class="app-button-group">
+                            <button type="button" class="app-button app-button-info" (click)="changeParams(10); hours.value=''">10 мин.</button>
+                            <button type="button" class="app-button app-button-info" (click)="changeParams(15); hours.value=''">15 мин.</button>
+                            <button type="button" class="app-button app-button-info" (click)="changeParams(20); hours.value=''">20 мин.</button>
+                            <button type="button" class="app-button app-button-info" (click)="changeParams(30); hours.value=''">30 мин.</button>
+                            <input #hours type="text" class="app-input-select" placeholder="Свой интервал" (input)="changeParams($event.target.value)">
+                            <span class="input-group-addon" style="display: flex; margin: auto 10px;">
+                        <input #hvostik title="Добавлять выходящий за пределы последний экзамен" 
+                              type="checkbox" 
+                              (change) = "changeParams(hvostik.checked)">
+                      </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>

@@ -53,3 +53,7 @@ export function uniqueFlatArray(arr) {
 
     return Object.keys(obj); // или собрать ключи перебором для IE8-
 }
+
+export function isArray(value) {
+    return Object.prototype.toString.call(value) === '[object Array]';
+}

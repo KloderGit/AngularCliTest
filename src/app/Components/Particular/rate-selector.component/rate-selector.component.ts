@@ -26,8 +26,6 @@ export class RateSelectorComponent implements OnInit {
 	}
 
 	changeRate(grade) { 
-		console.log(grade);
-		
 		this.onChange.emit( grade );
 	}
 }

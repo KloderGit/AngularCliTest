@@ -20,13 +20,13 @@ import {
 export class DisciplineListComponent implements OnInit {
 
   // filters
-  isActive: boolean = true;
+  isActive: boolean;
   forTeacher: string = 'all';
 
   constructor(private dataManager: DataManagerService) {}
 
   ngOnInit() {
-
+    this.isActive = true;
     // this.disciplines = this.dataManager.getDisciplinesAll();
     // this.teachers = this.dataManager.getTeachersAll();
   }

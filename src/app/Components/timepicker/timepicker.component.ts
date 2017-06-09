@@ -9,7 +9,7 @@ import { addFirstZero } from './../../Shared/function'
 
 export class TimepickerComponent implements OnInit {
 
-	@Input() value: { hours: number, minutes: number } = { hours: undefined, minutes: undefined };
+	@Input() public value: { hours: number, minutes: number } = { hours: undefined, minutes: undefined };
 
  	@Input() defaultHour: number = 10;
 	@Input() defaultMinute: number = 0;

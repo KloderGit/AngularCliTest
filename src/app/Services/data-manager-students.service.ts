@@ -15,7 +15,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 @Injectable()
-export class DataManagerStudentService { 
+export class DataManagerStudentService {
 
     constructor(private service: ServiceJsonService,
         private http: Http,
@@ -61,9 +61,9 @@ export class DataManagerStudentService {
  excludeStudent(examen: ExamenModel, student: StudentModel) {
     return this.service.excludeStudent(examen.id, student.id)
         .then(data => {
-            if (data == 'error') { return false; }
+            if (data === 'error') { return false; }
 
-            let index = examen.students.indexOf(student.id);
+            const index = examen.students.indexOf(student.id);
             examen.students.slice(index, 1);
 
             this.messages.addMessage(new Message({

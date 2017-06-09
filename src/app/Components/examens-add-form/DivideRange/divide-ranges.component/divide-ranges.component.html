@@ -1,0 +1,30 @@
+<div class="divide-ranges">
+  <h4>Выбранные диапазоны времени:</h4>
+  <div class="range" *ngFor="let item of rangeModel" [style.background-color]="item.result ? '#f0fff9' : 'aliceblue'">
+    <span class="time">
+            {{item.range.startTime.getHours()}}:{{item.range.startTime.getMinutes()}} — {{item.range.endTime.getHours()}}:{{item.range.endTime.getMinutes()}}
+        </span>
+    <div class="wraper">
+      <divide-time-selector *ngIf="mainObject && mainObject.type == 'personal'" [range]="item.range" (onChange)="divideOneRange(item, $event)"></divide-time-selector>
+
+      <divide-count-selector *ngIf="mainObject && mainObject.type == 'collective'" [range]="item.range" (onChange)="divideOneRange(item, $event)"></divide-count-selector>
+
+      <div class="divided-blocks" *ngIf="blockResultIsVisible(item) && mainObject.type == 'personal'">
+        <p style="margin-bottom: 7px "><strong>Результат:</strong> Будет принято — {{studentsCount(item)}} студентов.</p>
+
+        <p *ngFor="let time of item.result" class="times" [style.background-color]="time.isSelected ? 'white' : '#f0fff9'">
+          {{time.start.getHours()}}:{{time.start.getMinutes()}}
+          <label class="delete-button" [style.background-color]="time.isSelected ? '#ef8c8c' : 'darkgray'">
+                        <span *ngIf="time.isSelected">—</span>
+                        <span *ngIf="!time.isSelected">+</span>
+                        <input type="checkbox" checked="time.isSelected" (change)="time.isSelected = !time.isSelected" style="display: none;">
+                    </label>
+        </p>
+      </div>
+
+      <div class="divided-blocks" *ngIf="blockResultIsVisible(item) && mainObject.type == 'collective'">
+        <p style="margin-bottom: 7px " *ngIf="studentsCount(item) ? true: false "><strong>Результат:</strong> Будет принято — {{studentsCount(item)}} студентов.</p>
+      </div>
+    </div>
+  </div>
+</div>

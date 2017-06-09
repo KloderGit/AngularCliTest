@@ -1,0 +1,44 @@
+
+.radio-wrapper{
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  align-content: stretch;
+  flex-wrap: wrap;
+
+  text-align: center;
+}
+
+.radio-wrapper > div{
+	min-width: 120px;
+	/*max-width: 200px;	 */
+  width: 49%;
+}
+
+.picture {
+    height: 100px;
+    width: 100px;
+    border: solid 6px #ddd;
+    background-size: 110%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+
+	 margin: 10px auto;
+}
+
+.active{
+	border: solid 6px #933;
+}
+
+.picture-one{
+  /*background-image: url(/assets/img/isilke4.png);*/
+	background-image: url(/lichnyy-kabinet/examinations/assets/img/isilke4.png);
+
+}
+
+.picture-two{
+	/*background-image: url(/assets/img/isilke3.png);*/
+	background-image: url(/lichnyy-kabinet/examinations/assets/img/isilke3.png);
+
+}

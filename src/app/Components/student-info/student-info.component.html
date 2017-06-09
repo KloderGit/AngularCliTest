@@ -4,14 +4,22 @@
   </div>
   <div class="cont">
     <ul class="app-list-group">
-      <li class="app-list-group-item" *ngIf="student.phone">{{student.phone}}</li>
-      <li class="app-list-group-item" *ngIf="student.skype">{{student.skype}}</li>
-      <li class="app-list-group-item" *ngIf="student.email">{{student.email}}</li>    
+      <li class="app-list-group-item" *ngIf="student.phone"><i class="demo-icon icon-phone-circled"></i>{{student.phone}}</li>
+      <li class="app-list-group-item" *ngIf="student.skype">
+        <i class="demo-icon icon-skype"></i>
+        {{student.skype}}
+      </li>
+      <li class="app-list-group-item" *ngIf="student.email">
+        <i class="demo-icon icon-mail-circled"></i>
+        <a href="mailto:{{student.email}}">{{student.email}}</a>
+      </li>
       <li class="app-list-group-item">
-          <label><input  type="checkbox"
+          <label>
+            <i class="demo-icon icon-graduation-cap" [ngStyle] ="{ 'background-color': blue }"></i>
+            Отличник — 
+            <input  type="checkbox"
                     [checked] = "excelent"
                     (change) = "changeExcelent($event.target.checked)" />
-                    Отличник
           </label>
       </li>
       
@@ -20,4 +28,3 @@
   </div>
 </div>
 <br/>
-

@@ -24,7 +24,7 @@ export class ExamenEditRowComponent implements OnInit {
 	dateToString = getDateString;
 	unique = uniqueFlatArray;
 
-	isACtive: boolean = false;
+	isACtive = false;
 
 	@Input() model: ExamenRowModel;
 	@Input() student: StudentModel;
@@ -39,8 +39,8 @@ export class ExamenEditRowComponent implements OnInit {
 	@Output() onCommentChange = new EventEmitter();
 	@Output() onCommentAdd = new EventEmitter();
 
-	@ViewChild("selfElement") selfElement: ElementRef;
-	@ViewChild("rootElement") rootElement: ElementRef;
+	@ViewChild('selfElement') selfElement: ElementRef;
+	@ViewChild('rootElement') rootElement: ElementRef;
 
 	constructor(private dataManager: DataManagerService,
 		private dataManagerStudents: DataManagerStudentService,
@@ -58,16 +58,16 @@ export class ExamenEditRowComponent implements OnInit {
 
 	changeRateValue(value) {
 
-		if (value >= 0 && value <= 7) { 
+		if (value >= 0 && value <= 7) {
 			this.setGrade(value);
 		}
 
-		if (value == 8) { 
+		if (value === 8) {
 			this.setConsult();
 		}
 	}
 
-	setGrade(value) { 
+	setGrade(value) {
 		if (!this.rate && value > 0) {
 			$(this.selfElement.nativeElement).tooltip('show');
 			this.onAdd.emit(value);
@@ -84,9 +84,9 @@ export class ExamenEditRowComponent implements OnInit {
 		}
 	}
 
-	setConsult() { 
+	setConsult() {
 		this.changeCommentConsult(true);
-	};	
+	}
 
 	curentRate() {
 		const index = this.rates.map(rt => rt.examenID ? rt.examenID : undefined).indexOf(this.model.parentExamen.id);
@@ -130,8 +130,8 @@ export class ExamenEditRowComponent implements OnInit {
 		return this.historyOrder( this.getDisciplineName() );
 	}
 
-	historyAnotherDiscipline( discip ){
-		return discip == this.getDisciplineName() ? [] : this.historyOrder( discip );
+	historyAnotherDiscipline( discip ) {
+		return discip === this.getDisciplineName() ? [] : this.historyOrder( discip );
 	}
 
 	selectCurrentComment() {
@@ -139,32 +139,32 @@ export class ExamenEditRowComponent implements OnInit {
 		return i >= 0 ? this.historyCurrentDiscipline()[i] : undefined;
 	}
 
-	selectCurrentCommentValue() { 
+	selectCurrentCommentValue() {
 		return this.selectCurrentComment() ?
 			this.selectCurrentComment().comment ? this.selectCurrentComment().comment.comment : ''
 			: '';
 	}
 
-	getDisciplineName(){
+	getDisciplineName() {
 		return this.dataManager.getDisciplineByID(this.model.parentExamen.disciplineId).title;
 	}
 
 	excludeStudent() {
 		const el = this.rootElement.nativeElement;
-		
+
 		this.dataManagerStudents.excludeStudent(this.model.parentExamen, this.student).then(result => {
 			if (result) { this.model.studentID = undefined; this.student = undefined; }
-			$(el).removeClass('selectedBox');		
+			$(el).removeClass('selectedBox');
 		});
 	}
 
-	gradeValue( grade ) { 
-		if (grade == 6) { return 'Зачет' }
-		if (grade == 7) { return 'Незачет' }
+	gradeValue( grade ) {
+		if (grade === 6) { return 'Зачет'; }
+		if (grade === 7) { return 'Незачет'; }
 		return grade;
 	}
 
-	collapseExamensBlock(element) { 		
+	collapseExamensBlock(element) {
 		$(element).toggle();
 	}
 
@@ -187,40 +187,40 @@ export class ExamenEditRowComponent implements OnInit {
 				: false;
 		}
 		return res;
-	}	
+	}
 
-	changeCommentText(value) { 
-		let param: { comment: string } = { comment: undefined };
+	changeCommentText(value) {
+		const param: { comment: string } = { comment: undefined };
 		param.comment = value;
 		this.changeComment(param);
 	}
 
-	changeCommentConsult(value) { 
-		let param: { isConsult: string } = { isConsult: undefined };
+	changeCommentConsult(value) {
+		const param: { isConsult: string } = { isConsult: undefined };
 		param.isConsult = value ? 'true' : 'false';
 		this.changeComment(param);
 	}
 
-	changeCommentExcelent(value) { 
-		let param: { excelent: string } = { excelent: undefined };
+	changeCommentExcelent(value) {
+		const param: { excelent: string } = { excelent: undefined };
 		param.excelent = value ? 'true' : 'false';
 		this.changeComment(param);
 	}
 
 	changeComment(param) {
-		if( this.selectCurrentComment() ) {
+		if ( this.selectCurrentComment() ) {
 			this.selectCurrentComment().comment ? this.editComment(param) : this.addComment(param);
 		}
 	}
 
-	editComment(param) { 
+	editComment(param) {
 		const historyObject = this.selectCurrentComment();
-		this.onCommentChange.emit({ ItemID: historyObject.comment.id, param: param })
+		this.onCommentChange.emit({ ItemID: historyObject.comment.id, param: param });
 	}
 
 
 	addComment(value) {
-		
+
 		const comment = new CommentModel();
 
 		comment.date = this.model.parentExamen.startTime;
@@ -228,15 +228,28 @@ export class ExamenEditRowComponent implements OnInit {
 		comment.examenID = this.model.parentExamen.id;
 		comment.studentID = this.model.studentID;
 
-		comment.comment = '';		
+		comment.comment = '';
 		comment.excelent = 'false';
 		comment.isConsult = 'false';
 
-		for (var key in value) {
+		// tslint:disable-next-line:forin
+		for (const key in value) {
 			comment[key] = value[key];
-		}		
+		}
 
 		this.onCommentAdd.emit(comment);
+	}
+
+
+	isCollapse() {
+		return $(this.rootElement.nativeElement).hasClass('selectedBox');
+	}
+
+	excludeButtonIsShow() { 
+		const currentDay = this.model.parentExamen.startTime;
+		const now = new Date();
+		
+		return +currentDay >= +now ? true : false;
 	}
 
 }

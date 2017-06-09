@@ -6,7 +6,7 @@
 
     <div class="event-student">
       <p accordion-item *ngIf="student">{{student.name}}</p>
-      <p *ngIf="!student" style="font-style: italic; font-size: small; font-family: serif; color: #888">записать студента</p>
+      <!--<p *ngIf="!student" style="font-style: italic; font-size: small; font-family: serif; color: #888">записать студента</p>-->
     </div>
 
     <div #selfElement class="event-rate">
@@ -16,12 +16,12 @@
 
   </div>
 
-  <div *ngIf="student" class="app-panel-collapse collapse">
+  <div *ngIf="student && isCollapse()" class="app-panel-collapse collapse" style="display: block">
     <div class="app-panel-body">
       <div class="student-wrapper">
         <div class="student-info">
           <student-info [student]="student" [excelent] = "isExcelent()" (onChangeExcelent) = "changeCommentExcelent($event)" ></student-info>
-          <button class="app-button app-button-danger exclude-student" (click)="excludeStudent()">Отписать от экзамена</button>
+          <button *ngIf="excludeButtonIsShow()" class="app-button app-button-danger exclude-student" (click)="excludeStudent()">Отписать от экзамена</button>
         </div>
 
         <div class="student-action">

@@ -26,3 +26,24 @@
   background-color: #c33;
 }
 
+.horizontal{
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  align-content: stretch;
+  flex-wrap: wrap;
+
+  text-align: center;
+}
+
+add-range{
+  width: 100%;
+}
+
+divide-ranges{
+  width: 100%;
+}
+
+.wizard-content{
+  min-height: 200px;
+}

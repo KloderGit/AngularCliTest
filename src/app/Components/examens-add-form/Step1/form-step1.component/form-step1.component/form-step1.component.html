@@ -1,0 +1,25 @@
+
+<input #personalRadio style="display: none" id="personalTypeRadio" type="radio" name="selectType" (change)="change('personal')">
+<input #collectiveRadio style="display: none" id="collectiveTypeRadio" type="radio" name="selectType" (change)="change('collective')">
+
+<div class="radio-wrapper">
+	<div class='one-person'>
+	<label for="personalTypeRadio" style="cursor: pointer">
+          <p><strong>Персональный</strong></p>
+			<div class="picture picture-one" [class.active]="personalRadio.checked"></div>
+			<div class="caption">
+					<p style="font-size: small; font-weight: 400;">Каждый студент сдает экзамен отдельно, в назначенное ему время.</p>
+			</div>
+	</label>
+	</div>
+	<div class='more-persons'>
+	<label for="collectiveTypeRadio" style="cursor: pointer">
+          <p><strong>Коллективный</strong></p>
+			<div class="picture picture-two" [class.active]="collectiveRadio.checked"></div>
+			<div class="caption">
+					<p style="font-size: small; font-weight: 400;">Общий экзамен для группы студентов в аудитории. Одно время для всех.</p>
+			</div>
+	</label>
+	</div>	
+</div>
+

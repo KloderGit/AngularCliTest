@@ -1,0 +1,16 @@
+<div class="divide-count-selector">
+  <p>Сколько студентов будт принято в этот промежуток?</p>
+  <div class="thumbnail">
+    <div class="caption">
+      <slider [min]="1" [max]="100" [value]="90" (onChangeSlider)="changeValue($event)"></slider>
+    </div>
+    <div class="add_button horizontal">
+      <div class="slider-value">
+        Значение - {{currentValue}}
+      </div>
+    <div>
+      <button class="app-button app-button-info" style="font-size: x-small;" (click)="addStudents()">Добавить</button>
+    </div>
+    </div>
+  </div>
+</div>

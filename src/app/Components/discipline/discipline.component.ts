@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 // import '../../../../node_modules/peity/jquery.peity.min.js';
 
 
-declare var $:any;
+declare var $: any;
 
 @Component({
 	selector: 'discipline',
@@ -19,55 +19,56 @@ export class DisciplineComponent implements OnInit {
 
 	constructor( private route: ActivatedRoute,
 				 private router: Router,
+				 // tslint:disable-next-line:one-line
 				 private dataManager: DataManagerService){
-		console.log("Создан компонент Дисциплины");
+		console.log('Создан компонент Дисциплины');
 	}
 
 	ngOnInit() {
-		let id = this.route.snapshot.params['id'];		
+		const id = this.route.snapshot.params['id'];
 		this.discipline = this.dataManager.getDisciplineByID(id);
 
-		if ( this.discipline == undefined ) {
-			this.router.navigate(['/disciplines']); 
+		if ( this.discipline === undefined ) {
+			this.router.navigate(['/disciplines']);
 		} else {
-			let currentDate = new Date();
-			let curentIsLoaded = this.getMonthLoaded()
-										.filter( yar => yar.year == currentDate.getFullYear())
-										.filter( mth => mth.month == currentDate.getMonth());
-			if ( curentIsLoaded.length == 0 ){
-				this.loadMonth( currentDate.getFullYear(), currentDate.getMonth() )
-			}			
+			const currentDate = new Date();
+			const curentIsLoaded = this.getMonthLoaded()
+										.filter( yar => yar.year === currentDate.getFullYear())
+										.filter( mth => mth.month === currentDate.getMonth());
+			if ( curentIsLoaded.length === 0 ) {
+				this.loadMonth( currentDate.getFullYear(), currentDate.getMonth() );
+			}
 		}
 	}
 
-	getMonthLoaded(){
+	getMonthLoaded() {
 		return this.dataManager.getLoadedMonth( this.discipline.id );
 	}
 
-	loadMonth( year: number, month: number ){
+	loadMonth( year: number, month: number ) {
 		this.dataManager.loadExamensFromService( this.discipline.id, year, month );
 	}
 
 	loadAnyMonth(inputElement) {
-		let altInputId = $(inputElement).siblings('input').attr('id');
-		let anyMonth = $('#' + altInputId).val();
+		const altInputId = $(inputElement).siblings('input').attr('id');
+		const anyMonth = $('#' + altInputId).val();
 
-		if ( anyMonth =="" || anyMonth == undefined){	
+		if ( anyMonth === '' || anyMonth === undefined) {
 			return;
 		}
 
-		let array = anyMonth.split(':');
-		let year = parseInt(array[0]);
-		let month = parseInt(array[1]) - 1;
+		const array = anyMonth.split(':');
+		const year = parseInt(array[0]);
+		const month = parseInt(array[1]) - 1;
 
-		let test = this.getMonthLoaded().filter( yr => yr.year == year )
-										.filter( mn => mn.month == month );
+		const test = this.getMonthLoaded().filter( yr => yr.year === year )
+										.filter( mn => mn.month === month );
 
 		this.loadMonth( year, month );
-	}	
+	}
 
-	getExamens(){
+	getExamens() {
 		return this.dataManager.getExamensByDiscipline( this.discipline.id );
-	}	
+	}
 
 }
