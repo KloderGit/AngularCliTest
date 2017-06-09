@@ -30,6 +30,10 @@ export class ExamensAddComponent implements OnInit {
 		let date = this.route.snapshot.params['date'];
 		this.disciplineId = this.route.snapshot.params['discipline'];
 
+		if (this.disciplineId == undefined || this.date == undefined) {
+			this.router.navigateByUrl('/disciplines');;
+		}
+
 		this.date.setTime(date);
 		this.date.setHours(0,0,0);
 

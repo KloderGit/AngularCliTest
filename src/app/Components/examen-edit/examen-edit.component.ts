@@ -48,13 +48,20 @@ export class ExamenEditComponent implements OnInit {
 		const date = this.route.snapshot.params['date'];
 		const disciplineId = this.route.snapshot.params['discipline'];
 
-		if (disciplineId === undefined || date === undefined) {
+		if (disciplineId == undefined || date == undefined) {
 			this.router.navigate(['/disciplines']);
 		} else {
 			this.date.setTime(date);
 			this.date.setHours(0, 0, 0);
 
 			this.discipline = this.dataManager.getDisciplineByID(disciplineId);
+
+			if (!this.discipline) {
+				// this.router.navigateByUrl('../disciplines');
+				// this.router.navigateByUrl('./disciplines', { relativeTo: this.route });
+				window.location.href = '/disciplines';
+			}			
+
 			this.examens = this.dataManager.getExamensByDate(this.discipline.id, this.date);
 
 			this.formViewModelInit();

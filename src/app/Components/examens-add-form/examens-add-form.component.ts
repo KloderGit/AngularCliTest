@@ -37,6 +37,10 @@ export class ExamensAddFormComponent implements OnInit, AfterViewInit {
 		const date = this.route.snapshot.params['date'];
 		this.disciplineId = this.route.snapshot.params['discipline'];
 
+		if (this.disciplineId == undefined || this.date == undefined) {
+			this.router.navigate(['/disciplines']);
+		}
+
 		this.date.setTime(date);
 		this.date.setHours(0, 0, 0);
 	}

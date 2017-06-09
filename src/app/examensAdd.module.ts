@@ -11,9 +11,10 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from "@angular/common";
 import { NgModule } from '@angular/core';
 
-export const routerConfig = [{
-    path: '', component: ExamensAddFormComponent
-    }];
+export const routerConfig = [
+    { path: '/', component: ExamensAddFormComponent },    
+    { path: '', component: ExamensAddFormComponent }
+];
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(routerConfig)],

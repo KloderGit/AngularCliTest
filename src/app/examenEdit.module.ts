@@ -10,9 +10,10 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from '@angular/core';
 import { AccordionItemDirective } from "app/Directives/accordion-item.directive";
 
-export const routerConfig = [{
-    path: '', component: ExamenEditComponent
-}];
+export const routerConfig = [
+    { path: '/', component: ExamenEditComponent },    
+    { path: '', component: ExamenEditComponent }
+];
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(routerConfig)],
