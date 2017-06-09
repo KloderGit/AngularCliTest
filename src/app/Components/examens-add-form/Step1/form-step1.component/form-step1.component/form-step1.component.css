@@ -32,9 +32,13 @@
 }
 
 .picture-one{
-	background-image: url(/assets/img/isilke4.png);
+  /*background-image: url(/assets/img/isilke4.png);*/
+	background-image: url(/lichnyy-kabinet/examinations/assets/img/isilke4.png);
+
 }
 
 .picture-two{
-	background-image: url(/assets/img/isilke3.png);
+	/*background-image: url(/assets/img/isilke3.png);*/
+	background-image: url(/lichnyy-kabinet/examinations/assets/img/isilke3.png);
+
 }

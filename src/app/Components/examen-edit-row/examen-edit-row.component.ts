@@ -78,7 +78,7 @@ export class ExamenEditRowComponent implements OnInit {
 			this.onUpdate.emit(value);
 		}
 
-		if (this.rate && value === 0) {
+		if (this.rate && value == 0) {
 			$(this.selfElement.nativeElement).tooltip('show');
 			this.onDelete.emit();
 		}
@@ -243,6 +243,13 @@ export class ExamenEditRowComponent implements OnInit {
 
 	isCollapse() {
 		return $(this.rootElement.nativeElement).hasClass('selectedBox');
+	}
+
+	excludeButtonIsShow() { 
+		const currentDay = this.model.parentExamen.startTime;
+		const now = new Date();
+		
+		return +currentDay >= +now ? true : false;
 	}
 
 }

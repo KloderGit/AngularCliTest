@@ -21,7 +21,7 @@
       <div class="student-wrapper">
         <div class="student-info">
           <student-info [student]="student" [excelent] = "isExcelent()" (onChangeExcelent) = "changeCommentExcelent($event)" ></student-info>
-          <button class="app-button app-button-danger exclude-student" (click)="excludeStudent()">Отписать от экзамена</button>
+          <button *ngIf="excludeButtonIsShow()" class="app-button app-button-danger exclude-student" (click)="excludeStudent()">Отписать от экзамена</button>
         </div>
 
         <div class="student-action">

@@ -153,7 +153,7 @@ export class ExamenEditComponent implements OnInit {
 		});
 	}
 
-	deleteRate( rate: RateModel ) {
+	deleteRate(rate: RateModel) {
 		this.datamanagerRates.delete(rate).then(data => {
 			if (data) {
 				const index = this.ratesList.map(i => i.id ? i.id : undefined).indexOf(rate.id);

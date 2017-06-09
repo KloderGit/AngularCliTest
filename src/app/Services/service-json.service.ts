@@ -12,11 +12,12 @@ export class ServiceJsonService {
 
     headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
 
-    rootURL = '/lichnyy-kabinet/examinations/assets/php/';
+    rootURL = '';
 
     constructor(private http: Http, private messages: MessagesService) {
         
-        // this.getPredmetsFromPhp();
+        // this.rootURL = 'http://dev.fitness-pro.ru/';
+        this.rootURL = '/lichnyy-kabinet/examinations/assets/php/'; 
 
     }
 
