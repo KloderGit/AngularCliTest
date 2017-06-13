@@ -31,7 +31,7 @@ export class DivideTimeSelectorComponent implements OnInit {
 	changeParams(value: number | boolean): void {
 		if (typeof value == 'number') {
 			if (value && value < 5) { return; }
-			this.blockSize = value || this.blockSize;
+			this.blockSize = value || this.blockSize;		
 		}
 		if (typeof value == 'string') {
 			this.blockSize = parseInt(value);
@@ -42,7 +42,7 @@ export class DivideTimeSelectorComponent implements OnInit {
 		this.divideRange();
 	}
 
-	private divideRange() {
+	private divideRange() {	
 
 		this.result = new Array();
 
@@ -50,12 +50,12 @@ export class DivideTimeSelectorComponent implements OnInit {
 		let mod = diffTime(this.range.startTime, this.range.endTime, 'minutes') % this.blockSize;
 
 		if (mod > 0 && this.surplus) {
-			count = Math.floor(diffTime(this.range.startTime, this.range.endTime, 'minutes') / this.blockSize) + 1;
+			count = Math.floor(diffTime(this.range.startTime, this.range.endTime, 'minutes') / this.blockSize) + 1;		
 		} else {
 			count = Math.floor(diffTime(this.range.startTime, this.range.endTime, 'minutes') / this.blockSize);
 		}
 
-		let index = 0;
+		let index = this.range.startTime.getMinutes();
 
 		for (let i = 0; i < count; i++) {
 			let tm = new Date(this.range.startTime);
