@@ -3,7 +3,8 @@
         <timepicker #startPicker [defaultHour]='17' [defaultMinute]='10'></timepicker>
     </div>
     <div>
-        <timepicker #endPicker [defaultHour]='22' [defaultMinute]='30' [hourMinLimit] = "startPicker.value.hours" [minutesMinLimit] = "startPicker.value.minutes" ></timepicker>
+        <timepicker #endPicker [defaultHour]='22' [defaultMinute]='30'
+                    [hourMinLimit] = "startPicker.value.hours" ></timepicker>
     </div>
     <div>
         <div *ngFor="let range of value" class="range">

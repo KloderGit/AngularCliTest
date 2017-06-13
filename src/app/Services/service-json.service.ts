@@ -16,8 +16,8 @@ export class ServiceJsonService {
 
     constructor(private http: Http, private messages: MessagesService) {
         
-        this.rootURL = 'http://dev.fitness-pro.ru/';
-        // this.rootURL = '/lichnyy-kabinet/examinations/assets/php/'; 
+        // this.rootURL = 'http://dev.fitness-pro.ru/';
+        this.rootURL = '/lichnyy-kabinet/examinations/assets/php/'; 
 
     }
 
