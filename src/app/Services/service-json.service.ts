@@ -15,29 +15,15 @@ export class ServiceJsonService {
     rootURL = '';
 
     constructor(private http: Http, private messages: MessagesService) {
-        
         // this.rootURL = 'http://dev.fitness-pro.ru/';
-        this.rootURL = '/lichnyy-kabinet/examinations/assets/php/'; 
-
+        this.rootURL = '/lichnyy-kabinet/examinations/assets/php/';
     }
-
-    // getPredmetsFromPhp() { 
-    //     return this.http.get('./getPredmets.php')
-    //         .toPromise()
-    //         .then((res) => {
-    //             console.log('Service: Сервис получил php');
-    //             console.log(res);
-    //             console.log(res.json(), 'JSONNNNNNN');
-    //             // return res.json();
-    //             }
-    //         );        
-    // }  
 
     getDisciplinesAll(){
         return this.http.get(this.rootURL + 'getPredmets.php')
         .toPromise()
-        .then( ( res ) => { 
-            console.log('Service: Сервис получил дисциплины'); 
+        .then( ( res ) => {
+            console.log('Service: Сервис получил дисциплины');
                return res.json(); }
         );
     }
@@ -45,55 +31,55 @@ export class ServiceJsonService {
     getTeachersAll(){
         return this.http.get(this.rootURL + 'getTeachers.php')
         .toPromise()
-        .then( ( res ) => { 
-               let temp = res.json() as TeacherModel[]; 
-               console.log('Service: Сервис получил преподавателей'); 
+        .then( ( res ) => {
+               const temp = res.json() as TeacherModel[];
+               console.log('Service: Сервис получил преподавателей');
                return temp; }
         );
-    }     
+    }
 
     getExamensForDiscipline( disciplineId: string, year: number, month: number ){
         return this.http.get(this.rootURL + 'getExamens.php?disciplineId=' + disciplineId + '&year=' + year + '&month=' + month)
         .toPromise()
         .then( ( res ) => {
-               let array = res.json();
+               const array = res.json();
                console.log('Service: Сервис получил экзамены'); 
                return array;
             }
         );
     }
 
-    getExamensByIDs(array) { 
-        let body = JSON.stringify(array);
+    getExamensByIDs(ids) {
+        const body = JSON.stringify(ids);
         return this.http.get(this.rootURL + 'getExamensByIds.php?ids=' + body)
             .toPromise()
             .then((res) => {
-                let array = res.json();
+                const array = res.json();
                 console.log('Service: Сервис получил экзамены');
                 return array;
             }
             );
     }
 
-    getExamensByStudents(array) {
-        let body = JSON.stringify(array);
+    getExamensByStudents(students) {
+        const body = JSON.stringify(students);
         return this.http.get(this.rootURL + 'getExamensByStudent.php?ids=' + body)
             .toPromise()
             .then((res) => {
-                    let array = res.json();
+                    const array = res.json();
                     console.log('Service: Сервис получил экзамены');
                     return array;
                 }
             );
-    }       
+    }
 
-    addExamens( array: ExamenModel[] ){
-        let body = JSON.stringify(array);
+    addExamens( items: ExamenModel[] ){
+        const body = JSON.stringify(items);
 
         return this.http.post(this.rootURL + 'addExamens.php', body, { headers: this.headers })
         .toPromise()
         .then( res => {
-            let array = res.json();
+            const array = res.json();
             return array;
         },
             err => {
@@ -108,13 +94,13 @@ export class ServiceJsonService {
 
 
 
-    copyExamens( array: ExamenModel[] ){
-        let body = JSON.stringify(array);
+    copyExamens( examens: ExamenModel[] ){
+        const body = JSON.stringify(examens);
 
         return this.http.post(this.rootURL + 'addExamens.php', body, { headers: this.headers })
         .toPromise()
         .then( res => {
-            let array = res.json();
+            const array = res.json();
             return array;
         },
             err => {
@@ -127,13 +113,13 @@ export class ServiceJsonService {
         );
     }
 
-    changeExamens( array: ExamenModel[] ){
-        let body = JSON.stringify(array);
+    changeExamens( examens: ExamenModel[] ){
+        const body = JSON.stringify(examens);
 
         return this.http.post(this.rootURL + 'perenosExamens.php', body, { headers: this.headers })
         .toPromise()
         .then( res => {
-            let array = res.json();
+            const array = res.json();
             return array;
         },
             err => {
@@ -147,9 +133,9 @@ export class ServiceJsonService {
     }
 
     deleteExamens( array: ExamenModel[] ){
-        let body = JSON.stringify(array.map( item => item.id ));
+        const body = JSON.stringify(array.map( item => item.id ));
 
-        return this.http.post(  this.rootURL + 'deleteExamens.php', 
+        return this.http.post(  this.rootURL + 'deleteExamens.php',
                                 body,
                                 { headers: this.headers })
             .toPromise()
@@ -163,12 +149,12 @@ export class ServiceJsonService {
                     type: 'danger'
                 }));
             }
-            );        
+            );
     }
 
 
     getStudents(array: number[]) { 
-        let body = JSON.stringify(array);
+        const body = JSON.stringify(array);
 
         return this.http.get(this.rootURL + 'getStudents.php?students=' + body)
             .toPromise()
@@ -186,7 +172,7 @@ export class ServiceJsonService {
     }
 
     getRates(array: number[]) {
-        let body = JSON.stringify(array);
+        const body = JSON.stringify(array);
 
         return this.http.get(this.rootURL + 'getRates.php?id=' + body)
             .toPromise()
@@ -204,7 +190,7 @@ export class ServiceJsonService {
     }
 
     excludeStudent(examen: string, student: string) { 
-        let body = JSON.stringify({ id: examen, student: student});
+        const body = JSON.stringify({ id: examen, student: student});
 
         return this.http.post(this.rootURL + 'leaveExamen.php',
             body,
@@ -223,7 +209,7 @@ export class ServiceJsonService {
     }
 
     addRate( examen, student, rateValue ) { 
-        let body = JSON.stringify({ action: 'add', params: { examenID: examen.id, studentID: student.id, value: rateValue } });
+        const body = JSON.stringify({ action: 'add', params: { examenID: examen.id, studentID: student.id, value: rateValue } });
 
         return this.http.post(this.rootURL + 'rates.php',
             body,
@@ -238,11 +224,11 @@ export class ServiceJsonService {
                     content: err,
                     type: 'danger'
                 }));
-            });  
+            });
     }
 
     editRate( rate: RateModel, value ) { 
-        let body = JSON.stringify({ action: 'edit', params: { itemID: rate.id, value: value } });
+        const body = JSON.stringify({ action: 'edit', params: { itemID: rate.id, value: value } });
 
         return this.http.post(this.rootURL + 'rates.php',
             body,
@@ -257,11 +243,11 @@ export class ServiceJsonService {
                     content: err,
                     type: 'danger'
                 }));
-            });                 
+            });
     }
 
-    deleteRate( rate ) { 
-        let body = JSON.stringify({ action: 'delete', params: { itemID: rate.id } });
+    deleteRate( rate ) {
+        const body = JSON.stringify({ action: 'delete', params: { itemID: rate.id } });
         return this.http.post(this.rootURL + 'rates.php',
             body,
             { headers: this.headers })
@@ -279,7 +265,7 @@ export class ServiceJsonService {
     }
 
     getStudentsComments(array: number[]) {
-        let body = JSON.stringify(array);
+        const body = JSON.stringify(array);
 
         return this.http.get(this.rootURL + 'getComments.php?id=' + body)
             .toPromise()
@@ -297,7 +283,7 @@ export class ServiceJsonService {
     }
 
     editComment( commentID, value ) {
-        let body = JSON.stringify({ action: 'edit', params: { itemID: commentID, value: value } });
+        const body = JSON.stringify({ action: 'edit', params: { itemID: commentID, value: value } });
 
         return this.http.post(this.rootURL + 'comments.php',
             body,
@@ -316,7 +302,7 @@ export class ServiceJsonService {
     }
 
     addComment(value) {
-        let body = JSON.stringify({ action: 'add', params: { object: value } });
+        const body = JSON.stringify({ action: 'add', params: { object: value } });
         console.log(body);
 
         return this.http.post(this.rootURL + 'comments.php',
@@ -333,7 +319,7 @@ export class ServiceJsonService {
                     type: 'danger'
                 }));
             });
-    }       
+    }
 
 }
 
