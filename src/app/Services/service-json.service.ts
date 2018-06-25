@@ -19,11 +19,23 @@ export class ServiceJsonService {
         // this.rootURL = '/lichnyy-kabinet/examinations/assets/php/';
     }
 
+    // getPredmetsFromPhp() { 
+    //     return this.http.get('./getPredmets.php')
+    //         .toPromise()
+    //         .then((res) => {
+    //             console.log('Service: Сервис получил php');
+    //             console.log(res);
+    //             console.log(res.json(), 'JSONNNNNNN');
+    //             // return res.json();
+    //             }
+    //         );        
+    // }  
+
     getDisciplinesAll(){
         return this.http.get(this.rootURL + 'getPredmets.php')
         .toPromise()
-        .then( ( res ) => {
-            console.log('Service: Сервис получил дисциплины');
+        .then( ( res ) => { 
+            console.log('Service: Сервис получил дисциплины'); 
                return res.json(); }
         );
     }

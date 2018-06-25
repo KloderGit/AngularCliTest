@@ -3,13 +3,13 @@
 
    if (isset($_REQUEST)&&!empty($_REQUEST))
    {
-       $examensIDs =  json_decode($_REQUEST["ids"]);
+       $studentsIDs =  json_decode($_REQUEST["ids"]);
    } 
 
     $filter = array(    "IBLOCK_ID" => 21, 
-                        "ID" => $examensIDs);
+                        "PROPERTY_STUDENT" => $studentsIDs);
 
-    $order = array( "PROPERTY_DATE_BEGIN" => "ASC" );
+    $order = array( "ID" => "ASC" );
 
     $selectFields = array(  "ID",
                             "ACTIVE",
@@ -17,7 +17,6 @@
                             "PROPERTY_DATE_BEGIN",
                             "PROPERTY_DATE_END",
                             "PROPERTY_NO_INTERVALS",
-                            "PROPERTY_GROUP",
                             "PROPERTY_LIMIT" );
 
     $result = CIBlockElement::GetList( $order, $filter, false, false, $selectFields);
@@ -41,7 +40,6 @@
             "startTime" => strtotime(ConvertDateTime($res["PROPERTY_DATE_BEGIN_VALUE"], "YYYY-MM-DD HH:MI:SS", "ru")) * 1000,
             "endTime" => strtotime(ConvertDateTime($res["PROPERTY_DATE_END_VALUE"], "YYYY-MM-DD HH:MI:SS", "ru")) * 1000,
             "isShared" => $res["PROPERTY_NO_INTERVALS_VALUE"] == "Да"? true: false,
-            "group" => $res["PROPERTY_GROUP_VALUE"],
             "limit" => $res["PROPERTY_LIMIT_VALUE"],
             "students" => $cur_student
         ];

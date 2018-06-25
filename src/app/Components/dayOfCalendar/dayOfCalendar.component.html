@@ -20,7 +20,8 @@
 
     </div>
 
-    <span  class="student_invited">{{currentStudentsInvited().length}}</span>
+    <span class="for_group" *ngIf="isForGroup().length > 0">{{groupName()}}</span>
+    <span class="student_invited">{{currentStudentsInvited().length}}</span>
     <span class="examens_count">{{countExamensOfDay()}}</span>
 
 

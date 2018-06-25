@@ -8,6 +8,8 @@ export class ExamenModel {
     isShared: boolean = undefined;
     limit: number = undefined;
 
+    group: string = '';
+
     students: string[] = [];
 
     public set setStartTime(value) {
@@ -26,10 +28,9 @@ export class ExamenModel {
         endTime?,
         isShared?,
         limit?,
+        group?,
         students?: string[]
         }) {
-
-
 
         const ex = new ExamenModel();
 
@@ -46,7 +47,9 @@ export class ExamenModel {
 
         ex.limit = object.limit ? parseInt(object.limit) : undefined;
 
-        ex.students = object.students || [];
+        ex.group = (typeof object.group != 'undefined' && object.group) ? object.group : '';
+        
+        ex.students = object.students || undefined;
 
         ex.startTime = new Date(object.startTime);
         ex.endTime = new Date(object.endTime);

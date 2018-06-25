@@ -65,6 +65,10 @@ export class ExamensAddFormComponent implements OnInit, AfterViewInit {
 		console.log('Смена типа экзамена');
 	}
 
+	changeGroup(group: string){
+		if(typeof group != 'undefined' && group){ this.formObj.forGroup = group; }
+	}
+
 	changeRange(ranges: TimeRange[]) {
 		this.formObj.changeRanges(ranges);
 		this.changeTrigerForChart++;

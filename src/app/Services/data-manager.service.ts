@@ -214,6 +214,7 @@ export class DataManagerService {
       ex.endTime = inObject[i].endTime;
       ex.isShared = inObject[i].countPlace !== 1 ? true : false;
       ex.limit = inObject[i].countPlace !== 1 ? inObject[i].countPlace : 1;
+      ex.group = inObject[i].group;
       ex.students = [];
 
       this.examens.push(ex);
@@ -267,6 +268,7 @@ export class DataManagerService {
       ex.endTime = objects[i].end;
       ex.isShared = type === 'collective' ? true : false;
       ex.limit = objects[i].count;
+      ex.group = objects[i].group;
 
       prefExamens.push(ex);
     }

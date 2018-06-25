@@ -17,13 +17,13 @@ foreach ($objectsArray as $element) {
         "NAME" => "Экзамен для дисциплины - " . $element["disciplineId"] . ". Дата: " . ConvertTimeStamp( strtotime($element["startTime"]), '"SHORT"'),
         "CODE" => "examen-random-code-" . rand(5, 1500),
         "PROPERTY_VALUES" => array(
-                "SUBJECT" => $element["disciplineId"],
-                "DATE_BEGIN" => ConvertTimeStamp( strtotime($element["startTime"]), 'FULL'),
-                "DATE_END" => ConvertTimeStamp( strtotime($element["endTime"]), 'FULL'),
-                "DATE_CANCEL" => ConvertTimeStamp( strtotime($element["startTime"]), '"SHORT"'),
-                "DATE_ACCEPT" => ConvertTimeStamp( strtotime($element["startTime"]), '"SHORT"'),
-                "NO_INTERVALS" => $element['isShared'] ? Array("VALUE" => 122) : null,
-                "LIMIT" => $element['limit'] ? $element['limit'] : null
+	        "SUBJECT" => $element["disciplineId"],
+	        "DATE_BEGIN" => ConvertTimeStamp( strtotime($element["startTime"]), 'FULL'),
+	        "DATE_END" => ConvertTimeStamp( strtotime($element["endTime"]), 'FULL'),
+	        "DATE_CANCEL" => ConvertTimeStamp( strtotime($element["startTime"]), '"SHORT"'),
+	        "DATE_ACCEPT" => ConvertTimeStamp( strtotime($element["startTime"]), '"SHORT"'),
+	        "NO_INTERVALS" => $element['isShared'] ? Array("VALUE" => 122) : null,
+	        "LIMIT" => $element['limit'] ? $element['limit'] : null
         )
     );
 

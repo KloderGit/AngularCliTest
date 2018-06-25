@@ -28,7 +28,7 @@
     color: #333;
 }*/
 
-.dayOfCalendar .student_invited, .dayOfCalendar .examens_count {
+.dayOfCalendar .student_invited, .dayOfCalendar .examens_count, .dayOfCalendar .for_group {
     position: absolute;
     border-radius: 50%;
     background-color: #d9f4ff;
@@ -49,6 +49,15 @@
     right: -5px;
 }
 
+.dayOfCalendar .for_group {
+    top: -9px;
+    right: 35px;
+    background-color: #ffdbca;
+    width: inherit;
+    padding: 0 3px;
+    border-radius: 5px;
+    font-size: x-small;
+}
 
 .dayOfCalendar .percent_invited{
     display: block;

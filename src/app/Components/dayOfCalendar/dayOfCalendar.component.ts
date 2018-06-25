@@ -3,6 +3,7 @@ import { DataManagerService } from './../../Services/data-manager.service';
 import { ExamenModel } from './../../Models/examen-model';
 import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { forEach } from '@angular/router/src/utils/collection';
 
 declare var $:any;
 
@@ -73,6 +74,26 @@ export class DayOfCalendarComponent implements OnInit{
 
 	percentageOneInTwo( x, y ){
 		return Math.floor( 100 / ( y / x ));
+	}
+
+	isForGroup(){
+
+		var mmm = [];
+
+		for (let entry of this.examens) {
+			console.log(entry); // 1, "string", false
+
+			if (entry.group !='')
+			{
+				mmm.push(entry);
+			}
+		}
+
+		return mmm;
+	}
+
+	groupName(){
+		return this.isForGroup().length > 0 ? this.isForGroup()[0].group : null;
 	}
 
 	deleteExamens() {

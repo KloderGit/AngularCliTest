@@ -17,6 +17,16 @@
           <form-step1 (onChange)="changeExamenType($event)"></form-step1>
         </div>
 
+
+        <div class="app-panel app-panel-info" style="width: 80%; margin: 0 auto; margin-bottom: 20px">
+          <div class="app-panel-heading">Укажите группу, если нужно ограничить запись</div>
+            <div class="app-panel-body" style="font-size: small">        
+              <div class="info-date">
+                <input #group (input)="changeGroup($event.target.value)" style="border: 1px solid #ddd; padding: 5px;"/>
+              </div>    
+            </div>
+        </div>
+
         <div class="navigation-button" [style.display]="formObj ? 'flex' : 'none'">
           <button class="app-button app-button-warning" data-wizard-forward>Можно продолжить</button>
         </div>

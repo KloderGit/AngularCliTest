@@ -6,6 +6,8 @@ export interface IFormState{
 	startTime: Date;
 	endTime: Date;
 
+	forGroup: string;
+
 	rangeList: TimeRange[];
 
 	examensObject: FormExamenViewModel | FormExamenViewModel[];
@@ -22,6 +24,8 @@ export class FormCollective implements IFormState{
 	type: string = 'collective';
 	startTime: Date;
 	endTime: Date;
+
+	forGroup: string = "";
 
 	rangeList: TimeRange[];
 
@@ -43,6 +47,7 @@ export class FormCollective implements IFormState{
 	}
 
 	getFormResult() {
+		this.examensObject.forEach( ex => ex.group = this.forGroup);	
 		return this.examensObject.filter(item => item.isSelected);
 	}
 
@@ -56,6 +61,8 @@ export class FormPersonal implements IFormState{
 	type: string = 'personal';
 	startTime: Date;
 	endTime: Date;
+
+	forGroup: string = "";
 
 	range: number;
 	surplus: boolean = false;
@@ -75,6 +82,7 @@ export class FormPersonal implements IFormState{
 	}
 
 	getFormResult(){
+		this.examensObject.forEach( ex => ex.group = this.forGroup);
 		return this.examensObject.filter( item => item.isSelected );
 	}
 
@@ -89,6 +97,7 @@ export class FormExamenViewModel{
 	end: Date;
 	isSelected: boolean;
 	count: number;
+	group: string;
 
 	constructor( start: Date, end: Date, count?: number ){
 		this.start = start;
