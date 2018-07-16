@@ -220,6 +220,42 @@ export class DataManagerService {
     }
   }
 
+  addExatraExamen(exam: ExamenModel) {
+    const param = [];
+    exam.id = null;
+    exam.active = false;
+    exam.isShared = false;
+    param.push(exam);
+
+    return this.service.addExamens( param )
+    .then( data => {
+      if (data) {
+        for (let i = 0; i < data.length; i++) {
+          const ex = ExamenModel.map(data[i]);
+          this.examens.push(ex);
+        }
+        this.messages.addMessage(new Message({
+          title: 'DataManager',
+          content: 'Успешно добавлено - ' + data.length + ' экзамен/ов.',
+          type: 'success'
+        }));
+      }
+          // else {
+          //   throw new Error("Новых экзаменов не добавлено.");
+          // }
+          return true;
+        }
+      )
+      .catch( err => {
+          this.messages.addMessage(new Message({
+            title: 'DataManager',
+            content: err,
+            type: 'danger'
+          }));
+          return false;
+      });
+  }
+
   addExamens(objects: FormExamenViewModel[], type: string, discplineID: string) {
 
     const prefExamens = [];

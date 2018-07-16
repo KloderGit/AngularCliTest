@@ -10,17 +10,31 @@ $arrayID = array_map(
 	}, $data
 );
 
-$query = CIBlockElement::GetList( array(), array( "ID"=>$arrayID ), false, false, 
-    array(
-        "ID",
-        "ACTIVE",
+if ( count($arrayID) < 1 )
+{
+	echo json_encode("Ошибка. Не получены экзамены для переноса");
+	exit();
+}
+
+	$filter = array(
+		"IBLOCK_ID" => 21, 
+		"ID"=>$arrayID
+	);
+
+	$order = array( "PROPERTY_DATE_BEGIN" => "ASC" );
+
+	$selectFields = array(
+		"ID",
+		"ACTIVE",
 		"NAME",
-        "PROPERTY_SUBJECT",
-        "PROPERTY_DATE_BEGIN",
-        "PROPERTY_DATE_END",
-        "PROPERTY_NO_INTERVALS",
-        "PROPERTY_LIMIT" )
-        );
+		"PROPERTY_SUBJECT",
+		"PROPERTY_DATE_BEGIN",
+		"PROPERTY_DATE_END",
+		"PROPERTY_NO_INTERVALS",
+		"PROPERTY_LIMIT" 
+	);
+
+$query = CIBlockElement::GetList( $order, $filter, false, false, $selectFields);
 
 $succesUpdate = array();
 $errorUpdate = array();

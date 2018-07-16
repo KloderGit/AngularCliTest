@@ -4,7 +4,6 @@ CModule::IncludeModule('iblock');
 
 $objectsArray = json_decode(file_get_contents('php://input'), true);
 
-
 $succesInsertId = array();
 $errorInsertId = array();
 
@@ -13,7 +12,6 @@ foreach ($objectsArray as $element) {
     $arFields = array(
         "ACTIVE" => "Y",
         "IBLOCK_ID" => 21,
-        "MODIFIED_BY" => 33,
         "NAME" => "Экзамен для дисциплины - " . $element["disciplineId"] . ". Дата: " . ConvertTimeStamp( strtotime($element["startTime"]), '"SHORT"'),
         "CODE" => "examen-random-code-" . rand(5, 1500),
         "PROPERTY_VALUES" => array(
@@ -23,8 +21,8 @@ foreach ($objectsArray as $element) {
                 "DATE_CANCEL" => ConvertTimeStamp( strtotime($element["startTime"]), '"SHORT"'),
                 "DATE_ACCEPT" => ConvertTimeStamp( strtotime($element["startTime"]), '"SHORT"'),
                 "NO_INTERVALS" => $element['isShared'] ? Array("VALUE" => 122) : null,
-                "LIMIT" => $element['limit'] ? $element['limit'] : null,
-                "STUDENT" => $element['students']
+					 "LIMIT" => $element['limit'] ? $element['limit'] : null,
+					 "STUDENT" => $element['students']
         )
     );
 
@@ -53,8 +51,8 @@ foreach ($objectsArray as $element) {
                                 "PROPERTY_DATE_BEGIN",
                                 "PROPERTY_DATE_END",
                                 "PROPERTY_NO_INTERVALS",
-                                "PROPERTY_LIMIT",
-                                "PROPERTY_STUDENT" )
+										  "PROPERTY_LIMIT",
+										  "PROPERTY_STUDENT" )
                                 );
 
         $res = $query->Fetch();

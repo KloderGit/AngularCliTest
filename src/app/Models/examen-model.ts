@@ -46,7 +46,7 @@ export class ExamenModel {
 
         ex.limit = object.limit ? parseInt(object.limit) : undefined;
 
-        ex.students = object.students || undefined;
+        ex.students = object.students || [];
 
         ex.startTime = new Date(object.startTime);
         ex.endTime = new Date(object.endTime);

@@ -10,6 +10,7 @@ import { RateModel } from './../../Models/rate-model';
 import { FormEditItem } from './../../Models/form-examen-edit-model';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { getHoursString, getDateString, uniqueFlatArray } from 'app/Shared/function';
+import { FormExamenViewModel } from 'app/Models/form-objects.model';
 
 declare var $: any;
 
@@ -58,12 +59,16 @@ export class ExamenEditRowComponent implements OnInit {
 
 	changeRateValue(value) {
 
-		if (value >= 0 && value <= 7) {
+		if ( value >= 0 && value <= 10 ) {
 			this.setGrade(value);
 		}
 
-		if (value === 8) {
+		if (value == 8) {
 			this.setConsult();
+		}
+
+		if ( value == 10){
+			this.addExtraExamen();
 		}
 	}
 
@@ -158,9 +163,26 @@ export class ExamenEditRowComponent implements OnInit {
 		});
 	}
 
+	addExtraExamen(){
+		console.log('Добавление экзамена вместо непришедшего пользователя экзамен');
+
+		this.dataManager.addExatraExamen(this.model.parentExamen)
+			.then(i => {
+				if (i) {
+					console.log('Дополнительный экзамен сохранен', i);
+				} else {
+					console.log( i);
+					return;
+				}
+			} );
+	}
+
+
 	gradeValue( grade ) {
 		if (grade === 6) { return 'Зачет'; }
 		if (grade === 7) { return 'Незачет'; }
+		if (grade === 8) { return 'Консультация'; }
+		if (grade === 10) { return 'Неявка'; }
 		return grade;
 	}
 
@@ -245,11 +267,12 @@ export class ExamenEditRowComponent implements OnInit {
 		return $(this.rootElement.nativeElement).hasClass('selectedBox');
 	}
 
-	excludeButtonIsShow() { 
+	excludeButtonIsShow() {
 		const currentDay = this.model.parentExamen.startTime;
 		const now = new Date();
-		
-		return +currentDay >= +now ? true : false;
+		const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+		return +currentDay >= +today ? true : false;
 	}
 
 }

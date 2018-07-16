@@ -72,12 +72,12 @@ export class ExamensAddComponent implements OnInit {
 		if (start){
 			let time = new Date( this.formObj.startTime );
 			time.setHours( start.hours, start.minutes );
-			this.formObj.changeTime(time, null);
+			// this.formObj.changeTime(time, null);
 		}
 		if (end){
 			let time = new Date( this.formObj.endTime );
 			time.setHours( end.hours, end.minutes );
-			this.formObj.changeTime(null, time);
+			// this.formObj.changeTime(null, time);
 		}		
 	}
 
