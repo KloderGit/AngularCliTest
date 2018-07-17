@@ -11,7 +11,7 @@ declare var $:any;
 	styleUrls: [ 'examens-add.component.css' ]
 })
 
-export class ExamensAddComponent implements OnInit {
+export class ExamensAddComponent222 implements OnInit {
 
 	date: Date = new Date();
 	disciplineId: string;
