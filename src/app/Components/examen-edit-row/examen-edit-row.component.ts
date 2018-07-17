@@ -17,7 +17,7 @@ declare var $: any;
 @Component({
 	selector: 'examen-edit-row',
 	templateUrl: 'examen-edit-row.component.html',
-	styleUrls: [ 'examen-edit-row.component.css' ]
+	styleUrls: ['examen-edit-row.component.css']
 })
 
 export class ExamenEditRowComponent implements OnInit {
@@ -40,6 +40,8 @@ export class ExamenEditRowComponent implements OnInit {
 	@Output() onCommentChange = new EventEmitter();
 	@Output() onCommentAdd = new EventEmitter();
 
+	@Output() onExceptStudent = new EventEmitter();
+
 	@ViewChild('selfElement') selfElement: ElementRef;
 	@ViewChild('rootElement') rootElement: ElementRef;
 
@@ -57,9 +59,23 @@ export class ExamenEditRowComponent implements OnInit {
 		);
 	}
 
+	showThisRow()
+	{
+		let result = true
+		if ( this.rate != null && this.rate.value !=0 )
+		{
+			if (this.rate.value == 10)
+			{
+				result = false;
+			}
+		}
+		return result;
+	}
+
+
 	changeRateValue(value) {
 
-		if ( value >= 0 && value <= 10 ) {
+		if (value >= 0 && value <= 10) {
 			this.setGrade(value);
 		}
 
@@ -67,8 +83,9 @@ export class ExamenEditRowComponent implements OnInit {
 			this.setConsult();
 		}
 
-		if ( value == 10){
-			this.addExtraExamen();
+		if (value == 10) {
+			this.onExceptStudent.emit(this.model.parentExamen);
+			// this.addExtraExamen();
 		}
 	}
 
@@ -103,40 +120,40 @@ export class ExamenEditRowComponent implements OnInit {
 		for (let i = 0; i < this.examens.length; i++) {
 			const element = this.examens[i];
 
-			const grdIndx = this.rates.map( rt => rt.examenID || undefined ).indexOf(element.id);
+			const grdIndx = this.rates.map(rt => rt.examenID || undefined).indexOf(element.id);
 			const grade = grdIndx >= 0 ? this.rates[grdIndx] : undefined;
-			const comIndx = this.comments.map( cm => cm.examenID || undefined ).indexOf(element.id);
+			const comIndx = this.comments.map(cm => cm.examenID || undefined).indexOf(element.id);
 
-			examensView.push( {
+			examensView.push({
 				currentDay: element.id === this.model.parentExamen.id ? true : false,
 				discipline: this.dataManager.getDisciplineByID(element.disciplineId).title || undefined,
 				date: element.startTime || undefined,
 				grade: grade ? grade.value ? grade.value : undefined : undefined,
 				comment: this.comments[comIndx]
-			} );
+			});
 		}
 		return examensView;
 	}
 
 	examenViewDiscipline() {
-		let map = this.history().map( di => di.discipline );
-		map = this.unique( map );
-		const ind = map.indexOf( this.getDisciplineName() );
+		let map = this.history().map(di => di.discipline);
+		map = this.unique(map);
+		const ind = map.indexOf(this.getDisciplineName());
 		map.splice(ind, 1);
 		return map;
 	}
 
 	historyOrder(discipline) {
-		function sortByDate( a , b ) { return (+b.date) - (+a.date); }
-		return this.history().filter( vw => vw.discipline === discipline).sort(sortByDate);
+		function sortByDate(a, b) { return (+b.date) - (+a.date); }
+		return this.history().filter(vw => vw.discipline === discipline).sort(sortByDate);
 	}
 
 	historyCurrentDiscipline() {
-		return this.historyOrder( this.getDisciplineName() );
+		return this.historyOrder(this.getDisciplineName());
 	}
 
-	historyAnotherDiscipline( discip ) {
-		return discip === this.getDisciplineName() ? [] : this.historyOrder( discip );
+	historyAnotherDiscipline(discip) {
+		return discip === this.getDisciplineName() ? [] : this.historyOrder(discip);
 	}
 
 	selectCurrentComment() {
@@ -163,22 +180,7 @@ export class ExamenEditRowComponent implements OnInit {
 		});
 	}
 
-	addExtraExamen(){
-		console.log('Добавление экзамена вместо непришедшего пользователя экзамен');
-
-		this.dataManager.addExatraExamen(this.model.parentExamen)
-			.then(i => {
-				if (i) {
-					console.log('Дополнительный экзамен сохранен', i);
-				} else {
-					console.log( i);
-					return;
-				}
-			} );
-	}
-
-
-	gradeValue( grade ) {
+	gradeValue(grade) {
 		if (grade === 6) { return 'Зачет'; }
 		if (grade === 7) { return 'Незачет'; }
 		if (grade === 8) { return 'Консультация'; }
@@ -196,7 +198,7 @@ export class ExamenEditRowComponent implements OnInit {
 		if (this.selectCurrentComment()) {
 			const historyObject = this.selectCurrentComment();
 			res = historyObject.comment ? historyObject.comment.isConsult ? true : false
-			: false;
+				: false;
 		}
 		return res;
 	}
@@ -230,7 +232,7 @@ export class ExamenEditRowComponent implements OnInit {
 	}
 
 	changeComment(param) {
-		if ( this.selectCurrentComment() ) {
+		if (this.selectCurrentComment()) {
 			this.selectCurrentComment().comment ? this.editComment(param) : this.addComment(param);
 		}
 	}
@@ -274,5 +276,7 @@ export class ExamenEditRowComponent implements OnInit {
 
 		return +currentDay >= +today ? true : false;
 	}
+
+
 
 }

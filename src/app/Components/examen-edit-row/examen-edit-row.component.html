@@ -1,5 +1,5 @@
-<div [hidden]="!model.parentExamen.active" class="app-panel app-panel-default" #rootElement>
-  <div class="app-panel-heading">
+<div class="app-panel app-panel-default" #rootElement>
+  <div class="app-panel-heading" [class.excludeStudent]="rate?.value == 10">
     <div class="event-time">
       <p class="badge">{{timeToString(model.parentExamen.startTime)}}</p>
     </div>
@@ -61,10 +61,10 @@
             <div class="app-panel-body">
               <ul class="app-list-group">
                 <li class="app-list-group-item" *ngFor="let item of historyCurrentDiscipline()">
-                  <table class="grade-table">
+                  <table class="grade-table" [class.excludeStudent]="item.grade == 10">
                     <tr>
                       <td><span class="badge" [style.background-color]="item.currentDay ? 'brown' : 'gray'">{{dateToString(item.date)}}</span></td>
-                      <td><p *ngIf="item.grade">результат - <span class="badge">{{gradeValue(item.grade)}}</span></p></td>
+                      <td><p *ngIf="item.grade">результат - <span class="badge" [class.rateExclude] = "item.grade == 10">{{gradeValue(item.grade)}}</span></p></td>
                       <!-- <td><p *ngIf="item.comment" class="examen-consult"><span *ngIf="item.comment.isConsult">Консультация</span></p></td> -->
                     </tr>
                   </table>

@@ -81,7 +81,6 @@ export class DayOfCalendarComponent implements OnInit{
 		var mmm = [];
 
 		for (let entry of this.examens) {
-			console.log(entry); // 1, "string", false
 
 			if (entry.group !='')
 			{

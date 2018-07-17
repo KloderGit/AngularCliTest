@@ -157,3 +157,12 @@
 add-comment{
   width: 100%;
 }
+
+.excludeStudent{
+  background-color: #ffeaea;
+  background-image: repeating-linear-gradient(135deg, transparent, transparent 35px, rgba(255,255,255,.5) 35px, rgba(255,255,255,.5) 70px);
+}
+
+.rateExclude{
+  background-color: #de2525;
+}

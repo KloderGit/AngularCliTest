@@ -11,6 +11,7 @@ import { DataManagerService } from './../../Services/data-manager.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DisciplineModel } from './../../Models/discipline-model';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormExamenViewModel } from 'app/Models/form-objects.model';
 
 declare var $: any;
 
@@ -69,6 +70,29 @@ export class ExamenEditComponent implements OnInit {
 		}		
 	}
 
+
+	exceptStudent(examen: ExamenModel){
+		console.log('Добавление экзамена вместо непришедшего пользователя экзамен');
+
+		this.dataManager.addExamenForHistory( examen )
+		.then(data => {
+			if (data) {
+				for (let i = 0; i < data.length; i++) {
+					const ex = ExamenModel.map(data[i]);
+					this.examens.push(ex);
+					console.log('Дополнительный экзамен сохранен', ex);
+					const rowItem = new ExamenRowModel();
+					rowItem.parentExamen = ex;
+					this.examensViewModel.push(rowItem);
+				}
+			} else {
+				console.log(data);
+				return;
+			}
+		});	
+	}
+
+
 	formViewModelInit() {
 		for (let i = 0; i < this.examens.length; i++) {
 			const item = this.examens[i];
@@ -86,7 +110,6 @@ export class ExamenEditComponent implements OnInit {
 			}
 		}
 	}
-
 
 	loadData() {
 		const studenstIDForRequest = this.examens.filter(item => item.students.length > 0)

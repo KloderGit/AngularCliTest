@@ -221,40 +221,45 @@ export class DataManagerService {
     }
   }
 
-  addExatraExamen(exam: ExamenModel) {
-    const param = [];
-    exam.id = null;
-    exam.active = false;
-    exam.isShared = false;
-    param.push(exam);
+  addExamenForHistory(examen: ExamenModel){
+    examen.id = 'new';
+    examen.limit = null;
+    examen.isShared = false;
+    examen.students = [];
 
-    return this.service.addExamens( param )
-    .then( data => {
-      if (data) {
-        for (let i = 0; i < data.length; i++) {
-          const ex = ExamenModel.map(data[i]);
-          this.examens.push(ex);
-        }
-        this.messages.addMessage(new Message({
-          title: 'DataManager',
-          content: 'Успешно добавлено - ' + data.length + ' экзамен/ов.',
-          type: 'success'
-        }));
-      }
-          // else {
-          //   throw new Error("Новых экзаменов не добавлено.");
-          // }
-          return true;
-        }
-      )
-      .catch( err => {
+    const exVMarray = [];
+		exVMarray.push(
+      examen
+    );
+    
+
+    return this.service.addExamens( exVMarray )
+      .then( data => {
+        if (data) {
+          for (let i = 0; i < data.length; i++) {
+            const ex = ExamenModel.map(data[i]);
+            this.examens.push(ex);
+          }
           this.messages.addMessage(new Message({
             title: 'DataManager',
-            content: err,
-            type: 'danger'
+            content: 'Успешно добавлено - ' + data.length + ' экзамен/ов.',
+            type: 'success'
           }));
-          return false;
-      });
+        }
+        // else {
+        //   throw new Error("Новых экзаменов не добавлено.");
+        // }
+        return data;
+      }
+    )
+    .catch( err => {
+        this.messages.addMessage(new Message({
+          title: 'DataManager',
+          content: err,
+          type: 'danger'
+        }));
+        return false;
+    });	
   }
 
   addExamens(objects: FormExamenViewModel[], type: string, discplineID: string) {

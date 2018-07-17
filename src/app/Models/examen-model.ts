@@ -49,7 +49,7 @@ export class ExamenModel {
 
         ex.group = (typeof object.group != 'undefined' && object.group) ? object.group : '';
         
-        ex.students = object.students || undefined;
+        ex.students = object.students || [];
 
         ex.startTime = new Date(object.startTime);
         ex.endTime = new Date(object.endTime);
