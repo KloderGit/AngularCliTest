@@ -10,7 +10,8 @@
 
    if ($disciplineId == null || $year == null || $month == null)
    {
-       echo json_encode('[]');    
+    $emptyArray = array();
+    echo json_encode($emptyArray);      
        exit;
    }
 
@@ -30,6 +31,8 @@
                             "PROPERTY_DATE_BEGIN",
                             "PROPERTY_DATE_END",
                             "PROPERTY_NO_INTERVALS",
+                            "PROPERTY_GROUP",
+                            "PROPERTY_STUDENT",
                             "PROPERTY_LIMIT" );
 
     $result = CIBlockElement::GetList( $order, $filter, false, false, $selectFields);
@@ -53,7 +56,8 @@
             "endTime" => strtotime(ConvertDateTime($res["PROPERTY_DATE_END_VALUE"], "YYYY-MM-DD HH:MI:SS", "ru")) * 1000,
             "isShared" => $res["PROPERTY_NO_INTERVALS_VALUE"] == "Да"? true: false,
             "limit" => $res["PROPERTY_LIMIT_VALUE"],
-            "students" => $cur_student
+            "group" => $res["PROPERTY_GROUP_VALUE"],
+            "students" => $res["PROPERTY_STUDENT_VALUE"]
         ];
     }
 

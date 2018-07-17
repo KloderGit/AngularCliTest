@@ -9,7 +9,8 @@ if (isset($_REQUEST)&&!empty($_REQUEST))
 
     if (Count($filter) < 1 )
     {
-        echo json_encode('[]');    
+        $emptyArray = array();
+        echo json_encode($emptyArray);  
         exit;
     }
 

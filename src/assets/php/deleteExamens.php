@@ -8,7 +8,8 @@
 
     if (Count($objectsArray) < 1 )
     {
-        echo json_encode('[]');    
+        $emptyArray = array();
+        echo json_encode($emptyArray);    
         exit;
     }
 

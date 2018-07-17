@@ -6,7 +6,8 @@ $objectsArray = json_decode(file_get_contents('php://input'), true);
 
 if (Count($objectsArray) < 1 )
 {
-    echo json_encode('[]');    
+    $emptyArray = array();
+    echo json_encode($emptyArray);    
     exit;
 }
 
@@ -29,6 +30,7 @@ foreach ($objectsArray as $element) {
                 "DATE_ACCEPT" => ConvertTimeStamp( strtotime($element["startTime"]), '"SHORT"'),
                 "NO_INTERVALS" => $element['isShared'] ? Array("VALUE" => 122) : null,
                 "LIMIT" => $element['limit'] ? $element['limit'] : null,
+                "GROUP" => $element['group'] ? $element['group'] : null,
                 "STUDENT" => $element['students']
         )
     );
@@ -59,6 +61,7 @@ foreach ($objectsArray as $element) {
                                 "PROPERTY_DATE_END",
                                 "PROPERTY_NO_INTERVALS",
                                 "PROPERTY_LIMIT",
+                                "PROPERTY_GROUP",
                                 "PROPERTY_STUDENT" )
                                 );
 
@@ -72,6 +75,7 @@ foreach ($objectsArray as $element) {
             "endTime" => strtotime(ConvertDateTime($res["PROPERTY_DATE_END_VALUE"], "YYYY-MM-DD HH:MI:SS", "ru")) * 1000,
             "isShared" => $res["PROPERTY_NO_INTERVALS_VALUE"] == "Да"? true: false,
             "limit" => $res["PROPERTY_LIMIT_VALUE"],
+            "group" => $res["PROPERTY_GROUP_VALUE"],
             "students" => $res["PROPERTY_STUDENT_VALUE"]
         ];
     }
