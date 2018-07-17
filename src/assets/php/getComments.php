@@ -6,6 +6,12 @@
    {
         $arrayID = json_decode($_REQUEST["id"]);
 
+        if (Count($arrayID) < 1 )
+        {
+            echo json_encode('[]');    
+            exit;
+        }
+
         $filter = array(    "IBLOCK_ID" => 28, 
                             "PROPERTY_EVENT_SUBJECT" => $arrayID );
 

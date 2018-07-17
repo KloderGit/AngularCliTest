@@ -8,6 +8,11 @@
        $month = intval($_REQUEST["month"]);
    }
 
+   if ($disciplineId == null || $year == null || $month == null)
+   {
+       echo json_encode('[]');    
+       exit;
+   }
 
    $startDate = new DateTime($year . '-' . ($month+1) . '-' . '1 00:00:00');
    $endDate = new DateTime( $year . '-' . ($month+1) . '-' . $startDate->format('t') . ' 23:59:00' );

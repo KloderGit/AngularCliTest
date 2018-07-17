@@ -4,6 +4,11 @@ CModule::IncludeModule('iblock');
 
 $objectsArray = json_decode(file_get_contents('php://input'), true);
 
+if (Count($objectsArray) < 1 )
+{
+    echo json_encode('[]');    
+    exit;
+}
 
 $succesInsertId = array();
 $errorInsertId = array();

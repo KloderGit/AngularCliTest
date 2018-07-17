@@ -6,6 +6,12 @@
        $studentsIDs =  json_decode($_REQUEST["ids"]);
    } 
 
+   if (Count($examensIDs) < 1 )
+   {
+       echo json_encode('[]');    
+       exit;
+   }
+
     $filter = array(    "IBLOCK_ID" => 21, 
                         "PROPERTY_STUDENT" => $studentsIDs);
 

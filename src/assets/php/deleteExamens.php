@@ -6,6 +6,12 @@
     $succesDeleteID = array();
     $errorDeleteID = array();
 
+    if (Count($objectsArray) < 1 )
+    {
+        echo json_encode('[]');    
+        exit;
+    }
+
     foreach ($objectsArray as $element) {
         if(CIBlockElement::Delete($element)){
             $succesDeleteID[] = $element;

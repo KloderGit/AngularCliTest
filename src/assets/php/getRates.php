@@ -6,9 +6,11 @@
    {
         $arrayID = json_decode($_REQUEST["id"]);
 
-        // echo '<pre>';
-        //     print_r($arrayID);
-        // echo '<pre>';
+        if (Count($arrayID) < 1 )
+        {
+            echo json_encode('[]');    
+            exit;
+        }
 
         $filter = array(    "IBLOCK_ID" => 29, 
                             "PROPERTY_STUDENT" => $arrayID );
