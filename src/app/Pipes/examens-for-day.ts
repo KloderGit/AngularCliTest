@@ -9,7 +9,7 @@ export class ExamensForDayPipe implements PipeTransform {
       return array.filter( function(item){
         let src = new Date ( item.startTime.getFullYear(), item.startTime.getMonth(), item.startTime.getDate() );
         let inc = new Date ( date.getFullYear(), date.getMonth(), date.getDate());
-        return +src == +date;
+        return +src == +inc;
       });
   }
 }

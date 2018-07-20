@@ -208,7 +208,6 @@ export class DataManagerService {
     for (let i = 0; i < inObject.length; i++) {
 
       const ex = new ExamenModel();
-      ex.id = 'new';
       ex.disciplineId = inObject[i].disciplineId;
       ex.startTime = inObject[i].startTime;
       ex.endTime = inObject[i].endTime;
@@ -222,7 +221,6 @@ export class DataManagerService {
   }
 
   addExamenForHistory(examen: ExamenModel){
-    examen.id = 'new';
     examen.limit = null;
     examen.isShared = false;
     examen.students = [];

@@ -1,8 +1,7 @@
 import { DataManagerStudentService } from './../../Services/data-manager-students.service';
 import { DataManagerRatesService } from './../../Services/data-manager-rates.service';
 import { ExamenRowModel } from './../../Models/examen-list-model';
-import { addFirstZero, getDateString, uniqueFlatArray } from 'app/Shared/function';
-import { FormEditItem } from './../../Models/form-examen-edit-model';
+import { getDateString, uniqueFlatArray } from 'app/Shared/function';
 import { CommentModel } from './../../Models/comments-model';
 import { RateModel } from './../../Models/rate-model';
 import { StudentModel } from './../../Models/student-model';
@@ -10,15 +9,14 @@ import { ExamenModel } from './../../Models/examen-model';
 import { DataManagerService } from './../../Services/data-manager.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DisciplineModel } from './../../Models/discipline-model';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormExamenViewModel } from 'app/Models/form-objects.model';
+import { Component, OnInit } from '@angular/core';
 
 declare var $: any;
 
 @Component({
 	selector: 'examen-edit',
 	templateUrl: 'examen-edit.component.html',
-	styleUrls: [ 'examen-edit.component.css' ]
+	styleUrls: ['examen-edit.component.css']
 })
 
 export class ExamenEditComponent implements OnInit {
@@ -61,35 +59,30 @@ export class ExamenEditComponent implements OnInit {
 				// this.router.navigateByUrl('../disciplines');
 				// this.router.navigateByUrl('./disciplines', { relativeTo: this.route });
 				window.location.href = '/disciplines';
-			}			
+			}
 
 			this.examens = this.dataManager.getExamensByDate(this.discipline.id, this.date);
-
 			this.formViewModelInit();
 			this.loadData();
-		}		
+		}
 	}
 
+	ngOnChanges() {
+		this.formViewModelInit();
+	}
 
-	exceptStudent(examen: ExamenModel){
+	exceptStudent(examen: ExamenModel) {
 		console.log('Добавление экзамена вместо непришедшего пользователя экзамен');
 
-		this.dataManager.addExamenForHistory( examen )
-		.then(data => {
-			if (data) {
-				for (let i = 0; i < data.length; i++) {
-					const ex = ExamenModel.map(data[i]);
-					this.examens.push(ex);
-					console.log('Дополнительный экзамен сохранен', ex);
-					const rowItem = new ExamenRowModel();
-					rowItem.parentExamen = ex;
-					this.examensViewModel.push(rowItem);
+		this.dataManager.addExamenForHistory(examen)
+			.then(data => {
+				if (data) {
+					this.formViewModelInit();
+				} else {
+					console.log(data);
+					return;
 				}
-			} else {
-				console.log(data);
-				return;
-			}
-		});	
+			});
 	}
 
 
@@ -98,7 +91,7 @@ export class ExamenEditComponent implements OnInit {
 			const item = this.examens[i];
 
 			let count = item.limit || 1;
-			if ( item.students.length > (item.limit || 1) ) {
+			if (item.students.length > (item.limit || 1)) {
 				count = item.students.length;
 			}
 
@@ -109,6 +102,13 @@ export class ExamenEditComponent implements OnInit {
 				this.examensViewModel.push(rowItem);
 			}
 		}
+
+		this.examensViewModel.sort(function (a, b) {
+			return +a.parentExamen.startTime > +b.parentExamen.startTime ? 1 : -1;
+		});
+		this.examensViewModel.sort(function (a, b) {
+			return a.studentID > b.studentID ? 1 : -1;
+		});
 	}
 
 	loadData() {
@@ -128,10 +128,10 @@ export class ExamenEditComponent implements OnInit {
 		}).then(() => {
 			return this.datamanagerRates.getRates(studenstIDForRequest).then(rates => {
 				this.ratesList = rates;
-				return rates.map( rt => { if (rt.examenID) { return rt.examenID; } } );
+				return rates.map(rt => { if (rt.examenID) { return rt.examenID; } });
 			});
-		}).then( () => {
-			this.dataManager.loadExamensByStudents(studenstIDForRequest).then( examens => {
+		}).then(() => {
+			this.dataManager.loadExamensByStudents(studenstIDForRequest).then(examens => {
 				this.examensForRates = examens;
 			});
 		}).then(() => {
@@ -143,18 +143,18 @@ export class ExamenEditComponent implements OnInit {
 
 	selectStudent(item) {
 		const id = item.studentID;
-		const index = this.studentsList.map(st => st.id ? st.id : undefined).indexOf( id + '' );
+		const index = this.studentsList.map(st => st.id ? st.id : undefined).indexOf(id + '');
 		return this.studentsList[index];
 	}
 
 	selectRate(item) {
-		const ratesOfCurentStudent = this.ratesList.filter(rt => rt.studentID === item.studentID + '');
+		const ratesOfCurentStudent = this.ratesList.filter(rt => rt.studentID == (item.studentID + ''));
 		const index = ratesOfCurentStudent.map(rt => rt.examenID ? rt.examenID : undefined).indexOf(item.parentExamen.id);
 		return ratesOfCurentStudent[index];
 	}
 
 	selectRates(item) {
-		return this.ratesList.filter(rt => rt.studentID === item.studentID + '');
+		return this.ratesList.filter(rt => rt.studentID === (item.studentID + ''));
 	}
 
 	selectComments(item) {
@@ -162,24 +162,24 @@ export class ExamenEditComponent implements OnInit {
 		return this.comments.filter(cm => cm.studentID == item.studentID);
 	}
 
-	selectExamensForRate(item){
+	selectExamensForRate(item) {
 		const studentID = item.studentID;
-		return this.examensForRates.filter(ex => ex.students.indexOf(studentID) < 0 ? false : true  );
+		return this.examensForRates.filter(ex => ex.students.indexOf(studentID) < 0 ? false : true);
 	}
 
-	addRate( examen: ExamenModel, student: StudentModel, rateValue ) {
+	addRate(examen: ExamenModel, student: StudentModel, rateValue) {
 		this.datamanagerRates.add(examen, student, rateValue).then(data => {
 			this.ratesList.push(data);
 			$('.event-rate').tooltip('hide');
-			this.changeTrigerForChart ++;
+			this.changeTrigerForChart++;
 		});
 	}
 
-	updeteRate( rate: RateModel, value ) {
-		this.datamanagerRates.edit( rate, value).then(data => {
+	updeteRate(rate: RateModel, value) {
+		this.datamanagerRates.edit(rate, value).then(data => {
 			rate.value = data.value;
 			$('.event-rate').tooltip('hide');
-			this.changeTrigerForChart ++;
+			this.changeTrigerForChart++;
 		});
 	}
 
@@ -188,21 +188,21 @@ export class ExamenEditComponent implements OnInit {
 			if (data) {
 				const index = this.ratesList.map(i => i.id ? i.id : undefined).indexOf(rate.id);
 				this.ratesList.splice(index, 1);
-				this.changeTrigerForChart ++;
+				this.changeTrigerForChart++;
 			}
 			$('.event-rate').tooltip('hide');
 		});
 	}
 
-	divs(){
+	divs() {
 		return ['8:30', '9:00', '10:00', 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 	}
 
-	updateComment( obj ) { 
+	updateComment(obj) {
 
 		const ItemID = obj.ItemID;
-		const param = obj.param;		
-		
+		const param = obj.param;
+
 		this.dataManager.editComment(ItemID, param)
 			.then(data => {
 				const indx = this.comments.map(cm => cm ? cm.id : undefined).indexOf(ItemID);
@@ -212,13 +212,13 @@ export class ExamenEditComponent implements OnInit {
 			});
 	}
 
-	addComment(objt) { 		
+	addComment(objt) {
 		this.dataManager.addComment(objt)
 			.then(data => {
 				if (data) {
 					this.comments.push(data);
 				}
-			});		
+			});
 	}
 
 }

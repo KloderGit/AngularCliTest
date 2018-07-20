@@ -1,16 +1,12 @@
 import { CommentModel } from './../../Models/comments-model';
-import { DisciplineModel } from './../../Models/discipline-model';
-import { DataManagerRatesService } from './../../Services/data-manager-rates.service';
 import { StudentModel } from './../../Models/student-model';
 import { ExamenRowModel } from './../../Models/examen-list-model';
 import { DataManagerStudentService } from './../../Services/data-manager-students.service';
 import { ExamenModel } from './../../Models/examen-model';
 import { DataManagerService } from './../../Services/data-manager.service';
 import { RateModel } from './../../Models/rate-model';
-import { FormEditItem } from './../../Models/form-examen-edit-model';
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { getHoursString, getDateString, uniqueFlatArray } from 'app/Shared/function';
-import { FormExamenViewModel } from 'app/Models/form-objects.model';
 
 declare var $: any;
 
@@ -46,8 +42,8 @@ export class ExamenEditRowComponent implements OnInit {
 	@ViewChild('rootElement') rootElement: ElementRef;
 
 	constructor(private dataManager: DataManagerService,
-		private dataManagerStudents: DataManagerStudentService,
-		private datamanagerRates: DataManagerRatesService) { }
+		private dataManagerStudents: DataManagerStudentService)
+	{ }
 
 	ngOnInit() {
 		$(this.selfElement.nativeElement).tooltip(
@@ -57,6 +53,7 @@ export class ExamenEditRowComponent implements OnInit {
 				placement: 'left'
 			}
 		);
+
 	}
 
 	showThisRow()

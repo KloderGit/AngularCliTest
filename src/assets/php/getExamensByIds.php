@@ -25,7 +25,6 @@
                             "PROPERTY_DATE_END",
                             "PROPERTY_NO_INTERVALS",
                             "PROPERTY_GROUP",
-                            "PROPERTY_STUDENT",
                             "PROPERTY_LIMIT" );
 
     $result = CIBlockElement::GetList( $order, $filter, false, false, $selectFields);
@@ -51,7 +50,7 @@
             "isShared" => $res["PROPERTY_NO_INTERVALS_VALUE"] == "Да"? true: false,
             "limit" => $res["PROPERTY_LIMIT_VALUE"],
             "group" => $res["PROPERTY_GROUP_VALUE"],
-            "students" => $res["PROPERTY_STUDENT_VALUE"]
+            "students" => $cur_student
         ];
     }
 

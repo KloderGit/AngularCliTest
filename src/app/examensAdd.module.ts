@@ -18,7 +18,7 @@ export const routerConfig = [
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(routerConfig)],
-    declarations: [ ExamensAddFormComponent, SliderComponent, TimepickerComponent, DivideTimeSelectorComponent, DivideCountSelectorComponent,
-    WizardFormDirective, FormStep1Component, AddRangeComponent, DivideRangesComponent]
+    declarations: [ ExamensAddFormComponent, SliderComponent, TimepickerComponent, DivideTimeSelectorComponent, 
+        DivideCountSelectorComponent, WizardFormDirective, FormStep1Component, AddRangeComponent, DivideRangesComponent]
 })
 export default class ExamensAddModule {}

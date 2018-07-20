@@ -1,5 +1,5 @@
 <div class="app-panel app-panel-default" #rootElement>
-  <div class="app-panel-heading" [class.excludeStudent]="rate?.value == 10">
+  <div class="app-panel-heading" [class.excludeStudent]="curentRate()?.value == 10">
     <div class="event-time">
       <p class="badge">{{timeToString(model.parentExamen.startTime)}}</p>
     </div>
@@ -11,7 +11,7 @@
 
     <div #selfElement class="event-rate">
       <!--<p *ngIf="model.rate" class="label label-primary">{{model.rate.value}}</p>-->
-      <rate-selector *ngIf="student" [rate]="rate" (onChange)='changeRateValue($event)'></rate-selector>
+      <rate-selector *ngIf="student" [rate]="curentRate()" (onChange)='changeRateValue($event)'></rate-selector>
     </div>
 
   </div>

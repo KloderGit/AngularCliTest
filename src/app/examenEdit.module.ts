@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from "@angular/common";
 import { NgModule } from '@angular/core';
 import { AccordionItemDirective } from "app/Directives/accordion-item.directive";
+import { ExamensRowOrderPipe } from 'app/Pipes/examen-row-order.pipe';
 
 export const routerConfig = [
     { path: '/', component: ExamenEditComponent },    
@@ -18,6 +19,6 @@ export const routerConfig = [
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(routerConfig)],
     declarations: [ExamenEditComponent, StudentRatesComponent, RateSelectorComponent, AddCommentComponent, DayChartComponent,
-        AccordionItemDirective, StudentInfoComponent, ExamenEditRowComponent ]
+        AccordionItemDirective, StudentInfoComponent, ExamenEditRowComponent, ExamensRowOrderPipe ]
 })
-export default class ExamensAddModule { }
+export default class ExamensEditModule { }
