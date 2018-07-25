@@ -73,7 +73,7 @@ export class DayChartComponent implements OnInit {
 	}
 
 	ratesForDayList() {
-		return this.rates.filter(rt => this.examsForDayListIDs().indexOf(rt.examenID) >= 0);
+		return this.rates.filter(rt => this.examsForDayListIDs().indexOf(rt.examenID) >= 0 && rt.value !=10);
 	}
 
 	// examenCountWithOutRate() {	

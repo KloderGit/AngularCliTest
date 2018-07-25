@@ -77,7 +77,12 @@ export class ExamenEditComponent implements OnInit {
 		this.dataManager.addExamenForHistory(examen)
 			.then(data => {
 				if (data) {
-					this.formViewModelInit();
+					const rowItem = new ExamenRowModel();
+					rowItem.parentExamen = examen;
+					this.examensViewModel.push(rowItem);					
+					this.examensViewModel.sort(function (a, b) {
+						return +a.parentExamen.startTime > +b.parentExamen.startTime ? 1 : -1;
+					});
 				} else {
 					console.log(data);
 					return;

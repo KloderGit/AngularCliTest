@@ -25,7 +25,9 @@
 </div>
 
 <div class="center" *ngIf="discipline != undefined">
-  <calendar *ngFor="let monthTimestamp of getMonthLoaded() | ObjToTimestampPipe" [examens]="getExamens() | examensForMonth : monthTimestamp"
-    [timestamp]="monthTimestamp" [disciplineID]="discipline.id">
-    </calendar>
+  <calendar *ngFor="let monthTimestamp of getMonthLoaded() | ObjToTimestampPipe" 
+            [examens]="getExamens() | examensForMonth : monthTimestamp"
+            [timestamp]="monthTimestamp"
+            [disciplineID]="discipline.id">
+  </calendar>
 </div>
