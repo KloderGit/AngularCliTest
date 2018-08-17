@@ -109,11 +109,20 @@ export class ExamenEditComponent implements OnInit {
 		}
 
 		this.examensViewModel.sort(function (a, b) {
-			return +a.parentExamen.startTime > +b.parentExamen.startTime ? 1 : -1;
+			let result;
+			if (+a.parentExamen.startTime == +b.parentExamen.startTime)
+			{   
+				let op1 = a == undefined || a.studentID == undefined ? 0 : a.studentID;
+				let op2 = b == undefined || b.studentID == undefined ? 0 : b.studentID;
+				result = op1 < op2 ? 1 : -1; }
+			else
+			{result = +a.parentExamen.startTime > +b.parentExamen.startTime ? 1 : -1;}
+
+			return result;
 		});
-		this.examensViewModel.sort(function (a, b) {
-			return a.studentID > b.studentID ? 1 : -1;
-		});
+		// this.examensViewModel.sort(function (a, b) {
+		// 	return a.studentID > b.studentID ? 1 : -1;
+		// });
 	}
 
 	loadData() {

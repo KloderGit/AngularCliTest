@@ -6,6 +6,7 @@ import { MessagesService, Message } from './../Services/messages.service';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http'
 import 'rxjs/Rx';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class ServiceJsonService {
@@ -15,11 +16,11 @@ export class ServiceJsonService {
     rootURL = '';
 
     constructor(private http: Http, private messages: MessagesService) {
-        this.rootURL = 'http://dev.fitness-pro.ru/lichnyy-kabinet/examinations/assets/php/';
+        this.rootURL = environment.apiURL;
         // this.rootURL = '/lichnyy-kabinet/examinations/assets/php/';
     }
 
-    // getPredmetsFromPhp() { 
+    // getPredmetsFromPhp() {
     //     return this.http.get('./getPredmets.php')
     //         .toPromise()
     //         .then((res) => {
@@ -28,14 +29,14 @@ export class ServiceJsonService {
     //             console.log(res.json(), 'JSONNNNNNN');
     //             // return res.json();
     //             }
-    //         );        
-    // }  
+    //         );
+    // }
 
     getDisciplinesAll(){
         return this.http.get(this.rootURL + 'getPredmets.php')
         .toPromise()
-        .then( ( res ) => { 
-            console.log('Service: Сервис получил дисциплины'); 
+        .then( ( res ) => {
+            console.log('Service: Сервис получил дисциплины');
                return res.json(); }
         );
     }
@@ -55,7 +56,7 @@ export class ServiceJsonService {
         .toPromise()
         .then( ( res ) => {
                const array = res.json();
-               console.log('Service: Сервис получил экзамены'); 
+               console.log('Service: Сервис получил экзамены');
                return array;
             }
         );
@@ -165,7 +166,7 @@ export class ServiceJsonService {
     }
 
 
-    getStudents(array: number[]) { 
+    getStudents(array: number[]) {
         const body = JSON.stringify(array);
 
         return this.http.get(this.rootURL + 'getStudents.php?students=' + body)
@@ -201,7 +202,7 @@ export class ServiceJsonService {
             );
     }
 
-    excludeStudent(examen: string, student: string) { 
+    excludeStudent(examen: string, student: string) {
         const body = JSON.stringify({ id: examen, student: student});
 
         return this.http.post(this.rootURL + 'leaveExamen.php',
@@ -217,10 +218,10 @@ export class ServiceJsonService {
                     content: err,
                     type: 'danger'
                 }));
-            }); 
+            });
     }
 
-    addRate( examen, student, rateValue ) { 
+    addRate( examen, student, rateValue ) {
         const body = JSON.stringify({ action: 'add', params: { examenID: examen.id, studentID: student.id, value: rateValue } });
 
         return this.http.post(this.rootURL + 'rates.php',
@@ -239,7 +240,7 @@ export class ServiceJsonService {
             });
     }
 
-    editRate( rate: RateModel, value ) { 
+    editRate( rate: RateModel, value ) {
         const body = JSON.stringify({ action: 'edit', params: { itemID: rate.id, value: value } });
 
         return this.http.post(this.rootURL + 'rates.php',
@@ -273,7 +274,7 @@ export class ServiceJsonService {
                     content: err,
                     type: 'danger'
                 }));
-            }); 
+            });
     }
 
     getStudentsComments(array: number[]) {
